@@ -21,6 +21,7 @@ class Mainlogin extends Component {
 
         this.authenticateLogin = this.authenticateLogin.bind(this);
         this.changeIsLogin = this.changeIsLogin.bind(this);
+        this.showGoogleLogin = this.showGoogleLogin.bind(this);
        
     }
 
@@ -143,6 +144,12 @@ class Mainlogin extends Component {
           displayError("user not found");
         }
       })
+      .catch(function (error) {
+        // Handle Errors here.
+        console.log(error.message);
+        displayError(error.message);
+
+      });
     
 
     // if (Config.adminConfig.allowedUsers != null && Config.adminConfig.allowedUsers.indexOf(username) === -1) {
@@ -207,13 +214,95 @@ class Mainlogin extends Component {
   // }
 
   authWithGoogle() {
+    const displayError = (error) => {
+      this.setState({ error: error });
+    }
+    const authlogin=(userRole) =>{
+      this.props.authlogin(userRole)
+    } 
+
     var provider = new firebaseCLASS.auth.GoogleAuthProvider();
     firebase.app.auth().signInWithPopup(provider).then(function (result) {
       // This gives you a Google Access Token. You can use it to access the Google API.
-      //var token = result.credential.accessToken;
+      var token = result.credential.accessToken;
       // The signed-in user info.
-      //var user = result.user;
-      // ...
+      var user = result.user;
+      
+      // //check the visitor
+      // const userRef = firebase.app.database().ref(`/users`);
+      // const allowedRef = firebase.app.database().ref(`/meta/config/allowedUsers`);
+      // userRef.orderByChild("email").equalTo(user.email).once("value")
+      //   .then(snapshot => {
+      //     if(snapshot.val()){
+      //       userRef.orderByKey().once("value")
+      //       .then(function(snapshot){
+      //         snapshot.forEach(function(childSnapshot){
+      //           var email = childSnapshot.val().email;
+      //           var userRole = childSnapshot.val().userRole;
+      //           if(email===user.email && userRole==="visitor"){
+      //             console.log("Google auth userRole :"+userRole)
+      //             fakeAuth.authenticate()
+      //             console.log("Google auth userRole :"+fakeAuth.isAuthenticated)
+      //             authlogin(userRole)
+
+      //             .catch(function (error) {
+      //               // Handle Errors here.
+      //               console.log(error.message);
+      //               displayError(error.message);
+      
+      //             });
+      //           }else if(email===user.email && userRole==="vendor"){
+      //             console.log("userRole :"+userRole)
+      //             allowedRef.orderByChild("email").equalTo(user.email).once("value")
+      //             .then(snap => {
+      //               if(snap.val()){
+      //                 fakeAuth.authenticate()
+      //                 authlogin(userRole)
+
+      //                 .catch(function (error) {
+      //                   // Handle Errors here.
+      //                   console.log(error.message);
+      //                   displayError(error.message);
+          
+      //                 });
+      //               }else{
+      //                 displayError("This user doens't have access to this vendor panel!");
+      //               }
+      //             })
+      //           } else if(email===user.email && userRole==="admin"){
+      //             console.log("userRole :"+userRole)
+      //             allowedRef.orderByChild("email").equalTo(user.email).once("value")
+      //             .then(snap => {
+      //               if(snap.val()){
+      //                 fakeAuth.authenticate(),
+      //                 authlogin(userRole)
+
+      //                 .catch(function (error) {
+      //                   // Handle Errors here.
+      //                   console.log(error.message);
+      //                   displayError(error.message);
+          
+      //                 });
+      //               }else{
+      //                 displayError("This user doens't have access to this admin panel!");
+      //               }
+      //             })
+      //           }
+                
+      //         })
+      //       })
+      //     }else{
+      //       console.log("user not found")
+      //       displayError("user not found");
+      //     }
+      //   })
+      //   .catch(function (error) {
+      //     // Handle Errors here.
+      //     console.log(error.message);
+      //     displayError(error.message);
+
+      //   });
+      
     }).catch(function (error) {
       // Handle Errors here.
       //var errorCode = error.code;
@@ -229,8 +318,22 @@ class Mainlogin extends Component {
 
   showGoogleLogin() {
     // console.log(Config.adminConfig);
-    if (Config.adminConfig.allowedUsers != null && Config.adminConfig.allowedUsers.length > 0 && Config.adminConfig.allowGoogleAuth) {
-      return (<div>
+    // if (Config.adminConfig.allowedUsers != null && Config.adminConfig.allowedUsers.length > 0 && Config.adminConfig.allowGoogleAuth) {
+    //   return (<div>
+    //     <p className="category text-center">
+    //       <a onClick={this.authWithGoogle} className="btn btn-social btn-fill btn-google">
+    //         <i className="fa fa-google"></i>&nbsp;&nbsp;&nbsp;Login with google
+    //         </a>
+    //     </p>
+    //     <br />
+    //     <p className="category text-center">Or login using email</p>
+    //   </div>)
+    // } else {
+    //   return (<div></div>)
+    // }
+
+    return(
+      <div>
         <p className="category text-center">
           <a onClick={this.authWithGoogle} className="btn btn-social btn-fill btn-google">
             <i className="fa fa-google"></i>&nbsp;&nbsp;&nbsp;Login with google
@@ -238,10 +341,9 @@ class Mainlogin extends Component {
         </p>
         <br />
         <p className="category text-center">Or login using email</p>
-      </div>)
-    } else {
-      return (<div></div>)
-    }
+      </div>
+    )
+   
   }
 
     render(){

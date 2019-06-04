@@ -89,7 +89,7 @@ export default class MainloginUI extends Component {
                                                     <div className="footer text-center">
                                                         <input type="submit" className="btn btn-rose btn-simple btn-wd btn-lg" />
                                                     </div>
-                                                    <div style={{"text-align": "center"}}>
+                                                    <div style={{"textAlign": "center"}}>
                                                         <a onClick={()=>{ this.setState({isResetPassword: !this.state.isResetPassword} )}} role="button">{
                                                             !this.state.isResetPassword?"Forgot your password?":"Back to Login"
                                                         }</a>

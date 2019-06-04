@@ -37,6 +37,10 @@ class Main extends Component{
 
     componentWillMount(){
       console.log("componentWillMount");
+      this.setState({
+        currentUser:this.props.userRole,
+        isLoggedIn:this.props.Loggedin
+      })
     }
 
     componentDidMount() {

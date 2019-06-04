@@ -7,6 +7,7 @@ import Main from './Main';
 import Splash from './Splash';
 import Config from   './config/app';
 import design from   './ui/template/Config';
+import {Redirect} from 'react-router-dom'
 import * as FirebaseSDK from 'firebase';
 import 'react-mdl/extra/material.css';
 import 'react-mdl/extra/material.js';
@@ -93,6 +94,9 @@ function checkLoginStatus(){
                             
                         }else{
                             console.log("This user doens't have access to this vendor panel!");
+                            alert("This user doens't have access to this vendor panel!");
+                            firebase.app.auth().signOut();
+                        
                         }
                       })
                     } else if(email===user.email && userRole==="admin"){
@@ -108,6 +112,8 @@ function checkLoginStatus(){
                             
                         }else{
                             console.log("This user doens't have access to this admin panel!");
+                            alert("This user doens't have access to this admin panel!");
+                            firebase.app.auth().signOut();
                         }
                       })
                     }

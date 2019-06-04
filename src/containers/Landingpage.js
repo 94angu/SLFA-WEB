@@ -30,7 +30,7 @@ class Landingpage extends Component {
                     
                         <div className="carousel-inner">
                             <div className="item active">
-                            <img style={{width:'100%',height:'480px',objectFit:'cover'}} src="assets/img/slfest3.jpg" alt="Los Angeles"></img>
+                            <img style={{width:'100%',height:'480px',objectFit:'cover',opacity:'0.6'}} src="assets/img/slfest3.jpg" alt="Los Angeles"></img>
                                 <div className="carousel-caption">
                                     <h3>SRI LANKAN DAY 2019</h3>
                                     <p>SRI LANKAN DAY 2019
