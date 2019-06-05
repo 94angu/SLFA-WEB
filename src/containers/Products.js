@@ -5,45 +5,60 @@ import {Grid,Cell,Card,CardTitle,CardText,CardActions,Button} from 'react-mdl';
 
 var Loader = require('halogen/PulseLoader');
 
-class Centre extends Component {
+class Products extends Component {
     constructor(props) {
         super(props);
         
         this.state = {
-            centres: [],
+            items: [],
+            centreName:null,
+            centreDesc:null,
             isLoading:true
           }
     }
 
     componentWillMount(){
+        const { match: { params } } = this.props;
+
+
         const _this=this;
-        const centres = [];
-        const ref = firebase.app.firestore().collection("restaurant_collection");
-        ref.get().then(function(querySnapshot){
-            querySnapshot.forEach(function(doc) {
-                const content = doc.data();
+        const items = [];
+        const collectionRef = firebase.app.firestore().collection("restaurant_collection");
+        const collection = collectionRef.doc(params.id);
+
+        collection.get().then(function(doc){
+            // console.log("collection"+doc.data().title)
+            _this.setState({
+                centreName:doc.data().title,
+                centreDesc:doc.data().description
+            })
+        })
+        
+
+        const itemRef = firebase.app.firestore().collection("restaurant");
+        itemRef.where('collection','==',collection).get().then(function(snap){
+            snap.forEach(function(doc){
                 
-                centres.push({
+                const content = doc.data();
+                items.push({
                     key:doc.id,
                     content
                 });
-                // centres.push(doc.data())
-                // console.log("doc data", centres);
-                
-            });
+            })
 
             _this.setState({
                 isLoading:false,
-                centres:centres
+                items:items
             })
+            
         })
 
     }
 
 
     render(){
-        const centres = this.state.centres.map((centre, index) =>
-        <Restaurant key={index} value={centre} />
+        const items = this.state.items.map((item, index) =>
+        <Item key={index} value={item} />
         );
         return(
             <div className="wrapper wrapper-full-page">
@@ -52,19 +67,19 @@ class Centre extends Component {
                         <div style={{paddingBottom: '50px'}} className="section intro-section">
                             <div className="container w-container">
                                 <div className="section-title-wrapper intro">
-                                    <h2 className="section-title">restaurants</h2>
+                                    <h2 className="section-title">{this.state.centreName}</h2>
                                     <div className="section-divider"></div>
                                     <div className="section-title subtitle">
-                                    There are over 35 stalls at the Food Mart at the festival serving authentic Sri Lankan food and beverages as well as non-authentic Sri Lankan food.
+                                    {this.state.centreDesc}
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div className="container w-container">
-                            {this.state.isLoading?<Loader color="#8637AD" size="12px" margin="4px"/>:""}
+                        {this.state.isLoading?<Loader color="#8637AD" size="12px" margin="4px"/>:""}
                             <Grid className="demo-grid-1">
-                                {centres}
+                                {items}
                             </Grid>
                         </div>
                     
@@ -72,15 +87,12 @@ class Centre extends Component {
                 
                 </div>
             </div>
-
-            
+           
         )
-        
-        
     }
 }
 
-class Restaurant extends Component {
+class Item extends Component {
     render() {
         return (
             <Cell col={3}>
@@ -90,7 +102,7 @@ class Restaurant extends Component {
                         {this.props.value.content.description}
                     </CardText>
                     <CardActions border>
-                        <Link to={"products/"+this.props.value.key}><Button colored>{this.props.value.content.title}</Button></Link>
+                        <Button colored>{this.props.value.content.title}</Button>
                     </CardActions>
                 </Card>
             </Cell>
@@ -99,4 +111,4 @@ class Restaurant extends Component {
     }
 }
 
-export default Centre;
+export default Products;

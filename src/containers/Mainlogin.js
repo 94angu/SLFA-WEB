@@ -120,9 +120,9 @@ class Mainlogin extends Component {
                     firebase.app.auth().signInWithEmailAndPassword(username, password)
                     .then(    
                       console.log("main login fake auth"),
-                      fakeAuth.authenticate(),
+                      // fakeAuth.authenticate(),
                       console.log("main login fake auth",userRole),
-                      authlogin(userRole),
+                      // authlogin(userRole),
                       console.log("main login fake auth"),
                     )
                     .catch(function (error) {

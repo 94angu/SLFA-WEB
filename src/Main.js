@@ -4,6 +4,7 @@ import Landingpage from './containers/Landingpage'
 import Program from './containers/Program'
 import About from './containers/About'
 import Centre from './containers/Centre'
+import Products from './containers/Products'
 import Dashboard from './containers/Dashboard'
 import Mainlogin from './containers/Mainlogin';
 import Mainregister from './containers/Mainregister';
@@ -107,13 +108,13 @@ class Main extends Component{
           
             <Router history={hashHistory}>
               
-              <HeaderUI currentUser={this.state.currentUser}>
+              <HeaderUI currentUser={this.props.userRole}>
                 <Route exact path={"/"} component={Landingpage}/>
                 <Route path="/landing" component={Landingpage}/>
                 <Route path="/about" component={About}/>
-                <Route path="/Centre" component={Centre}/>
+                <Route path="/centre" component={Centre}/>
+                <Route path="/products/:id" component={Products}/>
                 <Route path="/program" component={Program}/>
-                <Route path="/account" component={User}/>
                 <Route path="/login" component={(props)=>
                   <Mainlogin 
                     authlogin={this.authLogin}
@@ -121,13 +122,15 @@ class Main extends Component{
                   />}
                 />
                 <Route path="/register" component={Mainregister}/>
-                <PrivateRoute path="/dashboard" currentUser={this.state.currentUser} component={()=>
+                <PrivateRoute path="/dashboard" currentUser={this.props.userRole} component={()=>
                   <Dashboard 
-                    currentUser={this.state.currentUser}
+                    currentUser={this.props.userRole}
                   />}
                 />  
-            </HeaderUI>
-          </Router>
+                <PrivateRoute path="/account" component={User}/>
+              </HeaderUI>
+              
+            </Router>
 
           // <Router history={hashHistory}>
           //   <Route path="/" component={(props)=>
