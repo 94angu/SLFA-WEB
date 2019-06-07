@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import firebase from '../config/database'
-import * as firebaseCLASS from 'firebase';
+// import * as firebaseCLASS from 'firebase';
 require("firebase/firestore");
 import {Grid,Cell,Card,CardTitle,CardText,CardActions,Button} from 'react-mdl';
 

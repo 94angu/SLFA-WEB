@@ -1,7 +1,7 @@
 /*eslint no-useless-constructor: "off"*/
 import React, {Component} from 'react'
 import NavBar from './../ui/template/NavBar'
-import NavBarDefault from './../ui/template/NavBarDefault'
+// import NavBarDefault from './../ui/template/NavBarDefault'
 
 class App extends Component {
   constructor(props){

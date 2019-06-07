@@ -9,14 +9,14 @@ import Dashboard from './containers/Dashboard'
 import Mainlogin from './containers/Mainlogin';
 import Mainregister from './containers/Mainregister';
 // import {Router, Route, hashHistory,Link,IndexRoute,withRouter,Redirect} from 'react-router'
-import {BrowserRouter as Router,Route,Link,Redirect,withRouter,hashHistory} from 'react-router-dom'
+import {BrowserRouter as Router,Route,Redirect,hashHistory} from 'react-router-dom'
 // import { Router, Route,hashHistory,Redirect} from 'react-router'
-import HomeUI from './ui/template/Home';
 import HeaderUI from './containers/HeaderUI';
-import {AuthButton,PrivateRoute,Login,fakeAuth} from './Auth'
+import {PrivateRoute,fakeAuth} from './Auth'
 import Config from   './config/app';
 import firebase from './config/database'
-import Master from './containers/Master'
+
+var Loader = require('halogen/PulseLoader');
 
 class Main extends Component{
     constructor(props){
@@ -25,58 +25,117 @@ class Main extends Component{
 
         this.state = {
             error:'',
-            currentUser:this.props.userRole,
-            isLoggedIn:this.props.Loggedin,
+            currentUser:null,
+            isLoggedIn:false,
+            isLoading:true,
             user:{}
 
         };
 
         this.authLogin = this.authLogin.bind(this);
-        this.authListener = this.authListener.bind(this);
+        // this.authListener = this.authListener.bind(this);
 
-    }
-
-    componentWillMount(){
-      console.log("MAIN : ComponentWillMount");
-      this.setState({
-        currentUser:this.props.userRole,
-        isLoggedIn:this.props.Loggedin
-      })
     }
 
     componentDidMount() {
       console.log("MAIN : ComponentDidMount");
-      this.authListener();
-    }
-  
-    /**
-     * Function that start the Firebase listener for authentication change
-     */
-     authListener(){
-        const setUser=(user)=>{
-          this.setState({user:user})
-        }
-  
-        //Now do the listner
+      const setUser=(user,isLogin)=>{
+        this.setState({
+          currentUser:user,
+          isLoggedIn:isLogin,
+        })
+      }
+
+      const setLoading=(isLoading)=>{
+        this.setState({
+          isLoading:isLoading
+        })
+      }
+
+      if(Config.firebaseConfig.apiKey){
         firebase.app.auth().onAuthStateChanged(function(user) {
           if (user) {
-            setUser(user);
-            fakeAuth.authenticate(true);
             // User is signed in.
-            console.log("MAIN : User has Logged  in Master");
-            // console.log("is auth Master",fakeAuth.isAuthenticated);
-            if(window.setSideBG){
-              window.setSideBG(Config.adminConfig.design.sidebarBg);
-            }
-            
+            console.log("MAIN : User is signed in "+user.email);
+            const userRef = firebase.app.database().ref(`/users`);
+            const allowedRef = firebase.app.database().ref(`/meta/config/allowedUsers`);
+    
+            userRef.orderByChild("email").equalTo(user.email).once("value")
+            .then(snapshot=>{
+                if(snapshot.val()){
+                  // console.log("User found "+user.email);
+                    userRef.orderByKey().once("value")
+                    .then(function(snapshot){
+                      snapshot.forEach(function(childSnapshot){
+                        var email = childSnapshot.val().email;
+                        var userRole = childSnapshot.val().userRole;
+                        if(email===user.email && userRole==="visitor"){
+                          // console.log("INDEX userRole :"+currentuserRole)
+                          // fakeAuth.authenticate();
+                          setUser(userRole,true);
+                          setLoading(false)
+
+                         
+ 
+                        }else if(email===user.email && userRole==="vendor"){
+                          allowedRef.orderByChild("email").equalTo(user.email).once("value")
+                          .then(snap => {
+                            if(snap.val()){
+                                // console.log("INDEX userRole :"+currentuserRole)
+                                setUser(userRole,true);
+                                setLoading(false)
+                            
+                                
+                            }else{
+                                console.log("This user doens't have access to this vendor panel!");
+                                alert("This user doens't have access to this vendor panel!");
+                                firebase.app.auth().signOut();
+                            
+                            }
+                          })
+                        } else if(email===user.email && userRole==="admin"){
+    
+                          allowedRef.orderByChild("email").equalTo(user.email).once("value")
+                          .then(snap => {
+                            if(snap.val()){
+                              // console.log("MAIN : userRole :"+userRole)
+                              setUser(userRole,true);
+                              setLoading(false)
+                           
+                            }else{
+                                console.log("This user doens't have access to this admin panel!");
+                                alert("This user doens't have access to this admin panel!");
+                                // firebase.app.auth().signOut();
+                            }
+                          })
+                        }
+                        
+                      })
+                    })
+                  }else{
+                    console.log("MAIN : User not found in user database")
+                    alert("User is not approved by admin");
+                    firebase.app.auth().signOut();
+                  }
+            })
+    
           } else {
             // No user is signed in.
-            console.log("MAIN : User has logged out Master");
+            console.log("MAIN : No user is signed in ");
+            setUser(null,false);
+            setLoading(false)
           }
-        });
+      })
+      }else{
+        // No user is signed in.
+          console.log("MAIN : No user is signed in, step 1 ");
+          setUser(null,false)
+          setLoading(false)
+      }
     }
 
     authLogin(userRole){
+      console.log("MAIN : Auth login ");
       const setUser=(user)=>{
         this.setState({
           currentUser:user,
@@ -84,30 +143,30 @@ class Main extends Component{
         })
       }
       console.log("auth login",userRole);
-      fakeAuth.authenticate(true);
       setUser(userRole);
-      <Redirect to='/about'/>
+      // <Redirect to='/about'/>
       
-      console.log("main fakeauth"+fakeAuth.isAuthenticated);
-      // fakeAuth.authenticate(()=>this.setState({isLoggedIn:true}));
     }
 
     authLogout(){
       fakeAuth.signout(()=>this.setState({isLoggedIn:false}));
-      
-      <Redirect to='/' />
+      // <Redirect to='/' />
     }
 
     render(){
-      console.log("MAIN : State current user - "+this.state.currentUser)
-      console.log("MAIN : State isloggedin - "+this.state.isLoggedIn)
-      console.log("MAIN : Props isloggedin - "+this.props.Loggedin)
-      console.log("MAIN : Props userRole - "+this.props.userRole)
+
+      if(this.state.isLoading===true){
         return(
-          
+          <div style={{marginLeft:'50%',marginTop:'20%'}}><Loader color="#114fda" size="12px" margin="4px"/></div>
+        )
+      }else{
+        console.log("MAIN : State current user - "+this.state.currentUser)
+        console.log("MAIN : State isloggedin - "+this.state.isLoggedIn)
+
+        return(
             <Router history={hashHistory}>
               
-              <HeaderUI currentUser={this.props.userRole}>
+              <HeaderUI currentUser={this.state.currentUser} isLoggedIn={this.state.isLoggedIn} >
                 <Route exact path={"/"} component={Landingpage}/>
                 <Route path="/landing" component={Landingpage}/>
                 <Route path="/about" component={About}/>
@@ -115,90 +174,28 @@ class Main extends Component{
                 <Route path="/products/:id" component={Products}/>
                 <Route path="/program" component={Program}/>
                 <Route path="/login" component={(props)=>
-                  <Mainlogin 
+                  <Mainlogin
+                    isLoggedIn={this.state.isLoggedIn} 
                     authlogin={this.authLogin}
                     {...props}
                   />}
                 />
                 <Route path="/register" component={Mainregister}/>
-                <PrivateRoute path="/dashboard" currentUser={this.props.userRole} component={()=>
+                <PrivateRoute path="/dashboard" isLoggedIn={this.state.isLoggedIn} component={()=>
                   <Dashboard 
-                    currentUser={this.props.userRole}
+                    currentUser={this.state.currentUser}
                   />}
                 />  
-                <PrivateRoute path="/account" component={User}/>
+                <PrivateRoute path="/account" isLoggedIn={this.state.isLoggedIn} component={User}/>
               </HeaderUI>
               
             </Router>
 
-          // <Router history={hashHistory}>
-          //   <Route path="/" component={(props)=>
-          //       <HeaderUI 
-          //         currentUser={this.state.currentUser}
-          //         {...props}
-          //       />}>
-          //     <IndexRoute component={Landingpage}/>
-          //     <Route path="/landing" component={Landingpage}/>
-          //     <Route path="/about" component={About}/>
-          //     <Route path="/Centre" component={Centre}/>
-          //     <Route path="/program" component={Program}/>
-              
-          //     <Route path="/login" component={(props)=>
-          //       <Mainlogin 
-          //         authlogin={this.authLogin}
-          //         setCurrentUser={this.setCurrentUser}
-          //         {...props}
-          //       />}
-          //     />
-          //     <Route path="/register" component={Mainregister}/>
-          //     {/* <PrivateRoute path="/dashboard" component={()=>
-          //       <Dashboard 
-          //         currentUser={this.state.currentUser}
-          //       />}
-          //     />   */}
-          //   </Route>
-          //   <Route path="/account" component={User}></Route>
-          // </Router>
-
-          
-           
-            // <Router history={hashHistory}>
-               
-            //     <Route component={Home} >
-            //         {/* make them children of `Master` */}
-                    // <Route path={"/"} component={Landingpage}></Route>
-                    // <Route path="/landing" component={Landingpage}/>
-                    // <Route path="/about" component={About}/>
-                    // <Route path="/Centre" component={Centre}/>
-                    // <Route path="/contact" component={Contact}/>
-                    // <Route path="/login" component={Mainlogin}/>
-                    // <Route path="/register" component={Mainregister}/>
-                    // <PrivateRoute path="/dashboard" component={Dashboard}/>
-               
-            //     </Route>
-            // </Router>
-            // <Home/>
-
-            // <Router  history={hashHistory}>
-            //     <AuthProvider>
-                
-            //     <Switch>
-            //         {/* <ProtectedRoute path="/dashboard" component={Dashboard} />
-            //         <Route path="/" component={Landing} /> */}
-            //         <Route component={Home} >
-            //         {/* make them children of `Master` */}
-            //             <Route path={"/"} component={Landingpage}></Route>
-            //             <Route path="/landing" component={Landingpage}/>
-            //             <Route path="/about" component={About}/>
-            //             <Route path="/Centre" component={Centre}/>
-            //             <Route path="/contact" component={Contact}/>
-            //             <Route path="/login" component={Mainlogin}/>
-            //             {/* <ProtectedRoute path="/dashboard" component={Dashboard} /> */}
-            //         </Route>
-            //     </Switch>
-            //     </AuthProvider>
-            // </Router>
         );
+      }
+
+     
+      
     }
 }
 

@@ -6,7 +6,6 @@ import React, { Component } from 'react'
 import {BrowserRouter as Router, Link,NavLink } from 'react-router-dom'
 // import { Link } from 'react-router'
 import firebase from '../config/database'
-import {fakeAuth,AuthButton}  from '../Auth'
 var md5 = require('md5');
 
 export default class HeaderUI extends Component {
@@ -16,37 +15,35 @@ export default class HeaderUI extends Component {
         this.state = {
             user: {},
           }
-      
-        //   this.authListener = this.authListener.bind(this);
+
           this.createUserView = this.createUserView.bind(this);
           this.handleLogout = this.handleLogout.bind(this);
    
     }
 
-    // componentDidMount(){
-    //     this.authListener();
-    // }
+    componentDidMount(){
+        this.authListener();
+    }
       
-    // authListener(){
-    // const setUser=(user)=>{
-    // this.setState({user:user})
-    // }
+    authListener(){
+    console.log("HEADER : componentDidMount");
+    const setUser=(user)=>{
+    this.setState({user:user})
+    }
 
-    // //Now do the listner
-    // firebase.app.auth().onAuthStateChanged(function(user) {
-    // if (user) {
-    //     setUser(user);
-    //     // User is signed in.
-    //     console.log("User has Logged  in Master");
-    //     console.log(user.email);
+    //Now do the listner
+    firebase.app.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        setUser(user);
+       
         
-    // } else {
-    //     // No user is signed in.
-    //     console.log("User has logged out Master");
-    // }
-    // });
-    // }
-
+    } else {
+        // No user is signed in.
+        console.log("HEADER : No user is signed in.");
+    }
+    });
+    }
+      
       /**
    * Logout function
    * @param {Event} e 
@@ -68,7 +65,7 @@ export default class HeaderUI extends Component {
             <ul className="dropdown-menu userDropdownMenu" role="menu">
             <li><a>{this.state.user.email}</a></li>
             <li><Link to="/account">Account</Link></li>
-            {(fakeAuth.isAuthenticated && (this.props.currentUser!=="visitor")) ?                            
+            {(this.props.isLoggedIn && (this.props.currentUser!=="visitor")) ?                            
             <li>
                 <Link to="/dashboard">Dashboard</Link> 
             </li>
@@ -81,29 +78,12 @@ export default class HeaderUI extends Component {
     );
     }
 
-    logout = () =>{
-        this.props.authLogout();
-        
-          // fakeAuth.authenticate(()=>{
-            // this.setState(()=>({
-            //   redirectToReferrer:true
-            // }))
-          // })
-      }
-
     render() {
 
-       console.log("HEADER : Fakeauth"+fakeAuth.isAuthenticated)
+       console.log("HEADER : isLoggedin - "+this.props.isLoggedIn)
        console.log("HEADER : Props Current user - "+this.props.currentUser)
        
         return (
-            
-        //     <ul>
-        //     <li><Link to="/public">Public Page</Link></li>
-        //     <li><Link to="/protected">Protected Page</Link></li>
-        //     {this.props.children}
-        //   </ul>
-       
 
         <div>
                 <nav className="navbar navbar-primary navbar-fixed-top">{/*navbar-tranparent*/}
@@ -117,7 +97,7 @@ export default class HeaderUI extends Component {
                             </button>
                             <a className="navbar-brand" href="#">
                                 {/* {Config.adminConfig.appName} */}
-                                Sri Lankan Festival
+                                Ceylon One
                             </a>
                         </div>
                         <div className="collapse navbar-collapse">
@@ -136,7 +116,7 @@ export default class HeaderUI extends Component {
                                             <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/program">Program</NavLink> 
                                         </li>
                                        
-                                        {!fakeAuth.isAuthenticated ?
+                                        {!this.props.isLoggedIn ?
                                         <li className={this.props.isRegister ? "active" : ""}>
                                             <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/login">
                                                 <a style={{color:'#01fde6'}} className="nav-link" role="button" >
@@ -149,10 +129,11 @@ export default class HeaderUI extends Component {
                                         // <li>
                                         //     <Link to="/login"><a onClick={this.logout}>Logout</a></Link> 
                                         // </li>
-                                        <AuthButton/>
+                                        // <AuthButton/>
+                                        ""
                                         }
 
-                                        {!fakeAuth.isAuthenticated ?
+                                        {!this.props.isLoggedIn ?
                                         <li className={this.props.isRegister ? "active" : ""} >
                                             <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/register">
                                                 <a style={{color:'#01fde6'}} className="nav-link" role="button" >

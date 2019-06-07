@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import firebase from '../config/database'
-import Config from '../config/app';
 import MainloginUI from '../ui/template/Mainlogin';
 import * as firebaseCLASS from 'firebase';
 import {Redirect} from 'react-router-dom'
 // import {Redirect} from 'react-router'
-import {fakeAuth} from '../Auth'
 require("firebase/firestore");
 
 class Mainlogin extends Component {
@@ -49,9 +47,9 @@ class Mainlogin extends Component {
     const displayError = (error) => {
       this.setState({ error: error });
     }
-    const authlogin=(userRole) =>{
-      this.props.authlogin(userRole)
-    } 
+    // const authlogin=(userRole) =>{
+    //   this.props.authlogin(userRole)
+    // } 
 
     //check the visitor
     const userRef = firebase.app.database().ref(`/users`);
@@ -68,7 +66,7 @@ class Mainlogin extends Component {
                 console.log("userRole :"+userRole)
                 firebase.app.auth().signInWithEmailAndPassword(username, password)
                 .then(    
-                  authlogin(userRole)
+                  // authlogin(userRole)
                 )
                 .catch(function (error) {
                   // Handle Errors here.
@@ -83,7 +81,7 @@ class Mainlogin extends Component {
                   if(snap.val()){
                     firebase.app.auth().signInWithEmailAndPassword(username, password)
                     .then(    
-                      authlogin(userRole),
+                      // authlogin(userRole),
                     )
                     .catch(function (error) {
                       // Handle Errors here.
@@ -119,11 +117,8 @@ class Mainlogin extends Component {
                   if(snap.val()){
                     firebase.app.auth().signInWithEmailAndPassword(username, password)
                     .then(    
-                      console.log("main login fake auth"),
-                      // fakeAuth.authenticate(),
-                      console.log("main login fake auth",userRole),
                       // authlogin(userRole),
-                      console.log("main login fake auth"),
+                      
                     )
                     .catch(function (error) {
                       // Handle Errors here.
@@ -224,7 +219,7 @@ class Mainlogin extends Component {
     var provider = new firebaseCLASS.auth.GoogleAuthProvider();
     firebase.app.auth().signInWithPopup(provider).then(function (result) {
       // This gives you a Google Access Token. You can use it to access the Google API.
-      var token = result.credential.accessToken;
+      // var token = result.credential.accessToken;
       // The signed-in user info.
       var user = result.user;
       console.log("USER"+user.email);
@@ -358,18 +353,13 @@ class Mainlogin extends Component {
 
     render(){
       
-      if(fakeAuth.isAuthenticated === true){
-        console.log("main login fake auth :",fakeAuth.isAuthenticated)
+      if(this.props.isLoggedIn === true){
+        console.log("MAIN LOGIN : isLoggedIn - ",this.props.isLoggedIn)
         return(
           <Redirect to="/"/>
         )
       }
-      // return(
-      //   <div>
-      //     <p>You must log in</p>
-      //     <button onClick={this.login}>login</button>
-      //   </div>
-      // )
+      
         return(
             <MainloginUI
             showGoogleLogin={this.showGoogleLogin}

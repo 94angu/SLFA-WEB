@@ -1,23 +1,21 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom'
 // import {Redirect} from 'react-router'
-import { fakeAuth } from '../Main'
-import {AuthButton} from '../Auth'
 import Admin from '../Admin'
 import Vendor from '../Vendor'
 
 class Dashboard extends Component {
     state = {
-        redirectToReferrer:false
+        // redirectToReferrer:false
     }
 
-    login =()=>{
-        fakeAuth.authenticate(()=>{
-            this.setState(()=>{
-                redirectToReferrer:true
-            })
-        })
-    }
+    // login =()=>{
+    //     fakeAuth.authenticate(()=>{
+    //         this.setState(()=>{
+    //             redirectToReferrer:true
+    //         })
+    //     })
+    // }
     render(){
         console.log("current user"+this.props.currentUser)
         // return(

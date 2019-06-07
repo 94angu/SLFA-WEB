@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import firebase from '../config/database'
-import {Link} from 'react-router-dom'
 import {Grid,Cell,Card,CardTitle,CardText,CardActions,Button} from 'react-mdl';
 
 var Loader = require('halogen/PulseLoader');

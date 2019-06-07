@@ -1,9 +1,6 @@
 import React from 'react'
-import {BrowserRouter as Router,Route,Link,Redirect,withRouter} from 'react-router-dom'
+import {Route,Redirect,withRouter} from 'react-router-dom'
 // import { Router, Route,hashHistory,Link,Redirect,withRouter} from 'react-router'
-import firebase from './config/database'
-
-
 
 const fakeAuth = {
   isAuthenticated: false,
@@ -46,9 +43,9 @@ class Login extends React.Component {
   }
 }
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
+const PrivateRoute = ({ component: Component,isLoggedIn, ...rest }) => (
   <Route {...rest} render={(props) => (
-    fakeAuth.isAuthenticated === true
+    isLoggedIn === true
       ? <Component {...props} />
       : <Redirect to={{
           pathname: '/login',

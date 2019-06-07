@@ -25,7 +25,7 @@ class About extends Component {
                                 <div className="col-s-12 col-md-6 col-lg-6">
                                     <div className="intro-info-block">
                                         <div className="intro-icon-wrapper">
-                                        <img  style={{width: '30px'}} src="https://uploads-ssl.webflow.com/5c64e08639e719533fb04a7f/5c64e08639e7192290b04a97_Icon-location.png"></img>
+                                        <img  style={{width: '30px'}} alt={Image} src="https://uploads-ssl.webflow.com/5c64e08639e719533fb04a7f/5c64e08639e7192290b04a97_Icon-location.png"></img>
                                         </div>
                                         <div className="intro-info-title">
                                         Tokyo
@@ -39,7 +39,7 @@ class About extends Component {
                                 <div className="col-s-12 col-md-6 col-lg-6">
                                     <div className="intro-info-block">
                                         <div className="intro-icon-wrapper">
-                                        <img  style={{width: '30px'}} src="https://uploads-ssl.webflow.com/5c64e08639e719533fb04a7f/5c64e08639e7194f7ab04a99_Icon-calendar.png"></img>
+                                        <img  style={{width: '30px'}} alt={Image} src="https://uploads-ssl.webflow.com/5c64e08639e719533fb04a7f/5c64e08639e7194f7ab04a99_Icon-calendar.png"></img>
                                         </div>
                                         <div className="intro-info-title">
                                         3rd August

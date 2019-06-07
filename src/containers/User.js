@@ -5,8 +5,6 @@ import Config from   './../config/app'
 import Card from './../ui/template/Card'
 import Image from './../components/fields/Image'
 import Input from './../components/fields/Input'
-import { Link } from 'react-router'
-import NavBarDefault from './../ui/template/NavBarDefault'
 
 var md5 = require('md5');
 const ConditionalDisplay = ({condition, children}) => condition ? children : <div></div>;

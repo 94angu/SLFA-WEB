@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import firebase from '../config/database'
-import * as firebaseCLASS from 'firebase';
+// import * as firebaseCLASS from 'firebase';
 require("firebase/firestore");
 
 
@@ -53,20 +53,20 @@ class Newsfeed extends Component {
         }
 }
 
-const responsive = {
-    desktop: {
-        breakpoint: { max: 3000, min: 1024 },
-        items: 3
-    },
-    tablet: {
-        breakpoint: { max: 1024, min: 464 },
-        items: 2
-    },
-    mobile: {
-        breakpoint: { max: 464, min: 0 },
-        items: 1
-    }
-    };
+// const responsive = {
+//     desktop: {
+//         breakpoint: { max: 3000, min: 1024 },
+//         items: 3
+//     },
+//     tablet: {
+//         breakpoint: { max: 1024, min: 464 },
+//         items: 2
+//     },
+//     mobile: {
+//         breakpoint: { max: 464, min: 0 },
+//         items: 1
+//     }
+//     };
 
 
 class Post extends Component {
@@ -75,7 +75,7 @@ class Post extends Component {
         <div className="post">
             <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                 <div className="label">New</div>
-                <img className="image" src={this.props.value.image}></img>
+                <img className="image" alt={Image} src={this.props.value.image}></img>
             </div>
 
             <div>
