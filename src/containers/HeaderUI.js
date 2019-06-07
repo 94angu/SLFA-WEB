@@ -54,7 +54,7 @@ export default class HeaderUI extends Component {
   handleLogout(e) {
     e.preventDefault();
 
-    console.log('The link was clicked.');
+    console.log('HEADER : The Logout link is clicked');
     firebase.app.auth().signOut();
   }
     
@@ -93,8 +93,8 @@ export default class HeaderUI extends Component {
 
     render() {
 
-       console.log("fakeauth"+fakeAuth.isAuthenticated)
-       console.log("header current user"+this.props.currentUser)
+       console.log("HEADER : Fakeauth"+fakeAuth.isAuthenticated)
+       console.log("HEADER : Props Current user - "+this.props.currentUser)
        
         return (
             

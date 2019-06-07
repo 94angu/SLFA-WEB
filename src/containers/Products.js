@@ -68,7 +68,7 @@ class Products extends Component {
                             <div className="container w-container">
                                 <div className="section-title-wrapper intro">
                                     <h2 className="section-title">{this.state.centreName}</h2>
-                                    <div className="section-divider"></div>
+                                    {/* <div className="section-divider"></div> */}
                                     <div className="section-title subtitle">
                                     {this.state.centreDesc}
                                     </div>
@@ -82,7 +82,7 @@ class Products extends Component {
                                 {items}
                             </Grid>
                         </div>
-                    
+
                     </div>
                 
                 </div>

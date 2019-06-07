@@ -20,7 +20,7 @@ import Master from './containers/Master'
 
 class Main extends Component{
     constructor(props){
-      console.log("main constructor");
+      console.log("MAIN : Constructor");
         super(props);
 
         this.state = {
@@ -37,7 +37,7 @@ class Main extends Component{
     }
 
     componentWillMount(){
-      console.log("componentWillMount");
+      console.log("MAIN : ComponentWillMount");
       this.setState({
         currentUser:this.props.userRole,
         isLoggedIn:this.props.Loggedin
@@ -45,7 +45,7 @@ class Main extends Component{
     }
 
     componentDidMount() {
-      console.log("componentDidMount");
+      console.log("MAIN : ComponentDidMount");
       this.authListener();
     }
   
@@ -63,16 +63,15 @@ class Main extends Component{
             setUser(user);
             fakeAuth.authenticate(true);
             // User is signed in.
-            console.log("User has Logged  in Master");
-            console.log("is auth Master",fakeAuth.isAuthenticated);
-            console.log(user.email);
+            console.log("MAIN : User has Logged  in Master");
+            // console.log("is auth Master",fakeAuth.isAuthenticated);
             if(window.setSideBG){
               window.setSideBG(Config.adminConfig.design.sidebarBg);
             }
             
           } else {
             // No user is signed in.
-            console.log("User has logged out Master");
+            console.log("MAIN : User has logged out Master");
           }
         });
     }
@@ -100,10 +99,10 @@ class Main extends Component{
     }
 
     render(){
-      console.log("main render current user "+this.state.currentUser)
-      console.log("main render current user "+this.state.isLoggedIn)
-      console.log("main render isloggedin user "+this.props.Loggedin)
-      console.log("main render isloggedin userRole "+this.props.userRole)
+      console.log("MAIN : State current user - "+this.state.currentUser)
+      console.log("MAIN : State isloggedin - "+this.state.isLoggedIn)
+      console.log("MAIN : Props isloggedin - "+this.props.Loggedin)
+      console.log("MAIN : Props userRole - "+this.props.userRole)
         return(
           
             <Router history={hashHistory}>

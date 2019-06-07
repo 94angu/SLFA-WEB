@@ -43,7 +43,7 @@ if(Config.remoteSetup){
 }else{
   // Legacy, local setup
   firebase.app=FirebaseSDK.initializeApp(Config.firebaseConfig,"default");
-  console.log("cekck 2");
+  // console.log("cekck 2");
   checkLoginStatus();
 //   displayApp();
 }
@@ -61,21 +61,21 @@ function checkLoginStatus(){
     firebase.app.auth().onAuthStateChanged(function(user) {
       if (user) {
         // User is signed in.
-        console.log("User is signed in "+user.email);
+        console.log("INDEX : User is signed in "+user.email);
         const userRef = firebase.app.database().ref(`/users`);
         const allowedRef = firebase.app.database().ref(`/meta/config/allowedUsers`);
 
         userRef.orderByChild("email").equalTo(user.email).once("value")
         .then(snapshot=>{
             if(snapshot.val()){
-              console.log("User found "+user.email);
+              // console.log("User found "+user.email);
                 userRef.orderByKey().once("value")
                 .then(function(snapshot){
                   snapshot.forEach(function(childSnapshot){
                     var email = childSnapshot.val().email;
                     var userRole = childSnapshot.val().userRole;
                     if(email===user.email && userRole==="visitor"){
-                      console.log("INDEX userRole :"+currentuserRole)
+                      // console.log("INDEX userRole :"+currentuserRole)
                       fakeAuth.authenticate();
                       loggedIn=true;
                       currentuserRole=userRole;
@@ -86,7 +86,7 @@ function checkLoginStatus(){
                       allowedRef.orderByChild("email").equalTo(user.email).once("value")
                       .then(snap => {
                         if(snap.val()){
-                            console.log("INDEX userRole :"+currentuserRole)
+                            // console.log("INDEX userRole :"+currentuserRole)
                             fakeAuth.authenticate();
                             loggedIn=true;
                             currentuserRole=userRole;
@@ -107,7 +107,7 @@ function checkLoginStatus(){
                             loggedIn=true;
                             currentuserRole=userRole;
                             fakeAuth.authenticate();
-                            console.log("INDEX userRole :"+currentuserRole)
+                            // console.log("INDEX userRole :"+currentuserRole)
                             displayApp();
                             
                         }else{
@@ -121,7 +121,7 @@ function checkLoginStatus(){
                   })
                 })
               }else{
-                console.log("user not found ")
+                console.log("INDEX : User not found in user database")
               }
         })
         
@@ -163,7 +163,7 @@ function checkLoginStatus(){
 
       } else {
         // No user is signed in.
-        console.log("No user is signed in ");
+        console.log("INDEX : No user is signed in ");
         fakeAuth.signout();
         loggedIn=false;
         currentuserRole=null;
@@ -176,7 +176,7 @@ function checkLoginStatus(){
   })
   }else{
     // No user is signed in.
-      console.log("No user is signed in, step 1 ");
+      console.log("INDEX : No user is signed in, step 1 ");
       loggedIn=false;
       currentuserRole=null;
       displayApp();
@@ -214,7 +214,7 @@ function displayApp(){
 
     
   // }
-  console.log("Index Render",{loggedIn}," ",{currentuserRole});
+  console.log("INDEX : ",{loggedIn}," ",{currentuserRole});
   ReactDOM.render(
       
       <Main

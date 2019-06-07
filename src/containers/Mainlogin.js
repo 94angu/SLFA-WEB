@@ -227,7 +227,17 @@ class Mainlogin extends Component {
       var token = result.credential.accessToken;
       // The signed-in user info.
       var user = result.user;
-      
+      console.log("USER"+user.email);
+      // const userRef = firebase.app.database().ref(`/users`);
+      // userRef.orderByChild("email").equalTo(user.email).once("value")
+      // .then(snapshot => {
+      //   if(snapshot.val()){
+      //     console.log("USER have registered");
+      //   }else{
+      //     firebase.app.auth().signOut();
+      //     console.log("USER not registered");
+      //   }
+      // })
       // //check the visitor
       // const userRef = firebase.app.database().ref(`/users`);
       // const allowedRef = firebase.app.database().ref(`/meta/config/allowedUsers`);
