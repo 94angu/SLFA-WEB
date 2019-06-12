@@ -46,24 +46,24 @@ class Mainregister extends Component {
     firebase.app.auth().createUserWithEmailAndPassword(username, password)
       .then(
         
-        function (data) {
-          firebase.app.auth().currentUser.updateProfile({
-            userRole: userRole
-          })
+        // function (data) {
+        //   firebase.app.auth().currentUser.updateProfile({
+        //     userRole: userRole
+        //   })
 
-          changeIsRegistered();
-          console.log("ok ");
-          var usersRef = firebase.app.database().ref("users");
-          var newUsersRef = usersRef.push();
+          changeIsRegistered()
+        //   console.log("ok ");
+        //   var usersRef = firebase.app.database().ref("users");
+        //   var newUsersRef = usersRef.push();
           
-            newUsersRef.set({
-              email: username,
-              fullName: displayName,
-              userRole: userRole,
-              iscomplete:0
-            })
+        //     newUsersRef.set({
+        //       email: username,
+        //       fullName: displayName,
+        //       userRole: userRole,
+        //       iscomplete:0
+        //     })
 
-        }
+        // }
       )
       .catch(function (error) {
         // Handle Errors here.

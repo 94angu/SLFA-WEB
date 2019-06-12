@@ -14,13 +14,34 @@ class Mainlogin extends Component {
         this.state = {
             error:'',
             isLogin:true,
+            isRegistered:false,
+            user:{},
            
         };
 
         this.authenticateLogin = this.authenticateLogin.bind(this);
+        this.createUser = this.createUser.bind(this);
         this.changeIsLogin = this.changeIsLogin.bind(this);
         this.showGoogleLogin = this.showGoogleLogin.bind(this);
        
+    }
+
+    componentDidMount(){
+      this.authListener();
+    }
+      
+    authListener(){
+    
+    const setUser=(user)=>{
+    this.setState({user:user})
+    }
+
+    //Now do the listner
+    firebase.app.auth().onAuthStateChanged(function(user) {
+      if (user) {
+          setUser(user); 
+      } 
+    });
     }
 
     login = () =>{
@@ -208,6 +229,7 @@ class Mainlogin extends Component {
 
   // }
 
+
   authWithGoogle() {
     const displayError = (error) => {
       this.setState({ error: error });
@@ -229,85 +251,10 @@ class Mainlogin extends Component {
       //   if(snapshot.val()){
       //     console.log("USER have registered");
       //   }else{
-      //     firebase.app.auth().signOut();
+      //     // firebase.app.auth().signOut();
       //     console.log("USER not registered");
       //   }
-      // })
-      // //check the visitor
-      // const userRef = firebase.app.database().ref(`/users`);
-      // const allowedRef = firebase.app.database().ref(`/meta/config/allowedUsers`);
-      // userRef.orderByChild("email").equalTo(user.email).once("value")
-      //   .then(snapshot => {
-      //     if(snapshot.val()){
-      //       userRef.orderByKey().once("value")
-      //       .then(function(snapshot){
-      //         snapshot.forEach(function(childSnapshot){
-      //           var email = childSnapshot.val().email;
-      //           var userRole = childSnapshot.val().userRole;
-      //           if(email===user.email && userRole==="visitor"){
-      //             console.log("Google auth userRole :"+userRole)
-      //             fakeAuth.authenticate()
-      //             console.log("Google auth userRole :"+fakeAuth.isAuthenticated)
-      //             authlogin(userRole)
-
-      //             .catch(function (error) {
-      //               // Handle Errors here.
-      //               console.log(error.message);
-      //               displayError(error.message);
-      
-      //             });
-      //           }else if(email===user.email && userRole==="vendor"){
-      //             console.log("userRole :"+userRole)
-      //             allowedRef.orderByChild("email").equalTo(user.email).once("value")
-      //             .then(snap => {
-      //               if(snap.val()){
-      //                 fakeAuth.authenticate()
-      //                 authlogin(userRole)
-
-      //                 .catch(function (error) {
-      //                   // Handle Errors here.
-      //                   console.log(error.message);
-      //                   displayError(error.message);
-          
-      //                 });
-      //               }else{
-      //                 displayError("This user doens't have access to this vendor panel!");
-      //               }
-      //             })
-      //           } else if(email===user.email && userRole==="admin"){
-      //             console.log("userRole :"+userRole)
-      //             allowedRef.orderByChild("email").equalTo(user.email).once("value")
-      //             .then(snap => {
-      //               if(snap.val()){
-      //                 fakeAuth.authenticate(),
-      //                 authlogin(userRole)
-
-      //                 .catch(function (error) {
-      //                   // Handle Errors here.
-      //                   console.log(error.message);
-      //                   displayError(error.message);
-          
-      //                 });
-      //               }else{
-      //                 displayError("This user doens't have access to this admin panel!");
-      //               }
-      //             })
-      //           }
-                
-      //         })
-      //       })
-      //     }else{
-      //       console.log("user not found")
-      //       displayError("user not found");
-      //     }
-      //   })
-      //   .catch(function (error) {
-      //     // Handle Errors here.
-      //     console.log(error.message);
-      //     displayError(error.message);
-
-      //   });
-      
+     
     }).catch(function (error) {
       // Handle Errors here.
       //var errorCode = error.code;
@@ -351,10 +298,50 @@ class Mainlogin extends Component {
    
   }
 
+  createUser(fullName,dob,gender,tele,nationality,job){
+    console.log("MAIN LOGIN : createUser ")
+    const _this = this;
+    var usersRef = firebase.app.database().ref("users");
+    var newUsersRef = usersRef.push();
+    
+    newUsersRef.set({
+      email: this.state.user.email,
+      fullName: fullName,
+      userRole: "visitor",
+      dateofbirth:dob,
+      gender:gender,
+      telephone:tele,
+      nationality:nationality,
+      job:job,
+      iscomplete:0
+    })
+
+    _this.setState({
+      isRegistered:true
+    });
+
+  }
+
     render(){
       
-      if(this.props.isLoggedIn === true){
-        console.log("MAIN LOGIN : isLoggedIn - ",this.props.isLoggedIn)
+      // if(this.props.isLoggedIn === true){
+        // console.log("MAIN LOGIN : isLoggedIn - ",this.props.isLoggedIn)
+        // console.log("MAIN LOGIN : isRegistereduser - ",this.props.isRegisteredUser)
+        // return(
+        //   <Redirect to="/"/>
+        // )
+      // }
+      console.log("MAIN LOGIN : isLoggedIn - ",this.props.isLoggedIn)
+      console.log("MAIN LOGIN : isRegistereduser - ",this.props.isRegisteredUser)
+      console.log("MAIN LOGIN : isRegistered - ",this.state.isRegistered)
+
+      if(this.state.isRegistered===true){
+        return(
+          <Redirect to="/"/>
+        )
+      }
+      
+      if(this.props.isLoggedIn === true && this.props.isRegisteredUser){
         return(
           <Redirect to="/"/>
         )
@@ -364,7 +351,9 @@ class Mainlogin extends Component {
             <MainloginUI
             showGoogleLogin={this.showGoogleLogin}
             authenticate={this.authenticateLogin}
+            createUser={this.createUser}
             error={this.state.error}
+            isRegisteredUser={this.props.isLoggedIn ? this.props.isRegisteredUser : true}
             isRegister={!this.state.isLogin}
             changeIsLogin={this.changeIsLogin}
             sendPasswordResetLink={this.sendPasswordResetLink}

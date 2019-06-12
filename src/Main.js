@@ -1,20 +1,18 @@
 import React,{Component}  from 'react';
 import User from './containers/User';
-import Landingpage from './containers/Landingpage'
-import Program from './containers/Program'
-import About from './containers/About'
-import Centre from './containers/Centre'
-import Products from './containers/Products'
-import Dashboard from './containers/Dashboard'
+import Landingpage from './containers/Landingpage';
+import Program from './containers/Program';
+import About from './containers/About';
+import Centre from './containers/Centre';
+import Products from './containers/Products';
+import Dashboard from './containers/Dashboard';
 import Mainlogin from './containers/Mainlogin';
 import Mainregister from './containers/Mainregister';
-// import {Router, Route, hashHistory,Link,IndexRoute,withRouter,Redirect} from 'react-router'
-import {BrowserRouter as Router,Route,Redirect,hashHistory} from 'react-router-dom'
-// import { Router, Route,hashHistory,Redirect} from 'react-router'
+import {BrowserRouter as Router,Route,Redirect,hashHistory} from 'react-router-dom';
 import HeaderUI from './containers/HeaderUI';
-import {PrivateRoute,fakeAuth} from './Auth'
+import {PrivateRoute,fakeAuth} from './Auth';
 import Config from   './config/app';
-import firebase from './config/database'
+import firebase from './config/database';
 
 var Loader = require('halogen/PulseLoader');
 
@@ -28,21 +26,22 @@ class Main extends Component{
             currentUser:null,
             isLoggedIn:false,
             isLoading:true,
+            isRegisteredUser:false,
             user:{}
 
         };
 
         this.authLogin = this.authLogin.bind(this);
-        // this.authListener = this.authListener.bind(this);
-
     }
 
     componentDidMount() {
       console.log("MAIN : ComponentDidMount");
-      const setUser=(user,isLogin)=>{
+      const _this=this;
+      const setUser=(user,isLogin,isReg)=>{
         this.setState({
           currentUser:user,
           isLoggedIn:isLogin,
+          isRegisteredUser:isReg
         })
       }
 
@@ -72,7 +71,7 @@ class Main extends Component{
                         if(email===user.email && userRole==="visitor"){
                           // console.log("INDEX userRole :"+currentuserRole)
                           // fakeAuth.authenticate();
-                          setUser(userRole,true);
+                          setUser(userRole,true,true);
                           setLoading(false)
 
                          
@@ -82,7 +81,7 @@ class Main extends Component{
                           .then(snap => {
                             if(snap.val()){
                                 // console.log("INDEX userRole :"+currentuserRole)
-                                setUser(userRole,true);
+                                setUser(userRole,true,true);
                                 setLoading(false)
                             
                                 
@@ -99,37 +98,46 @@ class Main extends Component{
                           .then(snap => {
                             if(snap.val()){
                               // console.log("MAIN : userRole :"+userRole)
-                              setUser(userRole,true);
+                              setUser(userRole,true,true);
                               setLoading(false)
                            
                             }else{
                                 console.log("This user doens't have access to this admin panel!");
                                 alert("This user doens't have access to this admin panel!");
-                                // firebase.app.auth().signOut();
+                                firebase.app.auth().signOut();
                             }
                           })
                         }
                         
                       })
-                    })
+                    }).catch(function (error) {
+                      var errorMessage = error.message;
+                      console.log(errorMessage);
+                   
+                    });
                   }else{
-                    console.log("MAIN : User not found in user database")
-                    alert("User is not approved by admin");
-                    firebase.app.auth().signOut();
+                    console.log("MAIN : User not found in user database");
+                   
+                    setUser("visitor",true,false);
+                    setLoading(false);
+                    <Redirect to='/login'/>
+                    alert("Complete your details");
+                    
+                    // firebase.app.auth().signOut();
                   }
             })
     
           } else {
             // No user is signed in.
             console.log("MAIN : No user is signed in ");
-            setUser(null,false);
+            setUser(null,false,false);
             setLoading(false)
           }
       })
       }else{
         // No user is signed in.
           console.log("MAIN : No user is signed in, step 1 ");
-          setUser(null,false)
+          setUser(null,false,false)
           setLoading(false)
       }
     }
@@ -162,6 +170,7 @@ class Main extends Component{
       }else{
         console.log("MAIN : State current user - "+this.state.currentUser)
         console.log("MAIN : State isloggedin - "+this.state.isLoggedIn)
+        console.log("MAIN : State isRegisteredUser - "+this.state.isRegisteredUser)
 
         return(
             <Router history={hashHistory}>
@@ -176,7 +185,7 @@ class Main extends Component{
                 <Route path="/login" component={(props)=>
                   <Mainlogin
                     isLoggedIn={this.state.isLoggedIn} 
-                    authlogin={this.authLogin}
+                    isRegisteredUser={this.state.isRegisteredUser}
                     {...props}
                   />}
                 />

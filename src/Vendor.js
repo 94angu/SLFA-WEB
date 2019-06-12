@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import Master from './containers/Master'
+import MasterVendor from './containers/MasterVendor'
 import App from './containers/App'
-import Fireadmin from './containers/Fireadmin'
-import Firestoreadmin from './containers/Firestoreadmin'
+import Firevendor from './containers/Firevendor'
+import Firestorevendor from './containers/Firestorevendor'
 import Push from './containers/Push'
 import User from './containers/User'
 
@@ -16,15 +16,15 @@ class Vendor extends Component {
     return (
       <Router history={hashHistory}>
           <Route path="/account" component={User}></Route>
-          <Route component={Master} >
+          <Route component={MasterVendor} >
             {/* make them children of `Master` */}
             <Route path={"/"} component={App}></Route>
             <Route path="/app" component={App}/>
             <Route path="/push" component={Push}/>
-            <Route path="/fireadmin" component={Fireadmin}/>
-            <Route path="/fireadmin/:sub" component={Fireadmin}/>
-            <Route path="/firestoreadmin" component={Firestoreadmin}/>
-            <Route path="/firestoreadmin/:sub" component={Firestoreadmin}/>
+            <Route path="/firevendor" component={Firevendor}/>
+            <Route path="/firevendor/:sub" component={Firevendor}/>
+            <Route path="/firestorevendor" component={Firestorevendor}/>
+            <Route path="/firestorevendor/:sub" component={Firestorevendor}/>
 
 
           </Route>

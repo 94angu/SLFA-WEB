@@ -7526,8 +7526,8 @@ font-weight: 400;
 .form-group label.control-label {
 font-size: 14px;
 line-height: 1.07143;
-color: #AAAAAA;
-font-weight: 400;
+color: #000000;
+font-weight: 700;
 margin: 16px 0 0 0;
 }
 .form-group .help-block {
