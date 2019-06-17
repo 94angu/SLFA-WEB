@@ -19,7 +19,7 @@ import FirebasePaginator from "mobidonia-firebase-paginator"
 import NavBar from './../ui/template/NavBar'
 import Pager from './../ui/template/Pager'
 import CardUI from './../ui/template/Card'
-var Loader = require('halogen/PulseLoader');
+import { PulseLoader } from 'halogenium';
 
 
 /**
@@ -832,7 +832,7 @@ class Fireadmin extends Component {
 
            <div style={{textAlign: 'center'}}>
             {/* LOADER */}
-            {this.state.isLoading?<Loader color="#8637AD" size="12px" margin="4px"/>:""}
+            {this.state.isLoading?<PulseLoader color="#8637AD" size="12px" margin="4px"/>:""}
           </div>
 
           {/* Pagging and delete action */}

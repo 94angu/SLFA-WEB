@@ -23,7 +23,7 @@ require("firebase/firestore");
 
 
 const ROUTER_PATH="/firestorevendor/";
-var Loader = require('halogen/PulseLoader');
+import { PulseLoader } from 'halogenium';
 
 class Firestorevendor extends Component {
   
@@ -1151,7 +1151,7 @@ class Firestorevendor extends Component {
 
           <div style={{textAlign: 'center'}}>
             {/* LOADER */}
-            {this.state.isLoading?<Loader color="#8637AD" size="12px" margin="4px"/>:""}
+            {this.state.isLoading?<PulseLoader color="#8637AD" size="12px" margin="4px"/>:""}
           </div>
 
            {/* NOTIFICATIONS */}
