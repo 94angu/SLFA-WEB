@@ -13,8 +13,8 @@ import HeaderUI from './containers/HeaderUI';
 import {PrivateRoute,fakeAuth} from './Auth';
 import Config from   './config/app';
 import firebase from './config/database';
+import { PulseLoader } from 'halogenium';
 
-var Loader = require('halogen/PulseLoader');
 
 class Main extends Component{
     constructor(props){
@@ -165,7 +165,7 @@ class Main extends Component{
 
       if(this.state.isLoading===true){
         return(
-          <div style={{marginLeft:'50%',marginTop:'20%'}}><Loader color="#114fda" size="12px" margin="4px"/></div>
+          <div style={{marginLeft:'50%',marginTop:'20%'}}><PulseLoader color="#114fda" size="12px" margin="4px"/></div>
         )
       }else{
         console.log("MAIN : State current user - "+this.state.currentUser)

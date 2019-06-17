@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import firebase from '../config/database'
 import {Link} from 'react-router-dom'
 import {Grid,Cell,Card,CardTitle,CardText,CardActions,Button} from 'react-mdl';
+import { PulseLoader } from 'halogenium';
 
-var Loader = require('halogen/PulseLoader');
 
 class Centre extends Component {
     constructor(props) {
@@ -62,7 +62,7 @@ class Centre extends Component {
                         </div>
 
                         <div className="container w-container">
-                            {this.state.isLoading?<Loader color="#8637AD" size="12px" margin="4px"/>:""}
+                            {this.state.isLoading?<PulseLoader color="#8637AD" size="12px" margin="4px"/>:""}
                             <Grid className="demo-grid-1">
                                 {centres}
                             </Grid>
