@@ -242,7 +242,7 @@ class Fields extends Component {
             {this.displayFields()}
             </div>
             <div className="col-sm-1">
-              <a onClick={()=>{this.props.deleteFieldAction(this.props.theKey)}} ><span className="btn btn-simple  btn-icon edit label-on-left"><i className="material-icons">remove_circle_outline</i></span></a>
+              {/* <a onClick={()=>{this.props.deleteFieldAction(this.props.theKey)}} ><span className="btn btn-simple  btn-icon edit label-on-left"><i className="material-icons">remove_circle_outline</i></span></a> */}
             </div>
           </div>
         </div>

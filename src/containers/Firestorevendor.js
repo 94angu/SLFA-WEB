@@ -42,7 +42,10 @@ class Firestorevendor extends Component {
       theSubLink:null,
       fieldsOfOnsert:null,
       isLoading:true,
-      showAddCollection:""
+      showAddCollection:"",
+      user:{},
+      userCollectionId:null
+      
     };
 
     //Bind function to this
@@ -69,6 +72,19 @@ class Firestorevendor extends Component {
   componentDidMount(){
       window.getDemo().reinitializeSideClose();
       this.findFirestorePath();
+
+      const setUser=(user)=>{
+        this.setState({user:user})
+        }
+    
+        firebase.app.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            setUser(user);
+        } else {
+            // No user is signed in.
+            console.log("User has logged out Master");
+        }
+        });
   }
 
   /**
@@ -213,6 +229,24 @@ class Firestorevendor extends Component {
     var documents=[];
 
     if(isCollection){
+
+      if(collection==="restaurant"){
+        db.collection("restaurant_collection").get().then(function(querySnapshot) {
+          var datacCount=0;
+          querySnapshot.forEach(function(doc) {
+            datacCount++;
+            if(_this.state.user.email===doc.data().owner){
+              //Increment counter
+              _this.setState({
+                userCollectionId:doc.id
+              })
+              // userCollectionId=doc.id;
+
+            }
+          })
+        })
+      }
+
         //COLLECTIONS - GET DOCUMENTS 
        
         db.collection(collection).get().then(function(querySnapshot) {
@@ -229,9 +263,16 @@ class Firestorevendor extends Component {
             currentDocument.uidOfFirebase=doc.id;
 
             console.log(doc.id, " => ", currentDocument);
+            console.log("user ", _this.state.user.email);
 
-            //Save in the list of documents
-            documents.push(currentDocument)
+            if(collection==="restaurant_collection" && currentDocument.owner===_this.state.user.email){
+              //Save in the list of documents
+              documents.push(currentDocument)
+            }else if(collection==="restaurant" && currentDocument.collection.id===_this.state.userCollectionId){
+              documents.push(currentDocument)
+            }
+
+            
           });
           console.log("DOCS----");
           console.log(documents);
@@ -693,6 +734,12 @@ class Firestorevendor extends Component {
 
     //Create new element
     var newElementRef=isTimestamp?db.collection(name).doc(Date.now()):db.collection(name).doc()
+
+    if(name==="restaurant"){
+      const collectionRef = firebase.app.firestore().collection("restaurant_collection");
+      const collection = collectionRef.doc(this.state.userCollectionId);
+      theInsertSchemaObject["collection"]=collection;
+    }
     //Add data to the new element
     newElementRef.set(theInsertSchemaObject)
 
@@ -961,21 +1008,40 @@ class Firestorevendor extends Component {
   */
   makeCollectionTable(){
       var name=this.state.currentCollectionName;
-      return (
-        <CardUI name={name} showAction={true} action={()=>{this.addDocumentToCollection(name)}} title={Common.capitalizeFirstLetter(name)}>
-          <Table
-              caller={"firestore"}
-              headers={this.findHeadersBasedOnPath(this.state.firebasePath)} 
-              deleteFieldAction={this.deleteFieldAction} 
-              fromObjectInArray={true} 
-              name={name} 
-              routerPath={this.props.route.path} 
-              isJustArray={false} 
-              sub={this.props.params&&this.props.params.sub?this.props.params.sub:""} 
-              data={this.state.documents}
-              />
-        </CardUI>
-      )
+      if(name==="restaurant"){
+        return (
+          <CardUI name={name} showAction={true} action={()=>{this.addDocumentToCollection(name)}} title={Common.capitalizeFirstLetter(name)}>
+            <Table
+                caller={"firestore"}
+                headers={this.findHeadersBasedOnPath(this.state.firebasePath)} 
+                deleteFieldAction={this.deleteFieldAction} 
+                fromObjectInArray={true} 
+                name={name} 
+                routerPath={this.props.route.path} 
+                isJustArray={false} 
+                sub={this.props.params&&this.props.params.sub?this.props.params.sub:""} 
+                data={this.state.documents}
+                />
+          </CardUI>
+        )
+      }else{
+        return (
+          <CardUI name={name} showAction={true} title={Common.capitalizeFirstLetter(name)}>
+            <Table
+                caller={"firestore"}
+                headers={this.findHeadersBasedOnPath(this.state.firebasePath)} 
+                deleteFieldAction={this.deleteFieldAction} 
+                fromObjectInArray={true} 
+                name={name} 
+                routerPath={this.props.route.path} 
+                isJustArray={false} 
+                sub={this.props.params&&this.props.params.sub?this.props.params.sub:""} 
+                data={this.state.documents}
+                />
+          </CardUI>
+        )
+      }
+      
   }
 
   /**

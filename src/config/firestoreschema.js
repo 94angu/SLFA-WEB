@@ -100,6 +100,7 @@ var collectionMeta={
 			"description":"Category description",
 			"image":"https://i.imgur.com/80vu1wL.jpg",
 			"title":"Your category title",
+			"owner":"Your email id"
 		},
 		"collections":[],
 	},
