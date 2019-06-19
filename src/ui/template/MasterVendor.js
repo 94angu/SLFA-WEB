@@ -56,7 +56,7 @@ export default class MasterVendorUI extends Component {
                 <div className="sidebar-wrapper">
                     <div className="user">
                         <div className="photo">
-                            <img  alt="" src={this.props.userPhoto} />
+                            <img style={{maxWidth:'100%'}}  alt="" src={this.props.userPhoto} />
                         </div>
                         <div className="info">
                             <a data-toggle="collapse" href="#collapseExample" className="collapsed">{this.props.user.displayName}<b className="caret"></b></a>

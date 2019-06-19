@@ -1179,6 +1179,7 @@ class Firestorevendor extends Component {
                         deleteFieldAction={this.deleteFieldAction} 
                         updateAction={this.updateAction}  
                         theKey={item.theKey} 
+                        isDisabled={true}
                         value={item.value} />)
                     
 

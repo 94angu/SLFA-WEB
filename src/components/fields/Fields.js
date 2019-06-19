@@ -222,7 +222,8 @@ class Fields extends Component {
                 options={options} 
                 optionsLabels={optionsLabels}
                 updateAction={this.props.updateAction} 
-                class={elementClass} 
+                class={elementClass}
+                isDisabled={this.props.isDisabled} 
                 theKey={this.props.theKey}  
                 {...this.props} 
                 value={rawValue} />

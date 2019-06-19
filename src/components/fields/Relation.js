@@ -123,16 +123,30 @@ class Relation extends Component {
   }
 
   render() {
-    return (
-            <div className={Config.designSettings.editElementDivClass}>
-                <label className="control-label"></label>
-                <select className={this.props.class+" form-control"} value={this.props.isFirestore&&this.props.options.isValuePath?"/"+this.state.value.path:this.state.value} onChange={this.handleChange}>
-                  {this.state.options.map((val)=>{
-                    return this.createOption(val)
-                  })}
-                </select>
-            </div>
-    )
+    if(this.props.isDisabled){
+      return (
+        <div className={Config.designSettings.editElementDivClass}>
+            <label className="control-label"></label>
+            <select disabled className={this.props.class+" form-control"} value={this.props.isFirestore&&this.props.options.isValuePath?"/"+this.state.value.path:this.state.value} onChange={this.handleChange}>
+              {this.state.options.map((val)=>{
+                return this.createOption(val)
+              })}
+            </select>
+        </div>
+      )
+    }else{
+      return (
+        <div className={Config.designSettings.editElementDivClass}>
+            <label className="control-label"></label>
+            <select className={this.props.class+" form-control"} value={this.props.isFirestore&&this.props.options.isValuePath?"/"+this.state.value.path:this.state.value} onChange={this.handleChange}>
+              {this.state.options.map((val)=>{
+                return this.createOption(val)
+              })}
+            </select>
+        </div>
+      )
+    }
+    
   }
 }
 export default Relation;
