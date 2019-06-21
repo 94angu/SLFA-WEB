@@ -14,6 +14,7 @@ import {PrivateRoute,fakeAuth} from './Auth';
 import Config from   './config/app';
 import firebase from './config/database';
 import { PulseLoader } from 'halogenium';
+import ScrollToTop from './ScrollToTop';
 
 
 class Main extends Component{
@@ -174,7 +175,7 @@ class Main extends Component{
 
         return(
             <Router history={hashHistory}>
-              
+              <ScrollToTop>
               <HeaderUI currentUser={this.state.currentUser} isLoggedIn={this.state.isLoggedIn} >
                 <Route exact path={"/"} component={Landingpage}/>
                 <Route path="/landing" component={Landingpage}/>
@@ -197,7 +198,7 @@ class Main extends Component{
                 />  
                 <PrivateRoute path="/account" isLoggedIn={this.state.isLoggedIn} component={User}/>
               </HeaderUI>
-              
+              </ScrollToTop>
             </Router>
 
         );
@@ -207,5 +208,5 @@ class Main extends Component{
       
     }
 }
-
+<ScrollToTop/>
 export default Main;

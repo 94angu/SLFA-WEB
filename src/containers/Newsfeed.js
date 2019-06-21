@@ -73,23 +73,26 @@ class Post extends Component {
     render() {
         return (
         <div className="post">
-            <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                <div className="label">New</div>
-                <img className="image" alt={Image} src={this.props.value.image}></img>
-            </div>
-
-            <div>
-                <div className="title">
-                    {this.props.value.title}
-                </div>
-                <div className="date">
-                    {this.props.value.date}
+            <div className="row">
+                <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                    <div className="label">New</div>
+                    <img className="image" alt={Image} src={this.props.value.image}></img>
                 </div>
 
-                <div className="description">
-                    {this.props.value.description}
+                <div>
+                    <div className="title">
+                        {this.props.value.title}
+                    </div>
+                    <div className="date">
+                        {this.props.value.date}
+                    </div>
+
+                    <div className="description">
+                        {this.props.value.description}
+                    </div>
                 </div>
             </div>
+            
 
             
             

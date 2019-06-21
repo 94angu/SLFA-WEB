@@ -57,12 +57,12 @@ class Promocard extends Component {
         return (
             <Cell col={3}>
                 <Card shadow={0} style={{width: '100%', height: '320px', margin: 'auto'}}>
-                    <CardTitle expand style={{color: '#fff', background: 'url('+this.props.value.image+')bottom right 15% no-repeat #46B6AC',backgroundSize:'cover'}}>{this.props.value.title}</CardTitle>
+                    <CardTitle expand style={{color: '#fff', background: 'url('+this.props.value.image+')bottom right 15% no-repeat #46B6AC',backgroundSize:'cover'}}></CardTitle>
                     <CardText>
                         {this.props.value.description}
                     </CardText>
                     <CardActions border>
-                        <Button colored>{this.props.value.date}</Button>
+                        <Button colored>{this.props.value.title}</Button>
                     </CardActions>
                 </Card>
             </Cell>

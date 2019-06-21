@@ -12,12 +12,14 @@ export default class MainregisterUI extends Component {
             displayName: '',
             username: '',
             password: '',
+            passwordConfirm:'',
             userRole:'',
             isResetPassword: false
         };
 
         this.handleChangeUsername = this.handleChangeUsername.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
+        this.handleChangePasswordConfirm = this.handleChangePasswordConfirm.bind(this);
         this.handleChangeDisplayName = this.handleChangeDisplayName.bind(this);
         this.handleChangeUserRole = this.handleChangeUserRole.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,6 +35,10 @@ export default class MainregisterUI extends Component {
 
     handleChangePassword(event) {
         this.setState({ password: event.target.value });
+    }
+
+    handleChangePasswordConfirm(event) {
+        this.setState({ passwordConfirm: event.target.value });
     }
 
     handleChangeUserRole(event){
@@ -52,6 +58,16 @@ export default class MainregisterUI extends Component {
     }
 
     render() {
+        const {
+            username,
+            password,
+            passwordConfirm,
+          } = this.state;
+
+        const isInvalid =
+            password !== passwordConfirm ||
+            password === '' ||
+            username === '';
         return (
             <div className="wrapper wrapper-full-page">
                     <div className="full-page login-page" data-image="assets/img/lock.jpeg">
@@ -104,9 +120,18 @@ export default class MainregisterUI extends Component {
                                                         <input type="password" value={this.state.password} onChange={this.handleChangePassword} className="form-control" />
                                                     </div>
                                                 </div>
+                                                <div className="input-group">
+                                                    <span className="input-group-addon">
+                                                        <i className="material-icons">lock_outline</i>
+                                                    </span>
+                                                    <div className="form-group">
+                                                        <label className="control-label">Confirm Password</label>
+                                                        <input type="password" value={this.state.passwordConfirm} onChange={this.handleChangePasswordConfirm} className="form-control" />
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div className="footer text-center">
-                                                <input type="submit" className="btn btn-rose btn-simple btn-wd btn-lg" />
+                                                <input disabled={isInvalid} type="submit" className="btn btn-danger" />
                                             </div>
                                         </div>
                                     </form> 

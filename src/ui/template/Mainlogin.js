@@ -80,6 +80,13 @@ export default class MainloginUI extends Component {
     }
 
     render() {
+        const {
+            username,
+            password,
+          } = this.state;
+        const isInvalid =
+        password === '' ||
+        username === '';
         return (
             <div className="wrapper wrapper-full-page">
                     <div className="full-page login-page">
@@ -122,7 +129,7 @@ export default class MainloginUI extends Component {
                                                     </ConditionalDisplay>
                                                 </div>
                                                 <div className="footer text-center">
-                                                    <input type="submit" className="btn btn-rose btn-simple btn-wd btn-lg" />
+                                                    <input disabled={isInvalid} type="submit" className="btn btn-danger" />
                                                 </div>
                                                 <div style={{"textAlign": "center"}}>
                                                     <a onClick={()=>{ this.setState({isResetPassword: !this.state.isResetPassword} )}} role="button">{
@@ -228,7 +235,7 @@ export default class MainloginUI extends Component {
                                             </div>
                                         </div>
                                         <div className="footer text-center">
-                                            <input type="submit" className="btn btn-rose btn-simple btn-wd btn-lg" />
+                                            <input type="submit" className="btn btn-danger" />
                                         </div>
                                     </div>
                                 </form> 

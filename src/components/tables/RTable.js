@@ -265,7 +265,7 @@ export default class RTable extends Component {
                 }
                 columns={this.state.columns}
                 className="-striped -highlight"  
-                defaultPageSize={this.state.pageSize}
+                defaultPageSize= {this.state.pageSize}
                 showPagination={false}
             />  
         </div>

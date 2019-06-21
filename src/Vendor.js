@@ -18,8 +18,7 @@ class Vendor extends Component {
           <Route path="/account" component={User}></Route>
           <Route component={MasterVendor} >
             {/* make them children of `Master` */}
-            <Route path={"/"} component={App}></Route>
-            <Route path="/app" component={App}/>
+            <Route path={"/"} component={Firestorevendor}></Route>
             <Route path="/push" component={Push}/>
             <Route path="/firevendor" component={Firevendor}/>
             <Route path="/firevendor/:sub" component={Firevendor}/>

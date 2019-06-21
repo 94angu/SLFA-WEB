@@ -20,7 +20,7 @@ class Landingpage extends Component {
             <div className="wrapper wrapper-full-page">
             <div className="full-page landing-page">
                 <div className="content">
-                    <div id="myCarousel" className="carousel slide" data-interval="5000" data-ride="carousel">
+                    <div style={{left:"-5px"}} id="myCarousel" className="carousel slide" data-interval="5000" data-ride="carousel">
                         <ol className="carousel-indicators">
                             <li data-target="#myCarousel" data-slide-to="0" className="active"></li>
                             <li data-target="#myCarousel" data-slide-to="1"></li>
@@ -103,7 +103,7 @@ class Landingpage extends Component {
 
                     <div className="section countdown-section">
                         <div  className="div-block">
-                            <h2 style={{margin: '-30px'}} className="section-title small"> 
+                            <h2 style={{margin: '-30px',color:'teal'}} className="section-title small"> 
                             <CountDown deadline='03 August 2019 13:02:03'/>
                             </h2>
                             
