@@ -4,6 +4,7 @@ import firebase from '../config/database'
 import Config from   './../config/app'
 import Card from './../ui/template/Card'
 import SkyLight from 'react-skylight';
+import QRCode from 'qrcode.react';
 
 
 var md5 = require('md5');
@@ -22,6 +23,8 @@ export default class Ticket extends Component {
     this.authListener = this.authListener.bind(this);
     this.purchaseTicket = this.purchaseTicket.bind(this);
     this.cancelPurchase = this.cancelPurchase.bind(this);
+    this.viewQRdialog = this.viewQRdialog.bind(this);
+    this.cancelviewQRCode = this.cancelviewQRCode.bind(this);
 
   }
 
@@ -54,9 +57,17 @@ export default class Ticket extends Component {
         this.refs.puchaseTicket.show();
     }
 
+    viewQRdialog(){
+        this.refs.viewQRCode.show();
+    }
+
     cancelPurchase(){
         this.refs.puchaseTicket.hide();
-      }
+    }
+
+    cancelviewQRCode(){
+        this.refs.viewQRCode.hide();
+    }
 
 render() {
     return (
@@ -80,7 +91,7 @@ render() {
                                 <p>Successful Registration gift</p>
                             </div>
                             <div className="col-lg-5 col-md-5 col-xs-5">
-                                <p>AGHK356</p>
+                                <p>AGHK356<a onClick={()=>this.viewQRdialog()} className="btn btn-sm btn-default">QRCODE</a></p>
                             </div>
                             <div className="col-lg-2 col-md-2 col-xs-2">
                                 <div className="badge badge-primary">Available</div>
@@ -137,6 +148,18 @@ render() {
               <a onClick={this.purchase} className="btn btn-danger center-block">Purchase</a>
             </div>
 
+          </div>
+        </SkyLight>
+
+        <SkyLight dialogStyles={{height:'50%'}} hideOnOverlayClicked ref="viewQRCode" title="">
+          <h4>Your QRCode</h4>
+          <div style={{textAlign:'center'}} className="col-md-12">
+            <QRCode value="AGHK356"></QRCode>
+          </div>
+          <div className="col-sm-12" style={{}}>
+            <div style={{float:"right"}} className="col-sm-3 center-block">
+              <a onClick={this.cancelviewQRCode} className="btn btn-info center-block">Cancel</a>
+            </div>
           </div>
 
         </SkyLight>
