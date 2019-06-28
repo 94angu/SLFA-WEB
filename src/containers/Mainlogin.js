@@ -299,7 +299,7 @@ class Mainlogin extends Component {
   }
 
   createUser(fullName,dob,gender,tele,nationality,job){
-    console.log("MAIN LOGIN : createUser ")
+    // console.log("MAIN LOGIN : createUser ")
     const _this = this;
     var usersRef = firebase.app.database().ref("users");
     var newUsersRef = usersRef.push();
@@ -314,11 +314,21 @@ class Mainlogin extends Component {
       nationality:nationality,
       job:job,
       iscomplete:0
+    },function(error){
+      if(error){
+        console.log(error);
+      }else{
+        _this.setState({
+          isRegistered:true
+        });
+      }
     })
 
     _this.setState({
       isRegistered:true
     });
+
+    
 
   }
 
@@ -331,19 +341,20 @@ class Mainlogin extends Component {
         //   <Redirect to="/"/>
         // )
       // }
-      console.log("MAIN LOGIN : isLoggedIn - ",this.props.isLoggedIn)
-      console.log("MAIN LOGIN : isRegistereduser - ",this.props.isRegisteredUser)
-      console.log("MAIN LOGIN : isRegistered - ",this.state.isRegistered)
+      // console.log("MAIN LOGIN : isLoggedIn - ",this.props.isLoggedIn)
+      // console.log("MAIN LOGIN : isRegistereduser - ",this.props.isRegisteredUser)
+      // console.log("MAIN LOGIN : isRegistered - ",this.state.isRegistered)
 
       if(this.state.isRegistered===true){
         return(
-          <Redirect to="/"/>
+          <Redirect to="/ticket"/>
         )
       }
       
       if(this.props.isLoggedIn === true && this.props.isRegisteredUser){
         return(
           <Redirect to="/"/>
+
         )
       }
       
@@ -352,6 +363,7 @@ class Mainlogin extends Component {
             showGoogleLogin={this.showGoogleLogin}
             authenticate={this.authenticateLogin}
             createUser={this.createUser}
+            user={this.state.user}
             error={this.state.error}
             isRegisteredUser={this.props.isLoggedIn ? this.props.isRegisteredUser : true}
             isRegister={!this.state.isLogin}

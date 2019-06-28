@@ -148,24 +148,25 @@ exports.navigation=[
   {
     "link": "firestoreadmin",
     "path": "conference_venue",
-    "name": "Venue",
+    "name": "Map",
     "icon":"location_city",
     "tableFields":[],
   },
-  {
-    "link": "firestoreadmin",
-    "path": "eventsnc",
-    "name": "Events",
-    "icon":"list",
-    "tableFields":["title","image","price"],
-  },
-  {
-    "link": "firestoreadmin",
-    "path": "eventsnc_collection",
-    "name": "Categories",
-    "icon":"layers",
-    "tableFields":[],
-  },
+  //Kobi
+  // {
+  //   "link": "firestoreadmin",
+  //   "path": "eventsnc",
+  //   "name": "Events",
+  //   "icon":"list",
+  //   "tableFields":["title","image","price"],
+  // },
+  // {
+  //   "link": "firestoreadmin",
+  //   "path": "eventsnc_collection",
+  //   "name": "Categories",
+  //   "icon":"layers",
+  //   "tableFields":[],
+  // },
   {
     "link": "firestoreadmin",
     "path": "news",
@@ -173,13 +174,14 @@ exports.navigation=[
     "icon":"list",
     "tableFields":["title","image",],
   },
-  {
-    "link": "firestoreadmin",
-    "path": "news_collection",
-    "name": "Categories",
-    "icon":"layers",
-    "tableFields":[],
-  },
+  //kobi
+  // {
+  //   "link": "firestoreadmin",
+  //   "path": "news_collection",
+  //   "name": "Categories",
+  //   "icon":"layers",
+  //   "tableFields":[],
+  // },
   {
     "link": "fireadmin",
     "path": "userdata/{useruuid}",
@@ -187,48 +189,49 @@ exports.navigation=[
     "icon": "perm_identity",
     "tableFields":[],
   },
+  //kobi
+  // {
+  //   "link": "firestoreadmin",
+  //   "path": "events",
+  //   "name": "Events",
+  //   "icon":"shopping_cart",
+  //   "tableFields":["status","total"],
+  //   "subMenus":[
+  //     {
+  //       "link": "fireadmin",
+  //       "path": "events/sofia/items",
+  //       "name": "Sofia",
+  //       "icon":"brush",
+  //       "tableFields":["name","description"]
+  //     },{
+  //       "link": "fireadmin",
+  //       "path": "events/skopje/items",
+  //       "name": "Skopje",
+  //       "icon":"menu",
+  //       "tableFields":["name","description"],
+  //     },
+  //     {
+  //       "link": "fireadmin",
+  //       "path": "events/belgrade/items",
+  //       "name": "Belgrade",
+  //       "icon":"menu",
+  //       "tableFields":["name","description"],
+  //     }
+  //   ]
+  // },
   {
     "link": "firestoreadmin",
-    "path": "events",
-    "name": "Events",
-    "icon":"shopping_cart",
-    "tableFields":["status","total"],
-    "subMenus":[
-      {
-        "link": "fireadmin",
-        "path": "events/sofia/items",
-        "name": "Sofia",
-        "icon":"brush",
-        "tableFields":["name","description"]
-      },{
-        "link": "fireadmin",
-        "path": "events/skopje/items",
-        "name": "Skopje",
-        "icon":"menu",
-        "tableFields":["name","description"],
-      },
-      {
-        "link": "fireadmin",
-        "path": "events/belgrade/items",
-        "name": "Belgrade",
-        "icon":"menu",
-        "tableFields":["name","description"],
-      }
-    ]
-  },
-  {
-    "link": "fireadmin",
-    "path": "clubs",
+    "path": "conferencetickets",
     "name": "Tickets",
     "icon":"list",
     "tableFields":["title","image","price"],
   },
   {
-    "link": "fireadmin",
-    "path": "bookings",
-    "name": "Booking",
-    "icon":"list",
-    "tableFields":["title","image","price"],
+    "link": "firestoreadmin",
+    "path": "orders",
+    "name": "Orders",
+    "icon":"shopping_cart",
+    "tableFields":["status","total"],
   },
 
   
@@ -242,31 +245,31 @@ exports.navigation=[
   {
     "link": "firestoreadmin",
     "path": "restaurant_collection",
-    "name": "Categories",
+    "name": "Restaurants",
     "icon":"layers",
     "tableFields":[],
   },
   {
     "link": "firestoreadmin",
     "path": "eventsconference",
-    "name": "Speakers",
+    "name": "Ceylon one Events",
     "icon":"list",
     "tableFields":["title","image","price"],
   },
   {
     "link": "firestoreadmin",
     "path": "eventsconference_collection",
-    "name": "ev-Conference days",
+    "name": "ev-days",
     "icon":"layers",
     "tableFields":[],
   },
-  {
-    "link": "fireadmin",
-    "path": "static/cities",
-    "name": "Venue",
-    "icon":"location_city",
-    "tableFields":[],
-  },
+  // {
+  //   "link": "fireadmin",
+  //   "path": "static/cities",
+  //   "name": "Venue",
+  //   "icon":"location_city",
+  //   "tableFields":[],
+  // },
   {
     "link": "fireadmin",
     "path": "conference",
@@ -276,20 +279,20 @@ exports.navigation=[
     "subMenus":[
       {
         "link": "fireadmin",
-        "path": "ticketScenner/config",
+        "path": "meta/config",
         "name": "Design",
         "icon":"brush",
         "tableFields":["name","description"]
       },
       {
         "link": "fireadmin",
-        "path": "ticketScenner/design",
+        "path": "meta/design",
         "name": "Design",
         "icon":"brush",
         "tableFields":["name","description"]
       },{
         "link": "fireadmin",
-        "path": "users/navigation",
+        "path": "meta/navigation",
         "name": "Navigation",
         "icon":"menu",
         "tableFields":["name","description"],
@@ -385,13 +388,13 @@ exports.vendorNavigation=[
   //     }
   //   ]
   // },
-  {
-    "link": "firestorevendor",
-    "path": "clubs",
-    "name": "Tickets",
-    "icon":"list",
-    "tableFields":["title","image","price"],
-  },
+  // {
+  //   "link": "firestorevendor",
+  //   "path": "clubs",
+  //   "name": "Tickets",
+  //   "icon":"list",
+  //   "tableFields":["title","image","price"],
+  // },
   // {
   //   "link": "fireadmin",
   //   "path": "bookings",
@@ -400,7 +403,13 @@ exports.vendorNavigation=[
   //   "tableFields":["title","image","price"],
   // },
 
-  
+  {
+    "link": "firestorevendor",
+    "path": "restaurant_collection",
+    "name": "My Restaurant",
+    "icon":"layers",
+    "tableFields":[],
+  },
   {
     "link": "firestorevendor",
     "path": "restaurant",
@@ -408,13 +417,7 @@ exports.vendorNavigation=[
     "icon":"local_dining",
     "tableFields":["title","image","price"],
   },
-  {
-    "link": "firestorevendor",
-    "path": "restaurant_collection",
-    "name": "Categories",
-    "icon":"layers",
-    "tableFields":[],
-  },
+  
   // {
   //   "link": "firestoreadmin",
   //   "path": "eventsconference",
@@ -465,6 +468,13 @@ exports.vendorNavigation=[
   //     }
   //   ]
   // },
+  {
+    "link": "gift",
+    "path": "",
+    "name": "Gifts",
+    "icon":"card_giftcard",
+    "tableFields":[],
+  },
   {
     "link": "push",
     "path": "",

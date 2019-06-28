@@ -88,7 +88,7 @@ export default class MasterUI extends Component {
 
                 <div className="main-panel">
                     {this.props.children}
-                    <footer className="footer">
+                    {/* <footer className="footer">
                         <div className="container-fluid">
                             <nav className="pull-left">
                                 <ul>
@@ -103,7 +103,7 @@ export default class MasterUI extends Component {
                                 <a href="#">{Config.adminConfig.appName}</a>, {Config.adminConfig.slogan}.  v{pjson.version}
                             </p>
                         </div>
-                    </footer>
+                    </footer> */}
                 </div>
             </div>
         )

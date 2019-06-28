@@ -125,6 +125,7 @@ var collectionMeta={
 			"image":"https://i.imgur.com/svaHD6d.jpg",
 			"title":"Your event title",
 			"date":"2018-01-01 18:00",
+			"isNews":"no"
 		},
 		"collections":["photos"],
 	},

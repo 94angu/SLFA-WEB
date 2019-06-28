@@ -71,6 +71,12 @@ export default class HeaderUI extends Component {
             </li>
             :""
             }
+            {(this.props.isLoggedIn && (this.props.currentUser==="visitor")) ?                            
+            <li>
+                <Link to="/ticket">Ticket</Link> 
+            </li>
+            :""
+            }
             <li className="divider" />
             <li role="button"><a onClick={this.handleLogout}>Logout</a></li>
             </ul>
@@ -104,50 +110,58 @@ export default class HeaderUI extends Component {
                         <div className="collapse navbar-collapse">
                         
                         <ul className="nav navbar-nav navbar-right">
-                                        <li>
-                                            <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/">Home</NavLink> 
-                                        </li>
-                                        <li>
-                                            <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/about">About</NavLink> 
-                                        </li>
-                                        <li>
-                                            <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/centre">Centres</NavLink> 
-                                        </li>
-                                        <li>
-                                            <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/program">Program</NavLink> 
-                                        </li>
-                                       
-                                        {!this.props.isLoggedIn ?
-                                        <li className={this.props.isRegister ? "active" : ""}>
-                                            <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/login">
-                                                <a style={{color:'#01fde6'}} className="nav-link" role="button" >
-                                                    <i className="material-icons">fingerprint</i>Login
-                                                </a>
-                                            </NavLink>
-                                            
-                                        </li>
-                                        :
-                                        // <li>
-                                        //     <Link to="/login"><a onClick={this.logout}>Logout</a></Link> 
-                                        // </li>
-                                        // <AuthButton/>
-                                        ""
-                                        }
+                            <li>
+                                <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/">Home</NavLink> 
+                            </li>
+                            <li>
+                                <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/about">About</NavLink> 
+                            </li>
+                            <li>
+                                <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/centre">Centres</NavLink> 
+                            </li>
+                            <li>
+                                <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/program">Program</NavLink> 
+                            </li>
+                            
+                            {!this.props.isLoggedIn ?
+                            <li className={this.props.isRegister ? "active" : ""}>
+                                <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/login">
+                                    <a style={{color:'#01fde6'}} className="nav-link" role="button" >
+                                        <i className="material-icons">fingerprint</i>Login
+                                    </a>
+                                </NavLink>
+                                
+                            </li>
+                            :
+                            // <li>
+                            //     <Link to="/login"><a onClick={this.logout}>Logout</a></Link> 
+                            // </li>
+                            // <AuthButton/>
+                            ""
+                            }
 
-                                        {!this.props.isLoggedIn ?
-                                        <li className={this.props.isRegister ? "active" : ""} >
-                                            <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/register">
-                                                <a style={{color:'#01fde6'}} className="nav-link" role="button" >
-                                                    <i className="material-icons">how_to_reg</i>Register
-                                                </a>
-                                            </NavLink>
-                                            
-                                        </li>
-                                        :
-                                        this.createUserView()
-                                        }
-                                        
-                                    </ul>
+                            {!this.props.isLoggedIn ?
+                            <li className={this.props.isRegister ? "active" : ""} >
+                                <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/register">
+                                    <a style={{color:'#01fde6'}} className="nav-link" role="button" >
+                                        <i className="material-icons">how_to_reg</i>Register
+                                    </a>
+                                </NavLink>
+                                
+                            </li>
+                            :
+                            this.createUserView()
+                            }
+
+                            {(this.props.isLoggedIn && (this.props.currentUser==="visitor")) ?
+                            <li>
+                                <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/cart"><i className="material-icons">shopping_cart</i></NavLink> 
+                            </li>
+                            :""
+                            }
+                            
+                            
+                        </ul>
                                     
                         </div>
                     </div>

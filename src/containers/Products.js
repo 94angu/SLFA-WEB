@@ -76,10 +76,34 @@ class Products extends Component {
                         </div>
 
                         <div className="container w-container">
-                        {this.state.isLoading?<PulseLoader color="#8637AD" size="12px" margin="4px"/>:""}
-                            <Grid className="demo-grid-1">
-                                {items}
-                            </Grid>
+                            <div className="row">
+                                <div className="col-lg-8">
+                                    {this.state.isLoading?<PulseLoader color="#8637AD" size="12px" margin="4px"/>:""}
+                                    <Grid className="demo-grid-1">
+                                        {items}
+                                    </Grid>
+                                </div>
+                                <div className="col-lg-4">
+                                    <div className="card">
+                                        <div style={{margin:"20px"}} className="card-body">
+                                        <button type="button" className="btn btn-success btn-block">Checkout</button>
+                                        <hr/>
+                                        <div className="col-lg-2 col-md-2 col-xs-2">
+                                            <p>2</p>
+                                        </div>
+                                        <div className="col-lg-7 col-md-7 col-xs-7">
+                                            <p>Pork curry set</p>
+                                        </div>
+                                        <div className="col-lg-3 col-md-3 col-xs-3">
+                                            <p>480.00</p>
+                                        </div>
+                                        <hr/>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
                         </div>
 
                     </div>
@@ -94,7 +118,7 @@ class Products extends Component {
 class Item extends Component {
     render() {
         return (
-            <Cell col={3}>
+            <Cell col={4}>
                 <Card shadow={0} style={{width: '100%', height: '320px', margin: 'auto'}}>
                     <CardTitle style={{height:'180px',color: '#fff', background: 'url('+this.props.value.content.image+')bottom right 15% no-repeat #46B6AC',backgroundSize:'cover'}}></CardTitle>
                     <CardText style={{width:'100%',textAlign:'center'}}>

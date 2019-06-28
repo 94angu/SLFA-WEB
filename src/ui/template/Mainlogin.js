@@ -244,25 +244,6 @@ export default class MainloginUI extends Component {
                                 </div>
                             </div>
                         </div>
-                        <footer className="footer">
-                            <div className="container">
-                                <nav className="pull-left">
-                                    <ul>
-
-                                    </ul>
-                                </nav>
-                                <p className="copyright pull-right">
-
-                                    &copy;
-                                <script>
-                                        document.write(new Date().getFullYear())
-                                </script>
-                                    {Config.adminConfig.appName}
-
-
-                                </p>
-                            </div>
-                        </footer>
                     </div>
                 </div>
         )

@@ -1,5 +1,6 @@
 import React,{Component}  from 'react';
 import User from './containers/User';
+import Ticket from './containers/Ticket';
 import Landingpage from './containers/Landingpage';
 import Program from './containers/Program';
 import About from './containers/About';
@@ -197,6 +198,7 @@ class Main extends Component{
                   />}
                 />  
                 <PrivateRoute path="/account" isLoggedIn={this.state.isLoggedIn} component={User}/>
+                <PrivateRoute path="/ticket" isLoggedIn={this.state.isLoggedIn} component={Ticket}/>
               </HeaderUI>
               </ScrollToTop>
             </Router>
