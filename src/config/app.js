@@ -146,6 +146,13 @@ exports.navigation=[
      isIndex:true,
   },
   {
+    "link": "raffle",
+    "path": "",
+    "name": "Raffle",
+    "icon":"loyalty",
+    "tableFields":[],
+  },
+  {
     "link": "firestoreadmin",
     "path": "conference_venue",
     "name": "Map",

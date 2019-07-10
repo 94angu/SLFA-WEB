@@ -5,7 +5,8 @@ import Config from   './../config/app'
 import Card from './../ui/template/Card'
 import SkyLight from 'react-skylight';
 import QRCode from 'qrcode.react';
-
+import fire from 'firebase';
+import Notification from '../components/Notification';
 
 var md5 = require('md5');
 const ConditionalDisplay = ({condition, children}) => condition ? children : <div></div>;
@@ -16,11 +17,17 @@ export default class Ticket extends Component {
     super(props);
 
     this.state = {
-      user: {}
+      user: {},
+      tickets:[],
+      qr_code:"",
+      qr_status:"",
+      newTicketNo:""
     }
 
     
     this.authListener = this.authListener.bind(this);
+    this.getTicketDataFromFirestore = this.getTicketDataFromFirestore.bind(this);
+    this.viewPurchase = this.viewPurchase.bind(this);
     this.purchaseTicket = this.purchaseTicket.bind(this);
     this.cancelPurchase = this.cancelPurchase.bind(this);
     this.viewQRdialog = this.viewQRdialog.bind(this);
@@ -31,8 +38,15 @@ export default class Ticket extends Component {
   componentDidMount(){
     this.authListener();
   }
+
+  componentWillMount(){
+    this.getTicketDataFromFirestore();
+  }
   
   authListener(){
+    const _this=this;
+    const ref = firebase.app.firestore().collection("qrcode_collection");
+
     const setUser=(user)=>{
     this.setState({user:user})
     }
@@ -44,6 +58,24 @@ export default class Ticket extends Component {
         // User is signed in.
         console.log("User has Logged  in Master");
         console.log(user.email);
+        ref.get().then(function(querySnapshot){
+          querySnapshot.forEach(function(doc) {
+              // const {content} = doc.data();
+              // console.log("doc data", doc.data());
+              // posts.push({
+              //     key:doc.id,
+              //     content
+              // });
+              if(doc.data().user===_this.state.user.email){
+                _this.setState({
+                  qr_code:doc.data().qr_code,
+                  qr_status:doc.data().status
+                })
+                
+              }
+          });
+
+      })
         
     } else {
         // No user is signed in.
@@ -53,8 +85,62 @@ export default class Ticket extends Component {
 
     }
 
+    getTicketDataFromFirestore(){
+      const _this=this;
+      const tickets = [];
+      const ref = firebase.app.firestore().collection("ticket_collection");
+      ref.get().then(function(querySnapshot){
+          querySnapshot.forEach(function(doc) {
+              // const {content} = doc.data();
+              // console.log("doc data", doc.data());
+              // posts.push({
+              //     key:doc.id,
+              //     content
+              // });
+              if(doc.data().user===_this.state.user.email){
+                tickets.push(doc.data())
+              }
+          });
+  
+          _this.setState({
+            tickets:tickets
+          })
+      })
+    }
+
+    viewPurchase(){
+      const _this=this;
+      this.refs.puchaseTicket.show();
+      const db = firebase.app.firestore();
+      const ticketStatsRef = db.collection('ticket_collection').doc('--ticket_stats--');
+      ticketStatsRef.get()
+      .then(doc => {
+        if(!doc.exists){
+          console.log("No such document!");
+        } else{
+          console.log('Document data:', doc.data());
+          _this.setState({
+            newTicketNo:doc.data().ticket_count+1
+          });
+        }
+      })
+    }
+
     purchaseTicket(){
-        this.refs.puchaseTicket.show();
+      const _this=this;
+      const db = firebase.app.firestore();
+      const increment = fire.firestore.FieldValue.increment(1);
+   
+      const ticketStatsRef = db.collection('ticket_collection').doc('--ticket_stats--');
+      const ticketRef = db.collection('ticket_collection').doc();
+ 
+      const batch = db.batch();
+      batch.set(ticketRef,{tickNo:this.state.newTicketNo,user:this.state.user.email});
+      batch.set(ticketStatsRef,{ticket_count:increment},{merge:true});
+      batch.commit();
+      this.refs.puchaseTicket.hide();
+      _this.setState({notifications:[{type:"success",content:"Purchased Ticket successfully!"}]});
+      _this.refreshDataAndHideNotification();
     }
 
     viewQRdialog(){
@@ -69,7 +155,32 @@ export default class Ticket extends Component {
         this.refs.viewQRCode.hide();
     }
 
+    generateNotifications(item){
+      return (
+          <div className="col-md-12">
+              <Notification type={item.type} >{item.content}</Notification>
+          </div>
+      )
+    }
+
+    resetDataFunction(){
+      this.getTicketDataFromFirestore();
+    }
+
+    refreshDataAndHideNotification(refreshData=true,time=3000){
+      //Refresh data,
+      if(refreshData){
+        this.resetDataFunction();
+      }
+  
+      //Hide notifications
+      setTimeout(function(){this.setState({notifications:[]})}.bind(this), time);
+    }
+
 render() {
+    const ticket = this.state.tickets.map((ticket, index) =>
+      <Ticketview key={index} value={ticket} />
+    );
     return (
         <div className="wrapper wrapper-full-page">
         <div className="full-page landing-page">
@@ -91,13 +202,12 @@ render() {
                                 <p>Successful Registration gift</p>
                             </div>
                             <div className="col-lg-5 col-md-5 col-xs-5">
-                                <p>AGHK356<a onClick={()=>this.viewQRdialog()} className="btn btn-sm btn-default">QRCODE</a></p>
+                                <p>{this.state.qr_code}{this.state.qr_code==="" ? "-" :<a onClick={()=>this.viewQRdialog()} className="btn btn-sm btn-default">QRCODE</a>}</p>
                             </div>
                             <div className="col-lg-2 col-md-2 col-xs-2">
-                                <div className="badge badge-primary">Available</div>
+                              {this.state.qr_code==="" ? "-" :<div className="badge badge-primary">{this.state.qr_status==="1" ? "Available" : "Redeemed"}</div>}
                             </div>
                             <hr/>
-
                             </div>
                         </div>
 
@@ -105,24 +215,19 @@ render() {
                             <div style={{margin:"20px"}} className="card-body">
                                 <div className="card-title">
                                     <h4 style={{marginBottom:"0px"}}>
-                                        <button onClick={()=>this.purchaseTicket()} style={{float:"right"}} type="button" className="btn btn-primary">Purchase Ticket</button>
+                                        <button onClick={()=>this.viewPurchase()} style={{float:"right"}} type="button" className="btn btn-primary">Purchase Ticket</button>
                                         Ticket Purchase
                                     </h4>
                                     Your gifts vouchers to claim
+
+                                    {/* NOTIFICATIONS */}
+                                    {this.state.notifications?this.state.notifications.map((notification)=>{
+                                        return this.generateNotifications(notification)
+                                    }):""}
                                 </div> 
-                                    
-                                
-                                
                                 <hr/>
-                                <div className="col-lg-5 col-md-5 col-xs-5">
-                                    <p>Raffel ticket</p>
-                                </div>
-                                <div className="col-lg-5 col-md-5 col-xs-5">
-                                    <p>HJK876</p>
-                                </div>
-                                <div className="col-lg-2 col-md-2 col-xs-2">
-                                    <div className="badge badge-primary">Raffle</div>
-                                </div>
+                                {ticket}
+                               
                             </div>
                         </div>
                     </div>
@@ -137,7 +242,7 @@ render() {
         <SkyLight hideOnOverlayClicked ref="puchaseTicket" title="">
           <span><h3>Purchase Ticket</h3></span>
           <div className="col-md-12">
-              <h5>Your Ticket No : KJU498</h5>
+              <h5>Your Ticket No : {this.state.newTicketNo}</h5>
           </div>
           <div className="col-sm-12" style={{marginTop:80}}>
             <p>Are you sure you want to purchase the ticket?</p>
@@ -145,7 +250,7 @@ render() {
               <a onClick={this.cancelPurchase} className="btn btn-info center-block">Cancel</a>
             </div>
             <div className="col-sm-3 center-block">
-              <a onClick={this.purchase} className="btn btn-danger center-block">Purchase</a>
+              <a onClick={this.purchaseTicket} className="btn btn-danger center-block">Purchase</a>
             </div>
 
           </div>
@@ -154,7 +259,7 @@ render() {
         <SkyLight dialogStyles={{height:'50%'}} hideOnOverlayClicked ref="viewQRCode" title="">
           <h4>Your QRCode</h4>
           <div style={{textAlign:'center'}} className="col-md-12">
-            <QRCode value="AGHK356"></QRCode>
+            <QRCode value={this.state.qr_code}></QRCode>
           </div>
           <div className="col-sm-12" style={{}}>
             <div style={{float:"right"}} className="col-sm-3 center-block">
@@ -165,5 +270,23 @@ render() {
         </SkyLight>
     </div>
     )
+  }
+}
+
+class Ticketview extends Component {
+  render() {
+      return (
+        <div className="row">
+          <div className="col-lg-5 col-md-5 col-xs-5">
+            <p>Raffel ticket</p>
+          </div>
+          <div className="col-lg-5 col-md-5 col-xs-5">
+              <p>{this.props.value.tickNo}</p>
+          </div>
+          <div className="col-lg-2 col-md-2 col-xs-2">
+              <div className="badge badge-primary">Raffle</div>
+          </div>
+        </div>
+      )
   }
 }

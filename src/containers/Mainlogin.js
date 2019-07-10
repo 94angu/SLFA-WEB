@@ -5,6 +5,7 @@ import * as firebaseCLASS from 'firebase';
 import {Redirect} from 'react-router-dom'
 // import {Redirect} from 'react-router'
 require("firebase/firestore");
+var randomString = require('randomstring');
 
 class Mainlogin extends Component {
 
@@ -318,9 +319,22 @@ class Mainlogin extends Component {
       if(error){
         console.log(error);
       }else{
-        _this.setState({
-          isRegistered:true
-        });
+        const refQR = firebase.app.firestore().collection("qrcode_collection");
+        refQR.add({
+          user:_this.state.user.email,
+          qr_code:randomString.generate({ length: 10, charset: 'alphanumeric',capitalization:'uppercase'}),
+          status:"1"
+        })
+        .then(function(docRef){
+          _this.setState({
+            isRegistered:true
+          });
+          // console.log("qr generated :"+docRef.id);
+        })
+        .catch(function(error){
+          console.log("QRcode failed to create :"+error);
+        })
+        
       }
     })
 
@@ -344,6 +358,7 @@ class Mainlogin extends Component {
       // console.log("MAIN LOGIN : isLoggedIn - ",this.props.isLoggedIn)
       // console.log("MAIN LOGIN : isRegistereduser - ",this.props.isRegisteredUser)
       // console.log("MAIN LOGIN : isRegistered - ",this.state.isRegistered)
+      console.log("Random number : "+randomString.generate({ length: 10, charset: 'alphanumeric',capitalization:'uppercase'}));
 
       if(this.state.isRegistered===true){
         return(

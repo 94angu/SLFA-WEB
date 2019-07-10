@@ -149,7 +149,6 @@ class App extends Component {
   }
 
   resetDataFunction(){
-
     this.getUserDataFromDatabase();
   }
 
