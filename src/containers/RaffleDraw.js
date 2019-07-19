@@ -4,6 +4,7 @@ import firebase from '../config/database';
 import CardUI from './../ui/template/Card';
 import fire from 'firebase';
 import ReactTable from "react-table";
+import {ClipLoader,FadeLoader,ScaleLoader} from 'halogenium';
 
 
 class RaffleDraw extends Component {
@@ -14,7 +15,8 @@ class RaffleDraw extends Component {
         max: 1000,
         number: "Start Raffle",
         selected_winners:null,
-        winners:[]
+        winners:[],
+        isLoading:false
         // isRaffleDone:"0",
       }
 
@@ -23,27 +25,29 @@ class RaffleDraw extends Component {
       this.componentDidMount = this.componentDidMount.bind(this);
       this.addNextWinner = this.addNextWinner.bind(this);
       this.resetDataFunction = this.resetDataFunction.bind(this);
+      this.selectRaffleNumber = this.selectRaffleNumber.bind(this);
+      
     }
   
     componentDidMount() {
-    //  this.setState({ number: this.generateNumber(this.state.min, this.state.max)});
-    // this.setState({number:"Start Raffle"});
-      // const _this=this;
-      // const db = firebase.app.firestore();
-      // const ticketStatsRef = db.collection('raffle_results').doc('--raffle_stats--');
-      // ticketStatsRef.get()
-      // .then(doc => {
-      //   if(!doc.exists){
-      //     console.log("No such document!");
-      //   } else{
-      //     console.log('Document data:', doc.data());
-      //     _this.setState({
-      //       isRaffleDone:doc.data().isRaffleDone,
-      //       raffleStatus:doc.data().status,
-      //       selected_winner:doc.data().selected_winner
-      //     });
-      //   }
-      // })
+     this.setState({ number: this.generateNumber(this.state.min, this.state.max)});
+    this.setState({number:"Start Raffle"});
+      const _this=this;
+      const db = firebase.app.firestore();
+      const ticketStatsRef = db.collection('raffle_results').doc('--raffle_stats--');
+      ticketStatsRef.get()
+      .then(doc => {
+        if(!doc.exists){
+          console.log("No such document!");
+        } else{
+          console.log('Document data:', doc.data());
+          _this.setState({
+            isRaffleDone:doc.data().isRaffleDone,
+            raffleStatus:doc.data().status,
+            // selected_winner:doc.data().selected_winner
+          });
+        }
+      })
       this.getWinnersDataFromFirestore();
     }
 
@@ -91,10 +95,14 @@ class RaffleDraw extends Component {
 
     startRaffle(){
       const _this =this;
-      _this.setState({
-        isRaffleDone:"1",
-        raffleStatus:"1"
-      })
+      setTimeout(function(){
+        _this.setState({
+          isRaffleDone:"1",
+          raffleStatus:"1"
+        })
+      }.bind(this),2000);
+
+     
     }
     
     getInputs = () => {
@@ -120,6 +128,9 @@ class RaffleDraw extends Component {
     selectRaffleNumber(row){
       console.log("raffle place :"+JSON.stringify(row.original.place));
       var luckyNo;
+      this.setState({
+        isLoading: true 
+      })
       if(this.state.min > this.state.max ){
         const minTemp = this.state.min
         const maxTemp = this.state.max
@@ -134,13 +145,18 @@ class RaffleDraw extends Component {
         luckyNo = this.generateNumber(this.state.min, this.state.max)
       }
 
-      this.setState({
-        number: luckyNo 
-      })
-      const db = firebase.app.firestore();
-      const raffleResultRef = db.collection('raffle_results').doc(row.original.place);
-      raffleResultRef.update({ticket_no:luckyNo});
-      this.resetDataFunction();
+      setTimeout(function(){
+        this.setState({
+          number: luckyNo,
+          isLoading:false 
+        })
+
+        const db = firebase.app.firestore();
+        const raffleResultRef = db.collection('raffle_results').doc(row.original.place);
+        raffleResultRef.update({ticket_no:luckyNo});
+        this.resetDataFunction();
+      }.bind(this),5000);
+
     }
 
     addNextWinner(){
@@ -156,7 +172,7 @@ class RaffleDraw extends Component {
       batch.set(raffleStatsRef,{selected_winners:increment},{merge:true});
       batch.commit();
 
-      _this.resetDataFunction();
+      this.resetDataFunction();
     }
 
     resetDataFunction(){
@@ -170,15 +186,22 @@ class RaffleDraw extends Component {
       }, {
         Header: 'Ticket No',
         accessor: 'content.ticket_no',
-      },{
-        Header: 'Name', // Custom header components!
-        accessor: 'name'
-      }, {
+      },
+      // {
+      //   Header: 'Name', // Custom header components!
+      //   accessor: 'name'
+      // }, 
+      {
         Header: 'Action',
         filterable:false,
         Cell: row => 
           <span>
+            {row.original.content.ticket_no==="" ?
             <button onClick={()=>this.selectRaffleNumber(row)} type="button" className="btn btn-danger btn-sm">Raffle</button>
+            :
+            <button disabled type="button" className="btn btn-success btn-sm">Finished</button>
+            }
+            
           </span>
       }]
       return (
@@ -189,7 +212,13 @@ class RaffleDraw extends Component {
                     <br />
                     <div style={this.state.raffleStatus==="1" ? {} : {pointerEvents:'none',opacity:'0.4'}} id="raffle-draw">
                     <div id="winning-num-label">Winning Number</div>
-                    <p id="winning-num">{this.state.number}</p>
+                    <p id="winning-num">
+                    {this.state.isLoading===true ?
+                      <ScaleLoader color="#8637AD" size="12px" margin="4px"/>
+                      :
+                      this.state.number
+                    }
+                    </p>
                     <div>
                         <div id="headers"> 
                         <p>Number from</p>
@@ -199,9 +228,9 @@ class RaffleDraw extends Component {
                         <input className="raffle-input" min="-9999999999" max="9999999999" type="number" value={ this.state.min } onChange={this.minChange} />
                         <input className="raffle-input" min="-9999999999" max="9999999999" type="number" value={ this.state.max } onChange={this.maxChange} />
                         </div>
-                        <div style={{textAlign:"center"}}>
+                        {/* <div style={{textAlign:"center"}}>
                             <input className="btn btn-success" type="submit" value="Raffle" onClick={ this.getInputs }/>
-                        </div>
+                        </div> */}
                         
                     </div>
                     </div>

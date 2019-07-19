@@ -97,9 +97,9 @@ var collectionMeta={
 	},
 	"restaurant_collection":{
 		"fields":{
+			"title":"Your category title",
 			"description":"Category description",
 			"image":"https://i.imgur.com/80vu1wL.jpg",
-			"title":"Your category title",
 			"owner":"Your email id"
 		},
 		"collections":[],
@@ -229,6 +229,20 @@ var collectionMeta={
     },
 	"TEMPLATE":{
 		"fields":{},
+		"collections":[],
+	},
+	"users":{
+		"fields":{
+			"email":"Enter Email",
+			"fullname":"",
+			"userRole":"Enter UserRole",
+			"dateofbirth":"",
+			"gender":"",
+			"iscomplete":"0",
+			"job":"",
+			"nationality":"",
+			"telephone":"",
+		},
 		"collections":[],
 	}
 }

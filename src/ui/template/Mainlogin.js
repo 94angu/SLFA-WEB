@@ -72,6 +72,8 @@ export default class MainloginUI extends Component {
             this.setState({isResetPassword:false})
         }
         event.preventDefault();
+
+        this.setState({ username: '',password: ''});
     }
 
     createUser(event){

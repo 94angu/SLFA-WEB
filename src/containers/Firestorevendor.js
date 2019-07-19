@@ -1026,7 +1026,7 @@ class Firestorevendor extends Component {
         )
       }else{
         return (
-          <CardUI name={name} showAction={true} title={Common.capitalizeFirstLetter(name)}>
+          <CardUI name={name} showAction={false} title={Common.capitalizeFirstLetter(name)}>
             <Table
                 caller={"firestore"}
                 headers={this.findHeadersBasedOnPath(this.state.firebasePath)} 

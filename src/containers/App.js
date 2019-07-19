@@ -26,6 +26,8 @@ class App extends Component {
     this.deleteFieldAction=this.deleteFieldAction.bind(this);
     this.cancelDelete=this.cancelDelete.bind(this);
     this.cancelApprove=this.cancelApprove.bind(this);
+    this.resetDataFunction=this.resetDataFunction.bind(this);
+    this.refreshDataAndHideNotification=this.refreshDataAndHideNotification.bind(this);
   }
   componentDidMount(){
     //Uncomment if you want to do a edirect
@@ -36,31 +38,58 @@ class App extends Component {
   getUserDataFromDatabase(){
     var _this =this;
 
-    const userRef = firebase.app.database().ref(`/users`);
+    // const userRef = firebase.app.database().ref(`/users`);
+    const userRef = firebase.app.firestore().collection("users");
     const allowedRef = firebase.app.database().ref(`/meta/config/allowedUsers`);
 
     var userDetails=[];
-    
-    userRef.orderByKey().once("value")
-    .then(function(snapshot){
-      snapshot.forEach(function(snap){
-        var content = snap.val();
-        var iscomplete = snap.val().iscomplete;
-        var userRole = snap.val().userRole;
-        if(userRole!=="visitor" && iscomplete===0){
-          userDetails.push({
-            key:snap.key,
-            content
-          })
-        }
-      })
 
+    userRef.where('userRole','==','vendor').where('iscomplete','==',0).get()
+    .then(snapshot => {
+      if(snapshot.empty){
+        console.log('No matching documents.');
+        return;
+      }
+
+      snapshot.forEach(doc => {
+        var content = doc.data();
+        userDetails.push({
+          key:doc.id,
+          content
+        })
+      });
       _this.setState({pageLength:userDetails.length,
         userDetails:userDetails,
         pageLength:userDetails.length
         
       })
     })
+    .catch(error =>{
+      console.log('Error getting documents', error);
+    })
+
+    
+    
+    // userRef.orderByKey().once("value")
+    // .then(function(snapshot){
+    //   snapshot.forEach(function(snap){
+    //     var content = snap.val();
+    //     var iscomplete = snap.val().iscomplete;
+    //     var userRole = snap.val().userRole;
+    //     if(userRole!=="visitor" && iscomplete===0){
+    //       userDetails.push({
+    //         key:snap.key,
+    //         content
+    //       })
+    //     }
+    //   })
+
+    //   _this.setState({pageLength:userDetails.length,
+    //     userDetails:userDetails,
+    //     pageLength:userDetails.length
+        
+    //   })
+    // })
   }
 
   approveFieldAction(row){
@@ -79,7 +108,7 @@ class App extends Component {
     var email = this.state.userRow.original.content.email;
     var userRole = this.state.userRow.original.content.userRole;
 
-    const allowedUserRef = firebase.app.database().ref('/meta/config/allowedUsers');
+    const allowedUserRef = firebase.app.database().ref('/meta/config/allowedUsersWeb');
 
     const newUserRef = allowedUserRef.push();
 
@@ -90,7 +119,7 @@ class App extends Component {
       if (error) {
         console.log("erroe",error);
       } else {
-        const ref = firebase.app.database().ref('users/'+key);
+        const ref = firebase.app.firestore().collection("users").doc(key);
         ref.update({
           iscomplete:1
         })
@@ -99,10 +128,15 @@ class App extends Component {
         _this.refreshDataAndHideNotification();
       }
     })
-    
-
 
     
+  }
+
+  infoFieldAction(row){
+    this.refs.infoDialog.show();
+    this.setState({
+      userRow:row
+    })
   }
 
   deleteFieldAction(row){
@@ -119,17 +153,28 @@ class App extends Component {
     var key = this.state.userRow.original.key;
     var email = this.state.userRow.original.content.email;
 
-    const ref = firebase.app.database().ref('users/'+key);
-
-    ref.remove(function(error) {
-      if (error) {
-        console.log("erroe",error);
-      } else {
-        _this.refs.deleteDialog.hide();
-        _this.setState({notifications:[{type:"success",content:email+" removed successfully!"}]});
-        _this.refreshDataAndHideNotification();
-      }
+    const ref = firebase.app.firestore().collection("users").doc(key);
+    ref.update({
+      userRole:"visitor"
+    }).then(function(){
+      _this.refs.deleteDialog.hide();
+      _this.setState({notifications:[{type:"success",content:email+" removed successfully!"}]});
+      _this.refreshDataAndHideNotification();
+    }).catch(function(error){
+      console.log(error.message);
     })
+
+    // const ref = firebase.app.database().ref('users/'+key);
+
+    // ref.remove(function(error) {
+    //   if (error) {
+    //     console.log("erroe",error);
+    //   } else {
+    //     _this.refs.deleteDialog.hide();
+    //     _this.setState({notifications:[{type:"success",content:email+" removed successfully!"}]});
+    //     _this.refreshDataAndHideNotification();
+    //   }
+    // })
   }
 
   cancelDelete(){
@@ -173,15 +218,39 @@ class App extends Component {
     },{
       Header: 'User Role', // Custom header components!
       accessor: 'content.userRole'
-    }, {
+    },
+    // {
+    //   Header: 'Date of birth', // Custom header components!
+    //   accessor: 'content.dateofbirth'
+    // },
+    // {
+    //   Header: 'gender', // Custom header components!
+    //   accessor: 'content.gender'
+    // },
+    // {
+    //   Header: 'job', // Custom header components!
+    //   accessor: 'content.job'
+    // },
+    // {
+    //   Header: 'nationality', // Custom header components!
+    //   accessor: 'content.nationality'
+    // }, 
+    // {
+    //   Header: 'telephone', // Custom header components!
+    //   accessor: 'content.telephone'
+    // },
+    {
       Header: 'Action',
       filterable:false,
       Cell: row => 
         <span>
           <button onClick={()=>this.approveFieldAction(row)} type="button" className="btn btn-success btn-sm">Approve</button>
           <button onClick={()=>this.deleteFieldAction(row)} type="button" className="btn btn-danger btn-sm">Delete</button>
+          {/* <button onClick={()=>this.infoFieldAction(row)} type="button" className="btn btn-danger btn-sm">Info</button> */}
+
         </span>
-    }]
+    }
+  ]
     return (
       <div className="content">
         <NavBar/>
@@ -242,6 +311,7 @@ class App extends Component {
           </div>
 
         </SkyLight>
+
       </div>
 
       

@@ -92,7 +92,7 @@ export default class HeaderUI extends Component {
         return (
 
         <div>
-                <nav className="navbar navbar-primary navbar-fixed-top">{/*navbar-tranparent*/}
+                <nav style={{padding:"5px 0"}} className="navbar navbar-primary navbar-fixed-top">{/*navbar-tranparent*/}
                     <div className="container">
                         <div className="navbar-header">
                             <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">

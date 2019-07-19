@@ -7,6 +7,8 @@ import SkyLight from 'react-skylight';
 import QRCode from 'qrcode.react';
 import fire from 'firebase';
 import Notification from '../components/Notification';
+import ReactTable from "react-table";
+
 
 var md5 = require('md5');
 const ConditionalDisplay = ({condition, children}) => condition ? children : <div></div>;
@@ -21,7 +23,7 @@ export default class Ticket extends Component {
       tickets:[],
       qr_code:"",
       qr_status:"",
-      newTicketNo:""
+      newTicketNo:"",
     }
 
     
@@ -230,6 +232,21 @@ render() {
                                
                             </div>
                         </div>
+
+                        <div className="card">
+                            <div style={{margin:"20px"}} className="card-body">
+                                <div className="card-title">
+                                    <h4 style={{marginBottom:"0px"}}>
+                                        Raffle Results
+                                    </h4>
+                                    Find your ticket numbers!!
+
+                                </div> 
+                                <hr/>
+                                <Raffleresults/>
+                               
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -287,6 +304,71 @@ class Ticketview extends Component {
               <div className="badge badge-primary">Raffle</div>
           </div>
         </div>
+      )
+  }
+}
+
+class Raffleresults extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      winners:[],
+    }
+
+    this.getWinnersDataFromFirestore = this.getWinnersDataFromFirestore.bind(this);
+  }
+
+  componentDidMount(){
+    this.getWinnersDataFromFirestore();
+  }
+
+  getWinnersDataFromFirestore(){
+    const _this=this;
+    const winners = [];
+    const ref = firebase.app.firestore().collection("raffle_results");
+    ref.get().then(function(querySnapshot){
+        querySnapshot.forEach(function(doc) {
+            const content = doc.data();
+            // console.log("doc data", doc.data());
+            
+            if(doc.id==="--raffle_stats--"){
+              _this.setState({
+                isRaffleDone:doc.data().isRaffleDone,
+                raffleStatus:doc.data().status,
+                selected_winners:doc.data().selected_winners
+              });
+            }else{
+              winners.push({
+                place:doc.id,
+                content
+            });
+            }
+            
+        });
+
+        _this.setState({
+          winners:winners
+        })
+    })
+  }
+
+  render() {
+    const columns = [{
+      Header: '#',
+      accessor: 'place' // String-based value accessors!
+    }, {
+      Header: 'Ticket No',
+      accessor: 'content.ticket_no',
+    }]
+      return (
+        <ReactTable
+          key={this.state.pageLength}
+          data={this.state.winners}
+          columns={columns}
+          className="-striped -highlight"
+          pageSize={this.state.winners.length}
+          showPagination={false}  
+        />
       )
   }
 }

@@ -57,77 +57,79 @@ class Main extends Component{
         firebase.app.auth().onAuthStateChanged(function(user) {
           if (user) {
             // User is signed in.
-            console.log("MAIN : User is signed in "+user.email);
-            const userRef = firebase.app.database().ref(`/users`);
-            const allowedRef = firebase.app.database().ref(`/meta/config/allowedUsers`);
-    
-            userRef.orderByChild("email").equalTo(user.email).once("value")
-            .then(snapshot=>{
-                if(snapshot.val()){
-                  // console.log("User found "+user.email);
-                    userRef.orderByKey().once("value")
-                    .then(function(snapshot){
-                      snapshot.forEach(function(childSnapshot){
-                        var email = childSnapshot.val().email;
-                        var userRole = childSnapshot.val().userRole;
-                        if(email===user.email && userRole==="visitor"){
+            if(user.emailVerified===false){
+              alert("Verify your Email!");
+              firebase.app.auth().signOut();
+            }else{
+              console.log("MAIN : User is signed in "+user.email);
+              const userRef = firebase.app.firestore().collection("users");
+              const allowedRef = firebase.app.database().ref(`/meta/config/allowedUsersWeb`);
+  
+              userRef.where('email','==',user.email).get()
+              .then(snapshot => {
+                if(snapshot.empty){
+                  console.log("MAIN : User not found in user database");
+                  setUser("visitor",true,false);
+                  setLoading(false);
+                  <Redirect to='/login'/>
+                  alert("Complete your details");
+                  return;
+                }
+  
+                snapshot.forEach(doc => {
+                  console.log(doc.id, '=>', doc.data());
+  
+                  var email = doc.data().email;
+                  var userRole = doc.data().userRole;
+                  if(email===user.email && userRole==="visitor"){
+                    // console.log("INDEX userRole :"+currentuserRole)
+                    // fakeAuth.authenticate();
+                    setUser(userRole,true,true);
+                    setLoading(false)
+  
+                   
+  
+                  }else if(email===user.email && userRole==="vendor"){
+                    allowedRef.orderByChild("email").equalTo(user.email).once("value")
+                    .then(snap => {
+                      if(snap.val()){
                           // console.log("INDEX userRole :"+currentuserRole)
-                          // fakeAuth.authenticate();
                           setUser(userRole,true,true);
                           setLoading(false)
-
-                         
- 
-                        }else if(email===user.email && userRole==="vendor"){
-                          allowedRef.orderByChild("email").equalTo(user.email).once("value")
-                          .then(snap => {
-                            if(snap.val()){
-                                // console.log("INDEX userRole :"+currentuserRole)
-                                setUser(userRole,true,true);
-                                setLoading(false)
-                            
-                                
-                            }else{
-                                console.log("This user doens't have access to this vendor panel!");
-                                alert("This user doens't have access to this vendor panel!");
-                                firebase.app.auth().signOut();
-                            
-                            }
-                          })
-                        } else if(email===user.email && userRole==="admin"){
-    
-                          allowedRef.orderByChild("email").equalTo(user.email).once("value")
-                          .then(snap => {
-                            if(snap.val()){
-                              // console.log("MAIN : userRole :"+userRole)
-                              setUser(userRole,true,true);
-                              setLoading(false)
-                           
-                            }else{
-                                console.log("This user doens't have access to this admin panel!");
-                                alert("This user doens't have access to this admin panel!");
-                                firebase.app.auth().signOut();
-                            }
-                          })
-                        }
-                        
-                      })
-                    }).catch(function (error) {
-                      var errorMessage = error.message;
-                      console.log(errorMessage);
-                   
-                    });
-                  }else{
-                    console.log("MAIN : User not found in user database");
-                   
-                    setUser("visitor",true,false);
-                    setLoading(false);
-                    <Redirect to='/login'/>
-                    alert("Complete your details");
-                    
-                    // firebase.app.auth().signOut();
+                      
+                          
+                      }else{
+                          console.log("This user doens't have access to this vendor panel!");
+                          alert("This user doens't have access to this vendor panel!");
+                          firebase.app.auth().signOut();
+                      
+                      }
+                    })
+                  } else if(email===user.email && userRole==="admin"){
+  
+                    allowedRef.orderByChild("email").equalTo(user.email).once("value")
+                    .then(snap => {
+                      if(snap.val()){
+                        // console.log("MAIN : userRole :"+userRole)
+                        setUser(userRole,true,true);
+                        setLoading(false)
+                     
+                      }else{
+                          console.log("This user doens't have access to this admin panel!");
+                          alert("This user doens't have access to this admin panel!");
+                          firebase.app.auth().signOut();
+                      }
+                    })
                   }
-            })
+                })
+              })
+              .catch(function (error) {
+                var errorMessage = error.message;
+                console.log(errorMessage);
+             
+              });
+            }
+            
     
           } else {
             // No user is signed in.
@@ -142,6 +144,96 @@ class Main extends Component{
           setUser(null,false,false)
           setLoading(false)
       }
+
+      // if(Config.firebaseConfig.apiKey){
+      //   firebase.app.auth().onAuthStateChanged(function(user) {
+      //     if (user) {
+      //       // User is signed in.
+      //       console.log("MAIN : User is signed in "+user.email);
+      //       const userRef = firebase.app.database().ref(`/users`);
+      //       const allowedRef = firebase.app.database().ref(`/meta/config/allowedUsers`);
+    
+      //       userRef.orderByChild("email").equalTo(user.email).once("value")
+      //       .then(snapshot=>{
+      //           if(snapshot.val()){
+      //             // console.log("User found "+user.email);
+      //               userRef.orderByKey().once("value")
+      //               .then(function(snapshot){
+      //                 snapshot.forEach(function(childSnapshot){
+      //                   var email = childSnapshot.val().email;
+      //                   var userRole = childSnapshot.val().userRole;
+      //                   if(email===user.email && userRole==="visitor"){
+      //                     // console.log("INDEX userRole :"+currentuserRole)
+      //                     // fakeAuth.authenticate();
+      //                     setUser(userRole,true,true);
+      //                     setLoading(false)
+
+                         
+ 
+      //                   }else if(email===user.email && userRole==="vendor"){
+      //                     allowedRef.orderByChild("email").equalTo(user.email).once("value")
+      //                     .then(snap => {
+      //                       if(snap.val()){
+      //                           // console.log("INDEX userRole :"+currentuserRole)
+      //                           setUser(userRole,true,true);
+      //                           setLoading(false)
+                            
+                                
+      //                       }else{
+      //                           console.log("This user doens't have access to this vendor panel!");
+      //                           alert("This user doens't have access to this vendor panel!");
+      //                           firebase.app.auth().signOut();
+                            
+      //                       }
+      //                     })
+      //                   } else if(email===user.email && userRole==="admin"){
+    
+      //                     allowedRef.orderByChild("email").equalTo(user.email).once("value")
+      //                     .then(snap => {
+      //                       if(snap.val()){
+      //                         // console.log("MAIN : userRole :"+userRole)
+      //                         setUser(userRole,true,true);
+      //                         setLoading(false)
+                           
+      //                       }else{
+      //                           console.log("This user doens't have access to this admin panel!");
+      //                           alert("This user doens't have access to this admin panel!");
+      //                           firebase.app.auth().signOut();
+      //                       }
+      //                     })
+      //                   }
+                        
+      //                 })
+      //               }).catch(function (error) {
+      //                 var errorMessage = error.message;
+      //                 console.log(errorMessage);
+                   
+      //               });
+      //             }else{
+      //               console.log("MAIN : User not found in user database");
+                   
+      //               setUser("visitor",true,false);
+      //               setLoading(false);
+      //               <Redirect to='/login'/>
+      //               alert("Complete your details");
+                    
+      //               // firebase.app.auth().signOut();
+      //             }
+      //       })
+    
+      //     } else {
+      //       // No user is signed in.
+      //       console.log("MAIN : No user is signed in ");
+      //       setUser(null,false,false);
+      //       setLoading(false)
+      //     }
+      // })
+      // }else{
+      //   // No user is signed in.
+      //     console.log("MAIN : No user is signed in, step 1 ");
+      //     setUser(null,false,false)
+      //     setLoading(false)
+      // }
     }
 
     authLogin(userRole){
@@ -197,7 +289,10 @@ class Main extends Component{
                     currentUser={this.state.currentUser}
                   />}
                 />  
-                <PrivateRoute path="/account" isLoggedIn={this.state.isLoggedIn} component={User}/>
+                <PrivateRoute path="/account" isLoggedIn={this.state.isLoggedIn} component={()=>
+                  <User 
+                    currentUser={this.state.currentUser}
+                  />}/>
                 <PrivateRoute path="/ticket" isLoggedIn={this.state.isLoggedIn} component={Ticket}/>
               </HeaderUI>
               </ScrollToTop>

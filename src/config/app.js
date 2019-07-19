@@ -146,6 +146,20 @@ exports.navigation=[
      isIndex:true,
   },
   {
+    "link": "firestoreadmin",
+    "path": "users",
+    "name": "Manage users",
+    "icon": "perm_identity",
+    "tableFields":["email","userRole"],
+  },
+  {
+    "link": "firestoreadmin",
+    "path": "qrcode_collection",
+    "name": "Manage QR Code",
+    "icon": "perm_identity",
+    "tableFields":["qr_code","user","status"],
+  },
+  {
     "link": "raffle",
     "path": "",
     "name": "Raffle",
@@ -157,7 +171,7 @@ exports.navigation=[
     "path": "conference_venue",
     "name": "Map",
     "icon":"location_city",
-    "tableFields":[],
+    "tableFields":["title","locationName"],
   },
   //Kobi
   // {
@@ -181,6 +195,7 @@ exports.navigation=[
     "icon":"list",
     "tableFields":["title","image",],
   },
+  
   //kobi
   // {
   //   "link": "firestoreadmin",
@@ -189,13 +204,7 @@ exports.navigation=[
   //   "icon":"layers",
   //   "tableFields":[],
   // },
-  {
-    "link": "fireadmin",
-    "path": "userdata/{useruuid}",
-    "name": "My Profile",
-    "icon": "perm_identity",
-    "tableFields":[],
-  },
+  
   //kobi
   // {
   //   "link": "firestoreadmin",
@@ -247,14 +256,14 @@ exports.navigation=[
     "path": "restaurant",
     "name": "Menu items",
     "icon":"local_dining",
-    "tableFields":["title","image","price"],
+    "tableFields":["title","price"],
   },
   {
     "link": "firestoreadmin",
     "path": "restaurant_collection",
     "name": "Restaurants",
     "icon":"layers",
-    "tableFields":[],
+    "tableFields":["title","owner"],
   },
   {
     "link": "firestoreadmin",
@@ -415,7 +424,7 @@ exports.vendorNavigation=[
     "path": "restaurant_collection",
     "name": "My Restaurant",
     "icon":"layers",
-    "tableFields":[],
+    "tableFields":["title","owner"],
   },
   {
     "link": "firestorevendor",
