@@ -51,6 +51,27 @@ class Mainregister extends Component {
         
         function (data) {
           firebase.app.auth().currentUser.sendEmailVerification().then(function(){
+            const db = firebase.app.firestore();
+    
+          const batch = db.batch();
+          const userStatsRef = firebase.app.firestore().collection('users').doc('--user_stats--');
+          const increment = fire.firestore.FieldValue.increment(1);
+          batch.set(userStatsRef,{user_count:increment},{merge:true});
+          batch.commit().then(function(){
+            firebase.app.firestore().collection('users').doc('--user_stats--').get()
+            .then(doc => {
+              if (!doc.exists) {
+                console.log('No such document!');
+              } else {
+                console.log('Document data:', doc.data().user_count);
+                var userID = doc.data().user_count;
+                firebase.app.database().ref('meta/config/allowedUsers/'+userID).set({
+                  email: username,
+                  type: 'euser'
+                });
+              }
+            })
+          })
             changeIsRegistered();
           }).catch(function(error){
             console.log(error.message);
@@ -72,27 +93,7 @@ class Mainregister extends Component {
           //     iscomplete:0
           //   })
 
-          const db = firebase.app.firestore();
-    
-          const batch = db.batch();
-          const userStatsRef = firebase.app.firestore().collection('users').doc('--user_stats--');
-          const increment = fire.firestore.FieldValue.increment(1);
-          batch.set(userStatsRef,{user_count:increment},{merge:true});
-          batch.commit().then(function(){
-            firebase.app.firestore().collection('users').doc('--user_stats--').get()
-            .then(doc => {
-              if (!doc.exists) {
-                console.log('No such document!');
-              } else {
-                console.log('Document data:', doc.data().user_count);
-                var userID = doc.data().user_count;
-                firebase.app.database().ref('meta/config/allowedUsers/'+userID).set({
-                  email: this.state.user.email,
-                  type: 'euser'
-                });
-              }
-            })
-          })
+          
 
         }
       )
