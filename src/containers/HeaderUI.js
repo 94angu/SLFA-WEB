@@ -76,6 +76,11 @@ export default class HeaderUI extends Component {
                 <Link to="/ticket">Ticket</Link> 
             </li>
             :""
+            }{(this.props.isLoggedIn && (this.props.currentUser==="admin")) ?                            
+            <li>
+                <Link to="/raffle">Raffle</Link> 
+            </li>
+            :""
             }
             <li className="divider" />
             <li role="button"><a onClick={this.handleLogout}>Logout</a></li>

@@ -8,6 +8,8 @@ import QRCode from 'qrcode.react';
 import fire from 'firebase';
 import Notification from '../components/Notification';
 import ReactTable from "react-table";
+import {Redirect} from 'react-router-dom';
+
 
 
 var md5 = require('md5');
@@ -180,6 +182,13 @@ export default class Ticket extends Component {
     }
 
 render() {
+  if(this.props.currentUser !== 'visitor'){
+    return(
+      <Redirect to="/"/>
+
+    )
+  }
+
     const ticket = this.state.tickets.map((ticket, index) =>
       <Ticketview key={index} value={ticket} />
     );

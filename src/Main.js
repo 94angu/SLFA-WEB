@@ -7,6 +7,7 @@ import About from './containers/About';
 import Centre from './containers/Centre';
 import Products from './containers/Products';
 import Dashboard from './containers/Dashboard';
+import RaffleDraw from './containers/RaffleDraw';
 import Mainlogin from './containers/Mainlogin';
 import Mainregister from './containers/Mainregister';
 import {BrowserRouter as Router,Route,Redirect,hashHistory} from 'react-router-dom';
@@ -283,7 +284,13 @@ class Main extends Component{
                     {...props}
                   />}
                 />
-                <Route path="/register" component={Mainregister}/>
+                <Route path="/register" component={(props)=>
+                  <Mainregister
+                    isLoggedIn={this.state.isLoggedIn} 
+                    isRegisteredUser={this.state.isRegisteredUser}
+                    {...props}
+                  />}
+                />
                 <PrivateRoute path="/dashboard" isLoggedIn={this.state.isLoggedIn} component={()=>
                   <Dashboard 
                     currentUser={this.state.currentUser}
@@ -293,7 +300,16 @@ class Main extends Component{
                   <User 
                     currentUser={this.state.currentUser}
                   />}/>
-                <PrivateRoute path="/ticket" isLoggedIn={this.state.isLoggedIn} component={Ticket}/>
+                <PrivateRoute path="/ticket" isLoggedIn={this.state.isLoggedIn} component={()=>
+                  <Ticket 
+                    currentUser={this.state.currentUser}
+                  />}
+                />
+                <PrivateRoute path="/raffle" isLoggedIn={this.state.isLoggedIn} component={()=>
+                  <RaffleDraw 
+                    currentUser={this.state.currentUser}
+                  />}
+                />
               </HeaderUI>
               </ScrollToTop>
             </Router>

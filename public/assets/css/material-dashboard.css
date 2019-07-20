@@ -5389,7 +5389,7 @@ background-color: #191919;
 .sidebar .sidebar-wrapper,
 .off-canvas-sidebar .sidebar-wrapper {
 position: relative;
-height: calc(100vh - 75px);
+height: calc(100vh - 65px);
 overflow: auto;
 width: 260px;
 z-index: 4;

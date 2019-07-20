@@ -159,13 +159,13 @@ exports.navigation=[
     "icon": "perm_identity",
     "tableFields":["qr_code","user","status"],
   },
-  {
-    "link": "raffle",
-    "path": "",
-    "name": "Raffle",
-    "icon":"loyalty",
-    "tableFields":[],
-  },
+  // {
+  //   "link": "raffle",
+  //   "path": "",
+  //   "name": "Raffle",
+  //   "icon":"loyalty",
+  //   "tableFields":[],
+  // },
   {
     "link": "firestoreadmin",
     "path": "conference_venue",

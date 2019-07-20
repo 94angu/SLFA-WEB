@@ -5,6 +5,8 @@ import CardUI from './../ui/template/Card';
 import fire from 'firebase';
 import ReactTable from "react-table";
 import {ClipLoader,FadeLoader,ScaleLoader} from 'halogenium';
+import {Redirect} from 'react-router-dom';
+
 
 
 class RaffleDraw extends Component {
@@ -62,8 +64,8 @@ class RaffleDraw extends Component {
               
               if(doc.id==="--raffle_stats--"){
                 _this.setState({
-                  isRaffleDone:doc.data().isRaffleDone,
-                  raffleStatus:doc.data().status,
+                  // isRaffleDone:doc.data().isRaffleDone,
+                  // raffleStatus:doc.data().status,
                   selected_winners:doc.data().selected_winners
                 });
               }else{
@@ -126,9 +128,10 @@ class RaffleDraw extends Component {
     }
 
     selectRaffleNumber(row){
+      const _this=this;
       console.log("raffle place :"+JSON.stringify(row.original.place));
       var luckyNo;
-      this.setState({
+      _this.setState({
         isLoading: true 
       })
       if(this.state.min > this.state.max ){
@@ -146,7 +149,7 @@ class RaffleDraw extends Component {
       }
 
       setTimeout(function(){
-        this.setState({
+        _this.setState({
           number: luckyNo,
           isLoading:false 
         })
@@ -154,9 +157,9 @@ class RaffleDraw extends Component {
         const db = firebase.app.firestore();
         const raffleResultRef = db.collection('raffle_results').doc(row.original.place);
         raffleResultRef.update({ticket_no:luckyNo});
-        this.resetDataFunction();
+        _this.resetDataFunction();
       }.bind(this),5000);
-
+      
     }
 
     addNextWinner(){
@@ -172,7 +175,12 @@ class RaffleDraw extends Component {
       batch.set(raffleStatsRef,{selected_winners:increment},{merge:true});
       batch.commit();
 
-      this.resetDataFunction();
+      setTimeout(function(){
+        _this.setState({
+          raffleStatus:0,
+        })
+        _this.resetDataFunction();
+      }.bind(this),2000);
     }
 
     resetDataFunction(){
@@ -180,6 +188,12 @@ class RaffleDraw extends Component {
     }
     
     render() {
+      if(this.props.currentUser !== 'admin'){
+        return(
+          <Redirect to="/"/>
+    
+        )
+      }
       const columns = [{
         Header: '#',
         accessor: 'place' // String-based value accessors!
@@ -205,7 +219,13 @@ class RaffleDraw extends Component {
           </span>
       }]
       return (
-        <div className="content">
+
+        <div className="wrapper wrapper-full-page">
+        <div className="full-page landing-page">
+            <div className="content">
+                <div className="section intro-section">
+                    <div className="container w-container">
+                        <div className="content">
 			<NavBar />
             <div className="row">
                 <CardUI class="col-md-6"  name='' title={"Raffle Draw"}  showAction={false}>
@@ -238,7 +258,7 @@ class RaffleDraw extends Component {
 
                 <CardUI class="col-md-6"  name={"results"} title={"Results"}  showAction={false}>
                     {/* <br /><br /> */}
-                    {this.state.isRaffleDone==="1" ?
+                    {this.state.raffleStatus==="1" ?
                     <div>
                         <ReactTable
                           key={this.state.pageLength}
@@ -249,13 +269,13 @@ class RaffleDraw extends Component {
                           defaultPageSize={this.state.winners.length}
                           showPagination={false}  
                         />
-                        <input style={{float:"right"}} className="btn btn-sm" type="submit" value="Add" onClick={this.addNextWinner}/>
+                        <a style={{float:"right"}} className="btn btn-sm" onClick={this.addNextWinner}>Add</a>
                     </div>
 
                         
                       :
                       <div style={{textAlign:"center"}}>
-                          <input className="btn btn-success" type="submit" value="Start Raffle" onClick={this.startRaffle}/>
+                          <a className="btn btn-success" onClick={this.startRaffle}>Raffle</a>
                       </div>
                      
                     }
@@ -265,6 +285,17 @@ class RaffleDraw extends Component {
                 </CardUI>
             </div>
 		</div>
+                    </div>
+                </div>
+
+               
+            
+            </div>
+        
+        </div>
+
+    </div>
+        
   
       );
     }
