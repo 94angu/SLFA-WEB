@@ -388,27 +388,27 @@ class Mainlogin extends Component {
     const _this = this;
 
     
-    const db = firebase.app.firestore();
+    // const db = firebase.app.firestore();
     
-    const batch = db.batch();
-    const userStatsRef = firebase.app.firestore().collection('users').doc('--user_stats--');
-    const increment = fire.firestore.FieldValue.increment(1);
-    batch.set(userStatsRef,{user_count:increment},{merge:true});
-    batch.commit().then(function(){
-      firebase.app.firestore().collection('users').doc('--user_stats--').get()
-      .then(doc => {
-        if (!doc.exists) {
-          console.log('No such document!');
-        } else {
-          console.log('Document data:', doc.data().user_count);
-          var userID = doc.data().user_count;
-          firebase.app.database().ref('meta/config/allowedUsers/'+userID).set({
-            email: _this.state.user.email,
-            type: 'visitor'
-          });
-        }
-      })
-    })
+    // const batch = db.batch();
+    // const userStatsRef = firebase.app.firestore().collection('users').doc('--user_stats--');
+    // const increment = fire.firestore.FieldValue.increment(1);
+    // batch.set(userStatsRef,{user_count:increment},{merge:true});
+    // batch.commit().then(function(){
+    //   firebase.app.firestore().collection('users').doc('--user_stats--').get()
+    //   .then(doc => {
+    //     if (!doc.exists) {
+    //       console.log('No such document!');
+    //     } else {
+    //       console.log('Document data:', doc.data().user_count);
+    //       var userID = doc.data().user_count;
+    //       firebase.app.database().ref('meta/config/allowedUsers/'+userID).set({
+    //         email: _this.state.user.email,
+    //         type: 'visitor'
+    //       });
+    //     }
+    //   })
+    // })
 
     var usersRef = firebase.app.firestore().collection("users");
     usersRef.add({
