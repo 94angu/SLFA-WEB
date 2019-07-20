@@ -153,11 +153,11 @@ class Mainregister extends Component {
           <Redirect to='/login'/>
         )
       }
-      // if(this.props.isLoggedIn === true && this.props.isRegisteredUser){
-      //   return(
-      //     <Redirect to="/"/>
-      //   )
-      // }
+      if(this.props.isLoggedIn === true && this.props.isRegisteredUser){
+        return(
+          <Redirect to="/"/>
+        )
+      }
 
       console.log("isRegistered"+this.state.isRegistered)
         return(
