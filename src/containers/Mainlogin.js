@@ -409,9 +409,10 @@ class Mainlogin extends Component {
     //     }
     //   })
     // })
+    var userId = this.state.user.uid;
 
-    var usersRef = firebase.app.firestore().collection("users");
-    usersRef.add({
+    var usersRef = firebase.app.firestore().collection("users").doc(userId);
+    usersRef.set({
       email: this.state.user.email,
       fullName: fullName,
       userRole: "visitor",

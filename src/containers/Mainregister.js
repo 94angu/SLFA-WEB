@@ -19,6 +19,7 @@ class Mainregister extends Component {
         };
 
         this.authenticateRegister = this.authenticateRegister.bind(this);
+        this.writeUserData = this.writeUserData.bind(this);
         // this.changeIsRegistered = this.changeIsRegistered.bind(this);
 
     }
@@ -34,6 +35,7 @@ class Mainregister extends Component {
   // }
 
   authenticateRegister(username, password, displayName, userRole) {
+    const _this = this;
     const displayError = (error) => {
       this.setState({ error: error });
     }
@@ -46,12 +48,19 @@ class Mainregister extends Component {
 
     firebase.app.auth().createUserWithEmailAndPassword(username, password)
       .then(
-        
-        
-        
         function (data) {
+          var userId = data.user.uid;
+          var email = data.user.email;
           firebase.app.auth().currentUser.sendEmailVerification().then(function(){
-            const db = firebase.app.firestore();
+
+          console.log("userid,email",userId," ",email);
+          firebase.app.firestore().collection("users").doc(userId).set({
+              // email: email,
+              // userRole:"visitor",
+              // iscomplete:0
+          })
+          
+          const db = firebase.app.firestore();
     
           const batch = db.batch();
           const userStatsRef = firebase.app.firestore().collection('users').doc('--user_stats--');
@@ -72,6 +81,8 @@ class Mainregister extends Component {
               }
             })
           })
+            
+            
             changeIsRegistered();
           }).catch(function(error){
             console.log(error.message);
@@ -107,6 +118,14 @@ class Mainregister extends Component {
     
       
   }
+
+  writeUserData(userId,email) {
+    console.log("userid,email",userId," ",email);
+    var usersRef = firebase.app.firestore().collection("users").doc(userId);
+    usersRef.set({
+        email: email,
+    })
+}
 
   authWithGoogle() {
     var provider = new firebaseCLASS.auth.GoogleAuthProvider();
