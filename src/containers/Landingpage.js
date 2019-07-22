@@ -96,8 +96,8 @@ class Landingpage extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-s-12 col-md-4 col-lg-4">
-                            <div style={{color:'teal'}} className="small"> 
+                        <div className="col-s-12 col-md-4 col-lg-4 countdown">
+                            <div style={{color:'#fff'}} className="small timer"> 
                             <CountDown deadline='03 August 2019 13:02:03'/>
                             </div>
                         </div>
@@ -128,7 +128,7 @@ class Landingpage extends Component {
                                 </div>
                         </div>
                     </div> */}
-                    <div className="container w-container">
+                    <div className="container w-container boxes">
                         {/* <div className="section-title-wrapper">
                             <h2 className="section-title">promo</h2>
                             <div className="section-divider"></div>
@@ -138,7 +138,7 @@ class Landingpage extends Component {
                         <Promo/>
                     </div>
 
-                    <div className="container w-container">
+                    <div className="container w-container news-section">
                         <div className="section-title-wrapper">
                             <h2 className="section-title">News feed</h2>
                             <div className="section-divider"></div>

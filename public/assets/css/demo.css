@@ -105,10 +105,7 @@
 }
 
 .newsfeed {
-  height: 250px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-
+width:80%; margin:0 auto;
 }
   
 
@@ -148,7 +145,7 @@
 
 
 .content {
-  margin-left: 5px;
+  margin-left: 0px;
 }
 
 .container {
@@ -192,7 +189,7 @@
   position: relative;
   display: block;
   height: 100%;
-  padding-top: 36px;
+  padding-top: 30px;
   padding-left: 110px;
   padding-bottom: 20px;
   text-align: left;
@@ -848,6 +845,7 @@ raffle-input-field{
   and (-webkit-min-device-pixel-ratio: 2) { 
 
       .navbar-brand img{max-width:80%;}
+      .timer{text-align: center;}
 }
 
 
@@ -857,5 +855,13 @@ body{font-family: Montserrat, sans-serif !important;}
 .footer-row .section-divider{margin-top:0; height: 1px;}
 .carousel-caption{padding-bottom: 70px;}
 .carousel-indicators{bottom:50px;}
-.mdl-card__supporting-text{min-height: 100px; line-height: 22px;}
+.mdl-card__supporting-text{min-height: 100px; line-height: 22px; width: 100%}
 .carousel-caption h3{font-weight: 600;}
+.timer{min-height: :96px; padding:13px;}
+.countdown{background-color:#8b1b3f;}
+.mdl-shadow--2dp{box-shadow: 0 5px 5px 2px rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12)}
+.boxes{margin-top: 50px;}
+.news-section{width:100%;}
+.newsfeed .feature-image img{width: 100%; margin-bottom: 22px;}
+.newsfeed .title{font-weight: 600; margin-bottom: 10px;}
+.newsfeed .date{font-size:13px; margin-bottom: 10px;}

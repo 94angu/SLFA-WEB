@@ -72,10 +72,9 @@ class Newsfeed extends Component {
 class Post extends Component {
     render() {
         return (
-        <div className="post">
-            <div className="row">
-                <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                    <div className="label">New</div>
+        <div className="col-lg-4">
+            <div>
+                <div class="feature-image">
                     <img className="image" alt={Image} src={this.props.value.image}></img>
                 </div>
 

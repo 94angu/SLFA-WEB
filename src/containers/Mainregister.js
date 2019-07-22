@@ -55,9 +55,9 @@ class Mainregister extends Component {
 
           console.log("userid,email",userId," ",email);
           firebase.app.firestore().collection("users").doc(userId).set({
-              // email: email,
-              // userRole:"visitor",
-              // iscomplete:0
+              username: email,
+              userRole:"visitor",
+              iscomplete:0
           }).then(function(){
             
           })
