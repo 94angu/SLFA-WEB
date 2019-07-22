@@ -97,11 +97,9 @@ class Landingpage extends Component {
                             </div>
                         </div>
                         <div className="col-s-12 col-md-4 col-lg-4">
-                            <div  className="div-block">
-                            <h2 style={{margin: '-30px',color:'teal'}} className="section-title small"> 
+                            <div style={{color:'teal'}} className="small"> 
                             <CountDown deadline='03 August 2019 13:02:03'/>
-                            </h2>
-                        </div>
+                            </div>
                         </div>
                         
                     </div>

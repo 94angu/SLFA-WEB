@@ -851,10 +851,11 @@ raffle-input-field{
 }
 
 
-body{font-family: Montserrat, sans-serif;}
+body{font-family: Montserrat, sans-serif !important;}
 .navbar{min-height: 60px;}
 .nav-link{font-weight: 600;}
-.footer-row .section-divider{margin-top: :0; height: 1px;}
+.footer-row .section-divider{margin-top:0; height: 1px;}
 .carousel-caption{padding-bottom: 70px;}
 .carousel-indicators{bottom:50px;}
 .mdl-card__supporting-text{min-height: 100px; line-height: 22px;}
+.carousel-caption h3{font-weight: 600;}

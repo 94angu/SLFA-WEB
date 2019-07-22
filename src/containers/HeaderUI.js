@@ -116,16 +116,16 @@ export default class HeaderUI extends Component {
                         
                         <ul className="nav navbar-nav navbar-right">
                             <li>
-                                <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/">Home</NavLink> 
+                                <NavLink exact activeStyle={{backgroundColor:'#0000001a'}} to="/">Home</NavLink> 
                             </li>
                             <li>
-                                <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/about">About</NavLink> 
+                                <NavLink exact activeStyle={{backgroundColor:'#0000001a'}} to="/about">About</NavLink> 
                             </li>
                             <li>
-                                <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/centre">Centres</NavLink> 
+                                <NavLink exact activeStyle={{backgroundColor:'#0000001a'}} to="/centre">Centres</NavLink> 
                             </li>
                             <li>
-                                <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/program">Program</NavLink> 
+                                <NavLink exact activeStyle={{backgroundColor:'#0000001a'}} to="/program">Program</NavLink> 
                             </li>
                             
                             {!this.props.isLoggedIn ?
