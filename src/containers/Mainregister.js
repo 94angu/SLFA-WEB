@@ -53,13 +53,11 @@ class Mainregister extends Component {
           var email = data.user.email;
           firebase.app.auth().currentUser.sendEmailVerification().then(function(){
 
-          console.log("userid,email",userId," ",email);
+          console.log("1 userid,email",userId," ",email);
           firebase.app.firestore().collection("users").doc(userId).set({
-              username: email,
+              email: email,
               userRole:"visitor",
               iscomplete:0
-          }).then(function(){
-            
           })
           
           const db = firebase.app.firestore();
@@ -71,10 +69,12 @@ class Mainregister extends Component {
           batch.commit().then(function(){
             firebase.app.firestore().collection('users').doc('--user_stats--').get()
             .then(doc => {
+              console.log("2 userid,email",userId," ",email);
               if (!doc.exists) {
                 console.log('No such document!');
               } else {
                 console.log('Document data:', doc.data().user_count);
+                console.log("3 userid,email",userId," ",email);
                 var userID = doc.data().user_count;
                 firebase.app.database().ref('meta/config/allowedUsers/'+userID).set({
                   email: username,
