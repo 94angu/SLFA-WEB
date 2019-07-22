@@ -269,7 +269,6 @@ class Main extends Component{
 
         return(
             <Router history={hashHistory}>
-              <ScrollToTop>
               <HeaderUI currentUser={this.state.currentUser} isLoggedIn={this.state.isLoggedIn} >
                 <Route exact path={"/"} component={Landingpage}/>
                 <Route path="/landing" component={Landingpage}/>
@@ -311,7 +310,6 @@ class Main extends Component{
                   />}
                 />
               </HeaderUI>
-              </ScrollToTop>
             </Router>
 
         );

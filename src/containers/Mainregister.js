@@ -79,13 +79,14 @@ class Mainregister extends Component {
                 firebase.app.database().ref('meta/config/allowedUsers/'+userID).set({
                   email: username,
                   type: 'euser'
-                });
+                }).then(function(){
+                  _this.setState({
+                    isRegistered:true
+                  });
+                })
               }
             })
           })
-            
-            
-            changeIsRegistered();
           }).catch(function(error){
             console.log(error.message);
             displayError(error.message);
