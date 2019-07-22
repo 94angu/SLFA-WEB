@@ -118,9 +118,9 @@ export default class HeaderUI extends Component {
                             <li>
                                 <NavLink exact activeStyle={{backgroundColor:'#0000003a'}} to="/">Home</NavLink> 
                             </li>
-                            <li>
+                            {/* <li>
                                 <NavLink exact activeStyle={{backgroundColor:'#0000003a'}} to="/about">About</NavLink> 
-                            </li>
+                            </li> */}
                             <li>
                                 <NavLink exact activeStyle={{backgroundColor:'#0000003a'}} to="/centre">Centres</NavLink> 
                             </li>
@@ -177,20 +177,13 @@ export default class HeaderUI extends Component {
                 <footer className="footer" style={{backgroundColor:'#353535'}}>
                     <div className="container w-container">
                         <div className="footer-row w-row">
-                            <div className="footer-column first w-col w-col-6">
+                            <div className="footer-column first w-col w-col-10">
                                 <div className="footer-title">About the festival</div>
                                 <div className="section-divider"></div>
                                 <p style={{color:'#b8b8b8'}}>
                                 Sri Lanka Festival organized by Sri Lanka Business Council of Japan, consists of well over 100 booths and stalls, marketing and projecting products made, primarily in Sri Lanka. There are over 35 stalls at the Food Mart at the festival serving authentic Sri Lankan food and beverages as well as non-authentic Sri Lankan food. A number of booths and stalls sell Sri Lankan products and services ranging from garments, gems & Jewellery, handicrafts, ornamental items, financial and banking services to astrological and ayurvedic services, among others.
                                 </p>
-                            </div>
-
-                            <div className="footer-column w-col w-col-3">
-                                <div className="footer-title">Contact us</div>
-                                <div className="section-divider"></div>
-                                <ul className="footer-list w-list-unstyled">
-                                    <li className="footer-list-item">
-                                        <p style={{color:'#b8b8b8'}}>
+                                <p style={{color:'#b8b8b8'}}>
                                             <em>Organized by</em>
                                             <br></br>
                                             <strong>Sri Lanka Business Council of Japan</strong>
@@ -198,9 +191,17 @@ export default class HeaderUI extends Component {
                                             C/O Sri Lanka Embassy, 2 Chome-1-54 Takanawa, Minato, Tokyo 108-0074, Japan
                                             <br></br>
                                         </p>
+                            </div>
+
+                            <div className="footer-column w-col w-col-2">
+                                <div className="footer-title">Contact us</div>
+                                <div className="section-divider"></div>
+                                <ul className="footer-list w-list-unstyled">
+                                    <li className="footer-list-item">
+                                        
                                     </li>
                                     <li className="footer-list-item">
-                                        <a style={{color:'#b8b8b8'}} className="link footer-link"><strong>Call</strong>: 03-6868-8666</a>
+                                        <a style={{color:'#b8b8b8'}} className="link footer-link" href="tel:03-6868-8666"><strong>Call</strong>: 03-6868-8666</a>
                                     </li>
                                     <li className="footer-list-item">
                                         <a style={{color:'#b8b8b8'}} className="link footer-link email-link" href="mailto:info@srilankafestival.jp"><strong>Mail</strong>: info@srilankafestival.jp</a>
@@ -208,24 +209,7 @@ export default class HeaderUI extends Component {
                                 </ul>
                             </div>
 
-                            <div className="footer-column w-col w-col-3">
-                                <div className="footer-title">Links</div>
-                                <div className="section-divider"></div>
-                                <ul className="footer-list w-list-unstyled">
-                                    <li className="footer-list-item">
-                                       <a style={{color:'#b8b8b8'}} className="link footer-link">Frequently Asked Questions</a>
-                                    </li>
-                                    <li className="footer-list-item">
-                                        <a style={{color:'#b8b8b8'}} className="link footer-link">About the festival</a>
-                                    </li>
-                                    <li className="footer-list-item">
-                                        <a style={{color:'#b8b8b8'}} className="link footer-link">Our Restaurants</a>
-                                    </li>
-                                    <li className="footer-list-item">
-                                        <a style={{color:'#b8b8b8'}} className="link footer-link">Our Program</a>
-                                    </li>
-                                </ul>
-                            </div>
+                            
                         </div>
                     </div>
                 </footer>

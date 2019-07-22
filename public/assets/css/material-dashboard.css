@@ -9515,6 +9515,7 @@ color: inherit;
 padding-top: 20px;
 padding-bottom: 20px;
 font-weight: 500;
+    line-height: 24px;
 font-size: 12px;
 text-transform: uppercase;
 border-radius: 0;
@@ -9946,6 +9947,7 @@ border-radius: 0;
 .navbar .navbar-nav > li > a {
   padding-top: 15px;
   padding-bottom: 15px;
+  line-height: 24px !important;
 }
 }
 .navbar .alert {
@@ -10435,7 +10437,7 @@ color: #999999;
 border: none;
 }
 .card img {
-width: 100%;
+width: 130%;
 height: auto;
 }
 .card .category .material-icons {

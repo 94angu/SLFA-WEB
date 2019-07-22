@@ -83,7 +83,7 @@ class Products extends Component {
                                         {items}
                                     </Grid>
                                 </div>
-                                <div className="col-lg-4">
+                                {/* <div className="col-lg-4">
                                     <div className="card">
                                         <div style={{margin:"20px"}} className="card-body">
                                         <button type="button" className="btn btn-success btn-block">Checkout</button>
@@ -101,7 +101,7 @@ class Products extends Component {
                                             
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         
                         </div>

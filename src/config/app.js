@@ -237,10 +237,10 @@ exports.navigation=[
   // },
   {
     "link": "firestoreadmin",
-    "path": "conferencetickets",
+    "path": "ticket_collection",
     "name": "Tickets",
     "icon":"list",
-    "tableFields":["title","image","price"],
+    "tableFields":["tickNo","user"],
   },
   {
     "link": "firestoreadmin",

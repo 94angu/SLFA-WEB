@@ -50,6 +50,7 @@ class Centre extends Component {
                 <div className="full-page landing-page">
                     <div className="content">
                         <div style={{paddingBottom: '50px'}} className="section intro-section">
+                            <div className="container-fluid centre-banner"></div>
                             <div className="container w-container">
                                 <div className="section-title-wrapper intro">
                                     <h2 className="section-title">restaurants</h2>

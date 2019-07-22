@@ -15,7 +15,9 @@ class RaffleDraw extends Component {
       this.state = {
         min: 1,
         max: 1000,
-        number: "Start Raffle",
+        number: null,
+        isRaffleStarted:false,
+        isRaffleEnded:false,
         selected_winners:null,
         winners:[],
         isLoading:false
@@ -33,7 +35,7 @@ class RaffleDraw extends Component {
   
     componentDidMount() {
      this.setState({ number: this.generateNumber(this.state.min, this.state.max)});
-    this.setState({number:"Start Raffle"});
+    this.setState({number:"Raffle",isRaffleStarted:false,isRaffleEnded:false});
       const _this=this;
       const db = firebase.app.firestore();
       const ticketStatsRef = db.collection('raffle_results').doc('--raffle_stats--');
@@ -100,7 +102,9 @@ class RaffleDraw extends Component {
       setTimeout(function(){
         _this.setState({
           isRaffleDone:"1",
-          raffleStatus:"1"
+          raffleStatus:"1",
+            isRaffleStarted:true,
+            
         })
       }.bind(this),2000);
 
@@ -151,14 +155,15 @@ class RaffleDraw extends Component {
       setTimeout(function(){
         _this.setState({
           number: luckyNo,
-          isLoading:false 
+          isLoading:false,
+            isRaffleEnded:true
         })
 
         const db = firebase.app.firestore();
         const raffleResultRef = db.collection('raffle_results').doc(row.original.place);
         raffleResultRef.update({ticket_no:luckyNo});
         _this.resetDataFunction();
-      }.bind(this),5000);
+      }.bind(this),3000);
       
     }
 
@@ -178,6 +183,7 @@ class RaffleDraw extends Component {
       setTimeout(function(){
         _this.setState({
           raffleStatus:0,
+            isRaffleStarted:false
         })
         _this.resetDataFunction();
       }.bind(this),2000);
@@ -228,35 +234,35 @@ class RaffleDraw extends Component {
                         <div className="content">
 			<NavBar />
             <div className="row">
-                <CardUI class="col-md-6"  name='' title={"Raffle Draw"}  showAction={false}>
-                    <br />
+                <CardUI class="col-md-12 winning"  name='' title={"Raffle Draw"}  showAction={false}>
                     <div style={this.state.raffleStatus==="1" ? {} : {pointerEvents:'none',opacity:'0.4'}} id="raffle-draw">
-                    <div id="winning-num-label">Winning Number</div>
-                    <p id="winning-num">
-                    {this.state.isLoading===true ?
-                      <ScaleLoader color="#8637AD" size="12px" margin="4px"/>
-                      :
-                      this.state.number
-                    }
-                    </p>
-                    <div>
-                        <div id="headers"> 
-                        <p>Number from</p>
-                        <p>Number to</p>
-                        </div>
-                        <div id="raffle-input">
-                        <input className="raffle-input" min="-9999999999" max="9999999999" type="number" value={ this.state.min } onChange={this.minChange} />
-                        <input className="raffle-input" min="-9999999999" max="9999999999" type="number" value={ this.state.max } onChange={this.maxChange} />
-                        </div>
-                        {/* <div style={{textAlign:"center"}}>
-                            <input className="btn btn-success" type="submit" value="Raffle" onClick={ this.getInputs }/>
-                        </div> */}
+                    
+                    <div id="winning-num">
+                        {this.state.isRaffleStarted===false?
+                        "Start"
+                        :""}
+                        {this.state.isLoading===true?
+                            <img src="assets/img/loader.gif"></img>
+                        :
+                        ""
+                        }
+          
+                        {(this.state.isRaffleEnded===false && this.state.isRaffleStarted===true&&this.state.isLoading===false)?
+                            "Raffle"
+                        :""}
+                       
+                        {this.state.isRaffleEnded===true?
+                            <div className="winning-number">{this.state.number}</div>
+                        :
+                        ""
+                        }
                         
                     </div>
+                    
                     </div>
                 </CardUI>
 
-                <CardUI class="col-md-6"  name={"results"} title={"Results"}  showAction={false}>
+                <CardUI class="col-md-12 results"  name={"results"} title={"Results"}  showAction={false}>
                     {/* <br /><br /> */}
                     {this.state.raffleStatus==="1" ?
                     <div>
@@ -275,7 +281,7 @@ class RaffleDraw extends Component {
                         
                       :
                       <div style={{textAlign:"center"}}>
-                          <a className="btn btn-success" onClick={this.startRaffle}>Raffle</a>
+                          <a className="btn btn-success raffle" onClick={this.startRaffle}>Raffle</a>
                       </div>
                      
                     }

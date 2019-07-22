@@ -72,7 +72,7 @@ class Newsfeed extends Component {
 class Post extends Component {
     render() {
         return (
-        <div className="col-lg-4">
+        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
             <div>
                 <div className="feature-image">
                     <img className="image" alt={Image} src={this.props.value.image}></img>
@@ -80,11 +80,11 @@ class Post extends Component {
 
                 <div>
                     <div className="title">
-                        {this.props.value.title}
+                        <a href="#">{this.props.value.title}</a>
                     </div>
-                    <div className="date">
+                    {/* <div className="date">
                         {this.props.value.date}
-                    </div>
+                    </div> */}
 
                     <div className="description">
                         {this.props.value.description}

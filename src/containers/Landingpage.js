@@ -69,7 +69,7 @@ class Landingpage extends Component {
                     <Card shadow={0} style={{width: '80%',minHeight:'45px',margin:'auto',marginTop:'-35px'}}>
                    
                     <div className="row">
-                        <div className="col-xs-6 col-md-4 col-lg-4">
+                        <div className="col-xs-6 col-md-4 col-lg-4 col-sm-3">
                             <div className="intro-info-block">
                                 <div className="intro-icon-wrapper">
                                 <img  style={{width: '30px'}} src="https://uploads-ssl.webflow.com/5c64e08639e719533fb04a7f/5c64e08639e7192290b04a97_Icon-location.png"></img>
@@ -83,7 +83,7 @@ class Landingpage extends Component {
                             </div>
                         </div>
 
-                        <div className="col-xs-6 col-md-4 col-lg-4">
+                        <div className="col-xs-6 col-md-4 col-lg-4 col-sm-4">
                             <div className="intro-info-block">
                                 <div className="intro-icon-wrapper">
                                 <img  style={{width: '30px'}} src="https://uploads-ssl.webflow.com/5c64e08639e719533fb04a7f/5c64e08639e7194f7ab04a99_Icon-calendar.png"></img>
@@ -96,7 +96,7 @@ class Landingpage extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-xs-12 col-md-4 col-lg-4 countdown">
+                        <div className="col-xs-12 col-md-4 col-lg-4 col-sm-5 countdown">
                             <div style={{color:'#fff'}} className="small timer"> 
                             <CountDown deadline='03 August 2019 13:02:03'/>
                             </div>
@@ -194,14 +194,14 @@ class Landingpage extends Component {
 
                     
 
-                    <div className="section download-section">
+                    {/* <div className="section download-section">
                         <div className="div-block">
                             <h2 className="section-title small" style={{paddingTop:'10px'}}>downloads</h2>
                             <div className="section-divider"></div>
                             <p className="paragraph-2">Various form and documents can that are useful for exhibitors and other interested parties can be downloaded here.</p>
                             <a className="button w-button">Download Now</a>
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="section">
                         <div className="map-container">

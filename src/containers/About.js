@@ -8,6 +8,7 @@ class About extends Component {
                 <div className="full-page landing-page">
                     <div className="content">
                         <div className="section intro-section">
+                            <div className="container-fluid about-banner"></div>
                             <div className="container w-container">
                                 <div className="section-title-wrapper intro">
                                     <h2 className="section-title">About the festival</h2>
@@ -18,8 +19,8 @@ class About extends Component {
                                 </div>
 
                                 <div>
-                                    <h5>Event Description</h5>
-                                    <p>
+                                    <h3 className="section-title small-title">Event Description</h3>
+                                    <p className="section-title subtitle">
                                     Ceylon One” (Sri Lankan day in Japan) showcase Sri Lankan products, destinations, spices as well as services 
                                     offered by business crowd lived Japan. Registered users can redeem gift at the Sri Lankan Day event and can 
                                     entitled for the raffle draw. Also, user can view Sri Lankan Restaurants, Pre order food and view Event Calendar

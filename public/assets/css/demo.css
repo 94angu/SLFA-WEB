@@ -776,19 +776,25 @@ width:80%; margin:0 auto;
 
 #winning-num-label{
   color: #ffffff;
-  font-size: 1em;
+  font-size: 27px;
+  font-weight: 500;
   padding: 1em;
   background: #19034d;
   text-align: center;
 }
 
 #winning-num{
-  padding: 0.8em;
-  font-size: 2em;
-  margin: 0;
-  color: #212121;
+  padding: 105px 0;
+  font-size: 45px;
+  font-weight: 600;
+  margin: 20px auto 50px;
+  border: 10px solid #0b2f82;
+  border-radius: 100%;
+  color: #19034d;
   transition: padding 0.2s;
   text-align: center;
+  width: 250px;
+  height: 250px;
 }
 
 #raffle{
@@ -835,7 +841,7 @@ raffle-input-field{
 
 /*!New CSS by Manik*/
 
-/* Portrait and Landscape */
+/* Portrait and Landscape iphone */
 @media only screen 
   and (min-device-width: 375px) 
   and (max-device-width: 667px) 
@@ -845,6 +851,16 @@ raffle-input-field{
       .timer{text-align: center;}
       .mdl-cell--3-col{width:calc(100% - 16px) !important;}
 }
+
+/* Portrait ipad */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (orientation: portrait) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+      .mdl-cell--3-col{width: calc(49.5% - 16px) !important;}
+}
+
 
 
 body{font-family: Montserrat, sans-serif !important;}
@@ -861,10 +877,10 @@ body{font-family: Montserrat, sans-serif !important;}
 .mdl-shadow--2dp{box-shadow: 0 5px 5px 2px rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12)}
 .boxes{margin-top: 50px;}
 .news-section{width:100%; background-color:#fff; margin-top: 50px; padding-bottom: 60px;}
-.newsfeed .feature-image img{width: 100%; margin-bottom: 15px;}
+.newsfeed .feature-image img{width: 100%; margin-bottom: 15px; max-width: 100% !important; }
 .newsfeed .title{font-weight: 600; margin-bottom: 10px;}
 .newsfeed .date{font-size:12px; margin-bottom: 10px;}
-.mdl-button.mdl-button--colored{color:#0b2f82 !important; background-color:#e1e1e1;}
+.mdl-button.mdl-button--colored{color:#0b2f82 !important; background-color:#e1e1e1;font-size:13px}
 .mdl-button:hover{background-color: #0b2f82 !important; color: #fff !important;}
 .mdl-card__actions{padding: 8px 15px 15px !important;}
 .mdl-card__actions.mdl-card--border{border:none !important;}
@@ -883,8 +899,19 @@ body{font-family: Montserrat, sans-serif !important;}
 .card [data-background-color="rose"]{background: #f34307 !important;}
 .btn-google{display: none;}
 
-.card-login a{color:#000 !important;}
-.card-login a:hover{color:#ff4307 !important;}
+.card-login a, .title a{color:#000 !important;}
+.card-login a:hover, .title a:hover{color:#ff4307 !important;}
 .email-link{text-transform: none;}
 .footer-link{color:#fff !important;}
 .footer-link:hover{color:#ff4307 !important;}
+.navbar.navbar-primary .dropdown-menu li > a:hover, .navbar.navbar-primary .dropdown-menu li > a:focus{background:#ff4307 !important; }
+
+.winning .card-header, .results .card-header{display: none !important;}
+.winning .card{background: none; box-shadow: none;}
+.raffle{padding:15px 55px; font-size: 25px; font-weight: 600; margin-bottom: 30px; border-radius: 35px;}
+.winning img{margin-top: -137px; max-width: 130%; margin-left: -34px;}
+.winning-number{font-size: 85px; color:#f20d0d; font-weight: 700;}
+.about-banner{background-image: url('../img/about-banner.jpg'); min-height: 350px;}
+.centre-banner{background-image: url('../img/centre-banner.jpg'); min-height: 350px;}
+.program-banner{background-image: url('../img/program-banner.jpg'); min-height: 350px;}
+.small-title{font-size: 18px !important; padding-top:25px !important; margin-bottom:15px;}
