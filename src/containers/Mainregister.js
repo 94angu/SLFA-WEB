@@ -58,6 +58,8 @@ class Mainregister extends Component {
               // email: email,
               // userRole:"visitor",
               // iscomplete:0
+          }).then(function(){
+            
           })
           
           const db = firebase.app.firestore();

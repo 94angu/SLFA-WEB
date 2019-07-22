@@ -97,7 +97,7 @@ export default class HeaderUI extends Component {
         return (
 
         <div>
-                <nav style={{padding:"5px 0"}} className="navbar navbar-primary navbar-fixed-top">{/*navbar-tranparent*/}
+                <nav style={{padding:"0"}} className="navbar navbar-primary navbar-fixed-top">{/*navbar-tranparent*/}
                     <div className="container">
                         <div className="navbar-header">
                             <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
@@ -131,7 +131,7 @@ export default class HeaderUI extends Component {
                             {!this.props.isLoggedIn ?
                             <li className={this.props.isRegister ? "active" : ""}>
                                 <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/login">
-                                    <a style={{color:'#01fde6'}} className="nav-link" role="button" >
+                                    <a style={{color:'#8b1b3f'}} className="nav-link" role="button" >
                                         <i className="material-icons">fingerprint</i>Login
                                     </a>
                                 </NavLink>
@@ -148,7 +148,7 @@ export default class HeaderUI extends Component {
                             {!this.props.isLoggedIn ?
                             <li className={this.props.isRegister ? "active" : ""} >
                                 <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/register">
-                                    <a style={{color:'#01fde6'}} className="nav-link" role="button" >
+                                    <a style={{color:'#8b1b3f'}} className="nav-link" role="button" >
                                         <i className="material-icons">how_to_reg</i>Register
                                     </a>
                                 </NavLink>
