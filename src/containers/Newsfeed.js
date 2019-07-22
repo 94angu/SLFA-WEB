@@ -44,7 +44,7 @@ class Newsfeed extends Component {
             <Post key={index} value={post} />
         );
         return (
-            <div className="newsfeed">
+            <div className="newsfeed row">
                 {posts}
             
             </div>
@@ -74,7 +74,7 @@ class Post extends Component {
         return (
         <div className="col-lg-4">
             <div>
-                <div class="feature-image">
+                <div className="feature-image">
                     <img className="image" alt={Image} src={this.props.value.image}></img>
                 </div>
 

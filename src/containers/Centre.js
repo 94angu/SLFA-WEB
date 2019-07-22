@@ -61,7 +61,7 @@ class Centre extends Component {
                             </div>
                         </div>
 
-                        <div className="container w-container">
+                        <div className="container w-container card-wrap">
                             {this.state.isLoading?<PulseLoader color="#8637AD" size="12px" margin="4px"/>:""}
                             <Grid className="demo-grid-1">
                                 {centres}
@@ -86,7 +86,7 @@ class Restaurant extends Component {
             <Cell col={3}>
                 <Card shadow={0} style={{width: '100%', height: '320px', margin: 'auto'}}>
                     <CardTitle style={{height:'180px',color: '#fff', background: 'url('+this.props.value.content.image+')bottom right 15% no-repeat #46B6AC',backgroundSize:'cover'}}></CardTitle>
-                    <CardText style={{width:'100%',textAlign:'center'}}>
+                    <CardText style={{width:'100%'}}>
                         {this.props.value.content.description}
                     </CardText>
                     <CardActions border>

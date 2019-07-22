@@ -67,7 +67,7 @@ class Program extends Component {
 
                         </div>
 
-                        <div style={{marginBottom:'20px'}} className="container w-container">
+                        <div style={{marginBottom:'20px'}} className="container w-container card-wrap">
                             <Youtubeplayer videoId='CZqp8yymfA4'/>
                         </div>
                     

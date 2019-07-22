@@ -69,7 +69,7 @@ class Landingpage extends Component {
                     <Card shadow={0} style={{width: '80%',minHeight:'45px',margin:'auto',marginTop:'-35px'}}>
                    
                     <div className="row">
-                        <div className="col-s-12 col-md-4 col-lg-4">
+                        <div className="col-xs-6 col-md-4 col-lg-4">
                             <div className="intro-info-block">
                                 <div className="intro-icon-wrapper">
                                 <img  style={{width: '30px'}} src="https://uploads-ssl.webflow.com/5c64e08639e719533fb04a7f/5c64e08639e7192290b04a97_Icon-location.png"></img>
@@ -83,7 +83,7 @@ class Landingpage extends Component {
                             </div>
                         </div>
 
-                        <div className="col-s-12 col-md-4 col-lg-4">
+                        <div className="col-xs-6 col-md-4 col-lg-4">
                             <div className="intro-info-block">
                                 <div className="intro-icon-wrapper">
                                 <img  style={{width: '30px'}} src="https://uploads-ssl.webflow.com/5c64e08639e719533fb04a7f/5c64e08639e7194f7ab04a99_Icon-calendar.png"></img>
@@ -96,7 +96,7 @@ class Landingpage extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-s-12 col-md-4 col-lg-4 countdown">
+                        <div className="col-xs-12 col-md-4 col-lg-4 countdown">
                             <div style={{color:'#fff'}} className="small timer"> 
                             <CountDown deadline='03 August 2019 13:02:03'/>
                             </div>
@@ -138,7 +138,7 @@ class Landingpage extends Component {
                         <Promo/>
                     </div>
 
-                    <div className="container w-container news-section">
+                    <div className="container news-section">
                         <div className="section-title-wrapper">
                             <h2 className="section-title">News feed</h2>
                             <div className="section-divider"></div>
@@ -146,9 +146,14 @@ class Landingpage extends Component {
                         </div>
 
                         <Newsfeed/>
+            
+            <div className="intro-section-column w-col w-col-12 w-col-small-12 w-col-tiny-12">
+                                <p className="join-text">Interested in reading more news about the event?</p>
+                                <a className="button w-button" href="#">Read More News</a>
+                            </div>
                     </div>
 
-                    <div className="container w-container">
+                    <div className="container w-container tokyo-text">
                         <div className="section-title-wrapper centered">
                             <h2 className="section-title">feel sri Lanka in tokyo....!!</h2>
                             <div className="section-divider"></div>
@@ -156,36 +161,33 @@ class Landingpage extends Component {
                         </div>
 
                         <div className="intro-section-row w-row">
-                            <div className="intro-section-column w-col w-col-3 w-col-small-6 w-col-tiny-6">
+                            <div className="intro-section-column w-col w-col-4 w-col-small-4 w-col-tiny-12">
                                 <div className="icon-block">
-                                    <img src="https://uploads-ssl.webflow.com/5c64e08639e719533fb04a7f/5c64e08639e7198d23b04a8f_Icon-megaphone.png"></img>
+                                    <img src="assets/img/food.png"></img>
                                 </div>
                                 <div className="intro-column-title">Food</div>
                                 <p>There are over 35 stalls at the Food Mart at the festival</p>
                             </div>
 
-                            <div className="intro-section-column w-col w-col-3 w-col-small-6 w-col-tiny-6">
+                            <div className="intro-section-column w-col w-col-4 w-col-small-4 w-col-tiny-12">
                                 <div className="icon-block">
-                                    <img src="https://uploads-ssl.webflow.com/5c64e08639e719533fb04a7f/5c64e08639e719dcecb04a96_Icon-group.png"></img>
+                                    <img src="assets/img/music.png"></img>
                                 </div>
                                 <div className="intro-column-title">music & dance</div>
                                 <p>Celebrate with Sri Lankan music and dance</p>
                             </div>
 
-                            <div className="intro-section-column w-col w-col-3 w-col-small-6 w-col-tiny-6">
+                            <div className="intro-section-column w-col w-col-4 w-col-small-4 w-col-tiny-12">
                                 <div className="icon-block">
-                                    <img src="https://uploads-ssl.webflow.com/5c64e08639e719533fb04a7f/5c64e08639e719e745b04a9a_Icon-lamp.png"></img>
+                                    <img src="assets/img/ayurveda.png"></img>
                                 </div>
                                 <div className="intro-column-title">ayurveda & yoga</div>
                                 <p>Try out Ayurveda and Yogo in Sri Lankan style</p>
                             </div>
 
-                            <div className="intro-section-column w-col w-col-3 w-col-small-6 w-col-tiny-6">
-                                <div className="icon-block color">
-                                    <img src="https://uploads-ssl.webflow.com/5c64e08639e719533fb04a7f/5c64e08639e719387fb04a98_Icon-arrow-right-white.png"></img>
-                                </div>
-                                <div className="intro-column-title">Join us</div>
-                                <p>It`s time to join us..!!</p>
+                            <div className="intro-section-column w-col w-col-12 w-col-small-12 w-col-tiny-12">
+                                <p className="join-text">Join with us and experience a great festival full of entertainment</p>
+                                <a className="button w-button" href="/register">Register Here Today</a>
                             </div>
                         </div>
                     </div>
@@ -197,15 +199,17 @@ class Landingpage extends Component {
                             <h2 className="section-title small" style={{paddingTop:'10px'}}>downloads</h2>
                             <div className="section-divider"></div>
                             <p className="paragraph-2">Various form and documents can that are useful for exhibitors and other interested parties can be downloaded here.</p>
-                            <a className="button w-button">Download now</a>
+                            <a className="button w-button">Download Now</a>
                         </div>
                     </div>
 
                     <div className="section">
-                        <div className="w-container">
+                        <div className="map-container">
                             <div className="section-title-wrapper centered">
                                 <h2 className="section-title">festival map</h2>
-                                <div className="section-divider"></div>
+                                <div className="section-divider">
+                                </div>
+                                <div className="map-section">Google Map goes here</div>
 
                             </div>
 

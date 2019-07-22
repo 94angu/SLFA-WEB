@@ -116,22 +116,22 @@ export default class HeaderUI extends Component {
                         
                         <ul className="nav navbar-nav navbar-right">
                             <li>
-                                <NavLink exact activeStyle={{backgroundColor:'#0000001a'}} to="/">Home</NavLink> 
+                                <NavLink exact activeStyle={{backgroundColor:'#0000003a'}} to="/">Home</NavLink> 
                             </li>
                             <li>
-                                <NavLink exact activeStyle={{backgroundColor:'#0000001a'}} to="/about">About</NavLink> 
+                                <NavLink exact activeStyle={{backgroundColor:'#0000003a'}} to="/about">About</NavLink> 
                             </li>
                             <li>
-                                <NavLink exact activeStyle={{backgroundColor:'#0000001a'}} to="/centre">Centres</NavLink> 
+                                <NavLink exact activeStyle={{backgroundColor:'#0000003a'}} to="/centre">Centres</NavLink> 
                             </li>
                             <li>
-                                <NavLink exact activeStyle={{backgroundColor:'#0000001a'}} to="/program">Program</NavLink> 
+                                <NavLink exact activeStyle={{backgroundColor:'#0000003a'}} to="/program">Program</NavLink> 
                             </li>
                             
                             {!this.props.isLoggedIn ?
                             <li className={this.props.isRegister ? "active" : ""}>
                                 <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/login">
-                                    <a style={{color:'#8b1b3f'}} className="nav-link" role="button" >
+                                    <a style={{color:'#ff4307'}} className="nav-link" role="button" >
                                         <i className="material-icons">fingerprint</i>Login
                                     </a>
                                 </NavLink>
@@ -148,7 +148,7 @@ export default class HeaderUI extends Component {
                             {!this.props.isLoggedIn ?
                             <li className={this.props.isRegister ? "active" : ""} >
                                 <NavLink exact activeStyle={{backgroundColor:'#fffcff1a'}} to="/register">
-                                    <a style={{color:'#8b1b3f'}} className="nav-link" role="button" >
+                                    <a style={{color:'#ff4307'}} className="nav-link" role="button" >
                                         <i className="material-icons">how_to_reg</i>Register
                                     </a>
                                 </NavLink>
@@ -203,7 +203,7 @@ export default class HeaderUI extends Component {
                                         <a style={{color:'#b8b8b8'}} className="link footer-link"><strong>Call</strong>: 03-6868-8666</a>
                                     </li>
                                     <li className="footer-list-item">
-                                        <a style={{color:'#b8b8b8'}} className="link footer-link"><strong>Mail</strong>: info@srilankafestival.jp</a>
+                                        <a style={{color:'#b8b8b8'}} className="link footer-link email-link" href="mailto:info@srilankafestival.jp"><strong>Mail</strong>: info@srilankafestival.jp</a>
                                     </li>
                                 </ul>
                             </div>

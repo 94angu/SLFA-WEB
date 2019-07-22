@@ -105,7 +105,11 @@ export default class MainloginUI extends Component {
                                                     }</h4>
                                                 </div>
                                                 <div className="card-content">
-                                                    {this.props.showGoogleLogin()}
+                                                {!this.state.isResetPassword?
+                                                    this.props.showGoogleLogin()
+                                                    :
+                                                    ""}
+                                                    
                                                     <h4>{this.props.error}</h4>
                                                     <div className="input-group">
                                                         <span className="input-group-addon">

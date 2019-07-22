@@ -377,7 +377,7 @@ class Mainlogin extends Component {
             </a>
         </p>
         <br />
-        <p className="category text-center">Or login using email</p>
+        <p className="category text-center">Login using email</p>
       </div>
     )
    
