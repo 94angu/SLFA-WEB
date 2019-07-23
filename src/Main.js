@@ -60,7 +60,10 @@ class Main extends Component{
             // User is signed in.
             if(user.emailVerified===false){
               alert("Verify your Email!");
-              firebase.app.auth().signOut();
+              setTimeout(function(){
+                firebase.app.auth().signOut();
+              }.bind(this),5000);
+              
             }else{
               console.log("MAIN : User is signed in "+user.email);
               const userRef = firebase.app.firestore().collection("users");
