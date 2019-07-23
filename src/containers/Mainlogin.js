@@ -14,7 +14,7 @@ class Mainlogin extends Component {
         super(props);
 
         this.state = {
-            error:'',
+            error:"",
             isLogin:true,
             isRegistered:false,
             user:{},
@@ -70,82 +70,12 @@ class Mainlogin extends Component {
     const displayError = (error) => {
       this.setState({ error: error });
     }
-    const userRef = firebase.app.firestore().collection("users");
-    const allowedRef = firebase.app.database().ref(`/meta/config/allowedUsersWeb`);
-    userRef.where('email','==',username).get()
-    .then(snapshot => {
-      if(snapshot.empty){
-        firebase.app.auth().signInWithEmailAndPassword(username, password)
-          .then(    
-            // authlogin(userRole)
-          )
-          .catch(function (error) {
-            // Handle Errors here.
-            console.log(error.message);
-            displayError(error.message);
 
-          });
-
-      }
-      snapshot.forEach(doc => {
-        console.log(doc.id, '=>', doc.data());
-        var email = doc.data().email;
-        var userRole = doc.data().userRole;
-        if(email===username && userRole==="visitor"){
-          console.log("userRole :"+userRole)
-          firebase.app.auth().signInWithEmailAndPassword(username, password)
-          .then(    
-            // authlogin(userRole)
-          )
-          .catch(function (error) {
-            // Handle Errors here.
-            console.log(error.message);
-            displayError(error.message);
-
-          });
-        }else if(email===username && userRole==="vendor"){
-          console.log("userRole :"+userRole)
-          allowedRef.orderByChild("email").equalTo(username).once("value")
-          .then(snap => {
-            if(snap.val()){
-              firebase.app.auth().signInWithEmailAndPassword(username, password)
-              .then(    
-                // authlogin(userRole),
-              )
-              .catch(function (error) {
-                // Handle Errors here.
-                console.log(error.message);
-                displayError(error.message);
-  
-              });
-            }else{
-              displayError("This user doens't have access to this vendor panel!");
-            }
-          })
-
-        } else if(email===username && userRole==="admin"){
-          console.log("userRole :"+userRole)
-          allowedRef.orderByChild("email").equalTo(username).once("value")
-          .then(snap => {
-            if(snap.val()){
-              firebase.app.auth().signInWithEmailAndPassword(username, password)
-              .then(    
-                // authlogin(userRole),
-                
-              )
-              .catch(function (error) {
-                // Handle Errors here.
-                console.log(error.message);
-                displayError(error.message);
-  
-              });
-            }else{
-              displayError("This user doens't have access to this admin panel!");
-            }
-          })
-        }
-      });
-    })
+    firebase.app.auth().signInWithEmailAndPassword(username, password)
+    .then(    
+      // authlogin(userRole)
+      displayError("")
+    )
     .catch(function (error) {
       // Handle Errors here.
       console.log(error.message);
@@ -153,131 +83,93 @@ class Mainlogin extends Component {
 
     });
 
+    // const userRef = firebase.app.firestore().collection("users");
+    // const allowedRef = firebase.app.database().ref(`/meta/config/allowedUsersWeb`);
+    // userRef.where('email','==',username).get()
+    // .then(snapshot => {
+    //   if(snapshot.empty){
+    //     firebase.app.auth().signInWithEmailAndPassword(username, password)
+    //       .then(    
+    //         // authlogin(userRole)
+    //       )
+    //       .catch(function (error) {
+    //         // Handle Errors here.
+    //         console.log(error.message);
+    //         displayError(error.message);
+
+    //       });
+
+    //   }
+    //   snapshot.forEach(doc => {
+    //     console.log(doc.id, '=>', doc.data());
+    //     var email = doc.data().email;
+    //     var userRole = doc.data().userRole;
+    //     if(email===username && userRole==="visitor"){
+    //       console.log("userRole :"+userRole)
+    //       firebase.app.auth().signInWithEmailAndPassword(username, password)
+    //       .then(    
+    //         // authlogin(userRole)
+    //       )
+    //       .catch(function (error) {
+    //         // Handle Errors here.
+    //         console.log(error.message);
+    //         displayError(error.message);
+
+    //       });
+    //     }else if(email===username && userRole==="vendor"){
+    //       console.log("userRole :"+userRole)
+    //       allowedRef.orderByChild("email").equalTo(username).once("value")
+    //       .then(snap => {
+    //         if(snap.val()){
+    //           firebase.app.auth().signInWithEmailAndPassword(username, password)
+    //           .then(    
+    //             // authlogin(userRole),
+    //           )
+    //           .catch(function (error) {
+    //             // Handle Errors here.
+    //             console.log(error.message);
+    //             displayError(error.message);
+  
+    //           });
+    //         }else{
+    //           displayError("This user doens't have access to this vendor panel!");
+    //         }
+    //       })
+
+    //     } else if(email===username && userRole==="admin"){
+    //       console.log("userRole :"+userRole)
+    //       allowedRef.orderByChild("email").equalTo(username).once("value")
+    //       .then(snap => {
+    //         if(snap.val()){
+    //           firebase.app.auth().signInWithEmailAndPassword(username, password)
+    //           .then(    
+    //             // authlogin(userRole),
+                
+    //           )
+    //           .catch(function (error) {
+    //             // Handle Errors here.
+    //             console.log(error.message);
+    //             displayError(error.message);
+  
+    //           });
+    //         }else{
+    //           displayError("This user doens't have access to this admin panel!");
+    //         }
+    //       })
+    //     }
+    //   });
+    // })
+    // .catch(function (error) {
+    //   // Handle Errors here.
+    //   console.log(error.message);
+    //   displayError(error.message);
+
+    // });
+
     const authlogin=(userRole) =>{
       this.props.authlogin(userRole)
     } 
 
-    //check the visitor
-    // const userRef = firebase.app.database().ref(`/users`);
-    // const allowedRef = firebase.app.database().ref(`/meta/config/allowedUsers`);
-    // userRef.orderByChild("email").equalTo(username).once("value")
-    //   .then(snapshot => {
-    //     if(snapshot.val()){
-    //       userRef.orderByKey().once("value")
-    //       .then(function(snapshot){
-    //         snapshot.forEach(function(childSnapshot){
-    //           var email = childSnapshot.val().email;
-    //           var userRole = childSnapshot.val().userRole;
-    //           if(email===username && userRole==="visitor"){
-    //             console.log("userRole :"+userRole)
-    //             firebase.app.auth().signInWithEmailAndPassword(username, password)
-    //             .then(    
-    //               // authlogin(userRole)
-    //             )
-    //             .catch(function (error) {
-    //               // Handle Errors here.
-    //               console.log(error.message);
-    //               displayError(error.message);
-    
-    //             });
-    //           }else if(email===username && userRole==="vendor"){
-    //             console.log("userRole :"+userRole)
-    //             allowedRef.orderByChild("email").equalTo(username).once("value")
-    //             .then(snap => {
-    //               if(snap.val()){
-    //                 firebase.app.auth().signInWithEmailAndPassword(username, password)
-    //                 .then(    
-    //                   // authlogin(userRole),
-    //                 )
-    //                 .catch(function (error) {
-    //                   // Handle Errors here.
-    //                   console.log(error.message);
-    //                   displayError(error.message);
-        
-    //                 });
-    //               }else{
-    //                 displayError("This user doens't have access to this vendor panel!");
-    //               }
-    //             })
-
-    //             // if(Config.adminConfig.allowedUsers != null && Config.adminConfig.allowedUsers.indexOf(username) === -1){
-    //             //   //Error, this user is not allowed anyway
-    //             //   displayError("This user doens't have access to this vendor panel!");
-    //             // }else{
-    //             //     firebase.app.auth().signInWithEmailAndPassword(username, password)
-    //             //     .then(    
-    //             //       authlogin,
-    //             //       setCurrentUser(userRole)
-    //             //     )
-    //             //     .catch(function (error) {
-    //             //       // Handle Errors here.
-    //             //       console.log(error.message);
-    //             //       displayError(error.message);
-        
-    //             //     });
-    //             // }
-    //           } else if(email===username && userRole==="admin"){
-    //             console.log("userRole :"+userRole)
-    //             allowedRef.orderByChild("email").equalTo(username).once("value")
-    //             .then(snap => {
-    //               if(snap.val()){
-    //                 firebase.app.auth().signInWithEmailAndPassword(username, password)
-    //                 .then(    
-    //                   // authlogin(userRole),
-                      
-    //                 )
-    //                 .catch(function (error) {
-    //                   // Handle Errors here.
-    //                   console.log(error.message);
-    //                   displayError(error.message);
-        
-    //                 });
-    //               }else{
-    //                 displayError("This user doens't have access to this admin panel!");
-    //               }
-    //             })
-    //           }
-              
-    //         })
-    //       })
-    //     }else{
-    //       console.log("user not found")
-    //       displayError("user not found");
-    //     }
-    //   })
-    //   .catch(function (error) {
-    //     // Handle Errors here.
-    //     console.log(error.message);
-    //     displayError(error.message);
-
-    //   });
-    
-
-    // if (Config.adminConfig.allowedUsers != null && Config.adminConfig.allowedUsers.indexOf(username) === -1) {
-    //   //Error, this user is not allowed anyway
-    //   displayError("This user doens't have access to this admin panel!");
-    // } else {
-    //   // this.props.authlogin();
-
-    //   console.log("found email start");
-    //   firebase.app.database().ref(`/users`).orderByChild("email").equalTo(username).once("value")
-    //   .then(snapshot => {
-    //       if (snapshot.val()) {
-    //         console.log(" snapshot found email");
-    //         firebase.app.auth().signInWithEmailAndPassword(username, password)
-    //         .then(    
-    //           this.props.authlogin()
-    //         )
-    //         .catch(function (error) {
-    //           // Handle Errors here.
-    //           console.log(error.message);
-    //           displayError(error.message);
-
-    //         });
-    //       }
-    //   })
-     
-    // }
   }
 
   /**
@@ -493,18 +385,7 @@ class Mainlogin extends Component {
   // }
 
     render(){
-      
-      // if(this.props.isLoggedIn === true){
-        // console.log("MAIN LOGIN : isLoggedIn - ",this.props.isLoggedIn)
-        // console.log("MAIN LOGIN : isRegistereduser - ",this.props.isRegisteredUser)
-        // return(
-        //   <Redirect to="/"/>
-        // )
-      // }
-      // console.log("MAIN LOGIN : isLoggedIn - ",this.props.isLoggedIn)
-      // console.log("MAIN LOGIN : isRegistereduser - ",this.props.isRegisteredUser)
-      // console.log("MAIN LOGIN : isRegistered - ",this.state.isRegistered)
-      
+     
       if(this.state.isRegistered===true){
         return(
           <Redirect to="/ticket"/>
@@ -524,7 +405,7 @@ class Mainlogin extends Component {
             authenticate={this.authenticateLogin}
             createUser={this.createUser}
             user={this.state.user}
-            error={this.state.error}
+            error={this.state.error?this.state.error:""}
             isRegisteredUser={this.props.isLoggedIn ? this.props.isRegisteredUser : true}
             isRegister={!this.state.isLogin}
             changeIsLogin={this.changeIsLogin}

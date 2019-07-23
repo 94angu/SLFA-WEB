@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Config from '../../config/app';
+import Notification from '../../components/Notification';
 
 const ConditionalDisplay = ({condition, children}) => condition ? children : <div></div>;
 
@@ -17,7 +18,8 @@ export default class MainloginUI extends Component {
             telephone:'',
             nationality:'',
             job:'',
-            isResetPassword: false
+            isResetPassword: false,
+            notificationEnabled:false
         };
 
         this.handleChangeUsername = this.handleChangeUsername.bind(this);
@@ -63,6 +65,7 @@ export default class MainloginUI extends Component {
     }
 
     handleSubmit(event) {
+        
         //alert('Username: ' + this.state.username+ " Password: "+this.state.password);
         if(!this.state.isResetPassword){
             //when login
@@ -72,14 +75,29 @@ export default class MainloginUI extends Component {
             this.setState({isResetPassword:false})
         }
         event.preventDefault();
-
-        this.setState({ username: '',password: ''});
+        
+        setTimeout(function(){
+            this.setState({notificationEnabled:true});
+        }.bind(this),1000);
+        setTimeout(function(){
+            this.setState({ username: '',password: '',notificationEnabled:false});
+        }.bind(this),4000);
+        
     }
 
     createUser(event){
         this.props.createUser(this.state.fullName,this.state.dateOfBirth,this.state.gender,this.state.telephone,this.state.nationality,this.state.job);
         event.preventDefault();
     }
+
+    generateNotifications(error){
+        return (
+            <div className="col-md-12">
+                <Notification type="danger">{error}</Notification>
+            </div>
+        )
+
+      }
 
     render() {
         const {
@@ -109,8 +127,10 @@ export default class MainloginUI extends Component {
                                                     this.props.showGoogleLogin()
                                                     :
                                                     ""}
-                                                    
-                                                    <h4>{this.props.error}</h4>
+
+                                                    {/* NOTIFICATIONS */}
+                                                    {(this.state.notificationEnabled && this.props.error)?this.generateNotifications(this.props.error):""}
+
                                                     <div className="input-group">
                                                         <span className="input-group-addon">
                                                             <i className="material-icons">email</i>
