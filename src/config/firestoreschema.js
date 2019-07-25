@@ -78,20 +78,6 @@ var collectionMeta={
 			"image":"https://i.imgur.com/80vu1wL.jpg",
 			"price":"10",
 			"title":"Your product title",
-			"options":{
-				"option1":{
-					"name":"Portion size",
-					"values":["Big","Medium","Small"]
-				},
-				"option2":{
-					"name":"Additional prop2",
-					"values":["Option 2"]
-				},
-				"option3":{
-					"name":"Additional prop3",
-					"values":["Option 3 "]
-				}
-			},
 		},
 		"collections":["variants"],
 	},

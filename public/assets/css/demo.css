@@ -870,7 +870,7 @@ body{font-family: Montserrat, sans-serif !important;}
 .footer-row p{font-size: 13px;}
 .carousel-caption{padding-bottom: 70px;}
 .carousel-indicators{bottom:50px;}
-.mdl-card__supporting-text{min-height: 100px; line-height: 22px !important; width: 100% !important;}
+.mdl-card__supporting-text{min-height: 100px; line-height: 22px !important; width: 100% !important;height: 100px;}
 .carousel-caption h3{font-weight: 700; font-family: Montserrat, sans-serif !important;}
 .timer{min-height: :96px; padding:13px;}
 .countdown{background-color:#0b2f82;}

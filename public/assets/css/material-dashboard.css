@@ -5336,6 +5336,9 @@ margin-bottom: 30px;
 .card-description,
 .footer-big p {
 color: #999999;
+max-height: 100px;
+height: 100px;
+overflow: hidden;
 }
 
 .text-warning {

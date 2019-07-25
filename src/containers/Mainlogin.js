@@ -317,11 +317,18 @@ class Mainlogin extends Component {
       iscomplete:0
     })
     .then(function(){
-      const refQR = firebase.app.firestore().collection("qrcode_collection");
-      refQR.add({
-        user:_this.state.user.email,
-        qr_code:randomString.generate({ length: 10, charset: 'alphanumeric',capitalization:'uppercase'}),
-        status:"1"
+      const refQR = firebase.app.firestore().collection("qrcode_collection").doc(userId);
+      refQR.get()
+      .then(doc => {
+        if (!doc.exists) {
+          refQR.set({
+            user:_this.state.user.email,
+            qr_code:randomString.generate({ length: 10, charset: 'alphanumeric',capitalization:'uppercase'}),
+            status:"1"
+          })
+        } else {
+          console.log('QR created already');
+        }
       })
       .then(function(docRef){
         _this.setState({
