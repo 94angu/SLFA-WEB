@@ -78,6 +78,7 @@ var collectionMeta={
 			"image":"https://i.imgur.com/80vu1wL.jpg",
 			"price":"10",
 			"title":"Your product title",
+			"options":""
 		},
 		"collections":["variants"],
 	},
