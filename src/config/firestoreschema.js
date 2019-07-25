@@ -86,7 +86,8 @@ var collectionMeta={
 			"title":"Your category title",
 			"description":"Category description",
 			"image":"https://i.imgur.com/80vu1wL.jpg",
-			"owner":"Your email id"
+			"owner":"Your email id",
+			"count":1
 		},
 		"collections":[],
 	},

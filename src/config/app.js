@@ -263,7 +263,7 @@ exports.navigation=[
     "path": "restaurant_collection",
     "name": "Restaurants",
     "icon":"layers",
-    "tableFields":["title","owner"],
+    "tableFields":["title","owner","count"],
   },
   {
     "link": "firestoreadmin",
