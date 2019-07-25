@@ -432,8 +432,7 @@ exports.vendorNavigation=[
     "name": "Menu items",
     "icon":"local_dining",
     "tableFields":["title","image","price"],
-  },
-  
+  }, 
   // {
   //   "link": "firestoreadmin",
   //   "path": "eventsconference",

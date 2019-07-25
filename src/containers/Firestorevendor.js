@@ -1209,7 +1209,7 @@ class Firestorevendor extends Component {
                 {this.state.elements&&this.state.elements.length>0?(
                   <CardUI name={"elements"} showAction={false} title={this.state.lastPathItem+"' elements"}>
                     {this.state.elements?this.state.elements.map((item)=>{
-                                    var theLink="/fireadmin/"+this.state.completePath+Config.adminConfig.urlSeparatorFirestoreSubArray+item.uidOfFirebase;
+                                    var theLink="/firevendor/"+this.state.completePath+Config.adminConfig.urlSeparatorFirestoreSubArray+item.uidOfFirebase;
                                     if(this.state.theSubLink!=null){
                                       theLink=this.state.theSubLink+Config.adminConfig.urlSeparatorFirestoreSubArray+item.uidOfFirebase;
                                     }
