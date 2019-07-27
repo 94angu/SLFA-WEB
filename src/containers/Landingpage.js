@@ -98,7 +98,7 @@ class Landingpage extends Component {
                         </div>
                         <div className="col-xs-12 col-md-4 col-lg-4 col-sm-5 countdown">
                             <div style={{color:'#fff'}} className="small timer"> 
-                            <CountDown deadline='03 August 2019 13:02:03'/>
+                            <CountDown deadline='03 August 2019 08:00:00'/>
                             </div>
                         </div>
                         

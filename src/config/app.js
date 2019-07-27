@@ -424,7 +424,7 @@ exports.vendorNavigation=[
     "path": "restaurant_collection",
     "name": "My Restaurant",
     "icon":"layers",
-    "tableFields":["title","owner"],
+    "tableFields":["title","owner","count"],
   },
   {
     "link": "firestorevendor",
@@ -433,6 +433,13 @@ exports.vendorNavigation=[
     "icon":"local_dining",
     "tableFields":["title","image","price"],
   }, 
+  {
+    "link": "firestorevendor",
+    "path": "orders",
+    "name": "Orders",
+    "icon":"shopping_cart",
+    "tableFields":["userID","status","total"],
+  },
   // {
   //   "link": "firestoreadmin",
   //   "path": "eventsconference",

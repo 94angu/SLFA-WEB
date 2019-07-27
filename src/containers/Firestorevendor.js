@@ -44,8 +44,7 @@ class Firestorevendor extends Component {
       isLoading:true,
       showAddCollection:"",
       user:{},
-      userCollectionId:null
-      
+      userCollectionId:null, 
     };
 
     //Bind function to this
@@ -245,6 +244,21 @@ class Firestorevendor extends Component {
             }
           })
         })
+      }else if(collection==="orders"){
+        db.collection("restaurant_collection").get().then(function(querySnapshot) {
+          var datacCount=0;
+          querySnapshot.forEach(function(doc) {
+            datacCount++;
+            if(_this.state.user.email===doc.data().owner){
+              //Increment counter
+              _this.setState({
+                userCollectionId:doc.id
+              })
+              // userCollectionId=doc.id;
+
+            }
+          })
+        })
       }
 
         //COLLECTIONS - GET DOCUMENTS 
@@ -262,13 +276,16 @@ class Firestorevendor extends Component {
             //Sace uidOfFirebase inside him
             currentDocument.uidOfFirebase=doc.id;
 
-            console.log(doc.id, " => ", currentDocument);
-            console.log("user ", _this.state.user.email);
+            // console.log(doc.id, " => ", currentDocument);
+            // console.log("user ", _this.state.user.email);
+            
 
             if(collection==="restaurant_collection" && currentDocument.owner===_this.state.user.email){
               //Save in the list of documents
               documents.push(currentDocument)
             }else if(collection==="restaurant" && currentDocument.collection.id===_this.state.userCollectionId){
+              documents.push(currentDocument)
+            }else if(collection==="orders" && currentDocument.restaurantID===_this.state.userCollectionId){
               documents.push(currentDocument)
             }
 
@@ -982,7 +999,7 @@ class Firestorevendor extends Component {
      var headers=null;
 
      var itemFound=false;
-     var navigation=Config.navigation;
+     var navigation=Config.vendorNavigation;
      for(var i=0;i<navigation.length&&!itemFound;i++){
        if(navigation[i].path==firebasePath&&navigation[i].tableFields&&navigation[i].link=="firestorevendor"){
          headers=navigation[i].tableFields;
