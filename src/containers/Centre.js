@@ -53,10 +53,10 @@ class Centre extends Component {
                             <div className="container-fluid centre-banner"></div>
                             <div className="container w-container">
                                 <div className="section-title-wrapper intro">
-                                    <h2 className="section-title">restaurants</h2>
+                                    <h2 className="section-title">レストラン</h2>
                                     <div className="section-divider"></div>
                                     <div className="section-title subtitle">
-                                    There are over 35 stalls at the Food Mart at the festival serving authentic Sri Lankan food and beverages as well as non-authentic Sri Lankan food.
+                                        本格的なスリランカの飲食物を提供するフェスティバルのフードマートには35以上の屋台があります。                                    
                                     </div>
                                 </div>
                             </div>

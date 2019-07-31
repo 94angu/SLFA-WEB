@@ -32,25 +32,24 @@ class Landingpage extends Component {
                             <div className="item active">
                             <img style={{width:'100%',height:'480px',objectFit:'cover',opacity:'0.6'}} src="assets/img/slfest3.jpg" alt="Los Angeles"></img>
                                 <div className="carousel-caption">
-                                    <h3>SRI LANKAN DAY 2019</h3>
-                                    <p>SRI LANKAN DAY 2019
-35 stalls at the Food Mart at the festival serving authentic Sri Lankan food and beverages as well as non-authentic Sri Lankan food.</p>
+                                    <h3>スリランカデー2019</h3>
+                                    <p>本格的なスリランカの飲食物を提供するフェスティバルのフードマートには35以上の屋台があります。</p>
                                 </div>
                             </div>
 
                             <div className="item">
                                 <img style={{width:'100%',height:'480px',objectFit:'cover'}} src="assets/img/slfest4.jpg" alt="Chicago"></img>
                                     <div className="carousel-caption">
-                                        <h3>15TH SRI LANKA FESTIVAL IN JAPAN, 2019</h3>
-                                        <p>LA is always so much fun!</p>
+                                        <h3>第15回スリランカ・フェスティバル in JAPAN 2019</h3>
+                                        <p>&nbsp;</p>
                                     </div>
                             </div>
 
                             <div className="item">
                                 <img style={{width:'100%',height:'480px',objectFit:'cover'}} src="assets/img/slfest9.jpg" alt="New York"></img>
                                     <div className="carousel-caption">
-                                        <h3>FEEL SRI LANKA IN TOKYO</h3>
-                                        <p>LA is always so much fun!</p>
+                                        <h3>東京で感じるスリランカ</h3>
+                                        <p>&nbsp;</p>
                                     </div>  
                             </div>
                         </div>
@@ -75,10 +74,10 @@ class Landingpage extends Component {
                                 <img  style={{width: '30px'}} src="https://uploads-ssl.webflow.com/5c64e08639e719533fb04a7f/5c64e08639e7192290b04a97_Icon-location.png"></img>
                                 </div>
                                 <div className="intro-info-title">
-                                Tokyo
+                                東京
                                 </div>
                                 <div className="intro-info-title subtitle">
-                                Shibuya
+                                渋谷
                                 </div>
                             </div>
                         </div>
@@ -89,16 +88,16 @@ class Landingpage extends Component {
                                 <img  style={{width: '30px'}} src="https://uploads-ssl.webflow.com/5c64e08639e719533fb04a7f/5c64e08639e7194f7ab04a99_Icon-calendar.png"></img>
                                 </div>
                                 <div className="intro-info-title">
-                                3rd August
+                                8月3日
                                 </div>
                                 <div className="intro-info-title subtitle">
-                                03-08-2019
+                                &nbsp;
                                 </div>
                             </div>
                         </div>
                         <div className="col-xs-12 col-md-4 col-lg-4 col-sm-5 countdown">
                             <div style={{color:'#fff'}} className="small timer"> 
-                            <CountDown deadline='03 August 2019 08:00:00'/>
+                            <CountDown deadline='03 August 2019 10:00:00'/>
                             </div>
                         </div>
                         
@@ -140,24 +139,24 @@ class Landingpage extends Component {
 
                     <div className="container news-section">
                         <div className="section-title-wrapper">
-                            <h2 className="section-title">News feed</h2>
+                            <h2 className="section-title">ニュースフィード</h2>
                             <div className="section-divider"></div>
-                            <h2 className="section-title subtitle">The best excitement of the year in Japan for all who love Sri Lankan style</h2>
+                            <h2 className="section-title subtitle">スリランカのスタイルを愛するすべての人にとって日本で一番の興奮</h2>
                         </div>
 
                         <Newsfeed/>
             
             <div className="intro-section-column w-col w-col-12 w-col-small-12 w-col-tiny-12">
-                                <p className="join-text">Interested in reading more news about the event?</p>
-                                <a className="button w-button" href="#">Read More News</a>
+                                <p className="join-text">イベントについてもっと知りたいですか？</p>
+                                <a className="button w-button" href="#">もっと読む</a>
                             </div>
                     </div>
 
                     <div className="container w-container tokyo-text">
                         <div className="section-title-wrapper centered">
-                            <h2 className="section-title">feel sri Lanka in tokyo....!!</h2>
+                            <h2 className="section-title">東京でスリランカを感じよう！</h2>
                             <div className="section-divider"></div>
-                            <h2 className="section-title subtitle">The best excitement of the year in Japan for all who love Sri Lankan style</h2>
+                            <h2 className="section-title subtitle">スリランカスタイルを愛するすべての人に一番の興奮を</h2>
                         </div>
 
                         <div className="intro-section-row w-row">
@@ -165,29 +164,29 @@ class Landingpage extends Component {
                                 <div className="icon-block">
                                     <img src="assets/img/food.png"></img>
                                 </div>
-                                <div className="intro-column-title">Food</div>
-                                <p>There are over 35 stalls at the Food Mart at the festival</p>
+                                <div className="intro-column-title">フード</div>
+                                <p>フェスティバルには35軒以上の食の屋台があります</p>
                             </div>
 
                             <div className="intro-section-column w-col w-col-4 w-col-small-4 w-col-tiny-12">
                                 <div className="icon-block">
                                     <img src="assets/img/music.png"></img>
                                 </div>
-                                <div className="intro-column-title">music & dance</div>
-                                <p>Celebrate with Sri Lankan music and dance</p>
+                                <div className="intro-column-title">音楽とダンス</div>
+                                <p>スリランカの音楽とダンスで祝う</p>
                             </div>
 
                             <div className="intro-section-column w-col w-col-4 w-col-small-4 w-col-tiny-12">
                                 <div className="icon-block">
                                     <img src="assets/img/ayurveda.png"></img>
                                 </div>
-                                <div className="intro-column-title">ayurveda & yoga</div>
-                                <p>Try out Ayurveda and Yogo in Sri Lankan style</p>
+                                <div className="intro-column-title">アーユルヴェーダとヨガ</div>
+                                <p>スリランカスタイルのアーユルヴェーダとヨガを試しませんか？</p>
                             </div>
 
                             <div className="intro-section-column w-col w-col-12 w-col-small-12 w-col-tiny-12">
-                                <p className="join-text">Join with us and experience a great festival full of entertainment</p>
-                                <a className="button w-button" href="/register">Register Here Today</a>
+                                <p className="join-text">エンターテイメントに満ちた素晴らしいお祭りを私たちと体験しましょう！</p>
+                                <a className="button w-button" href="/register">今日ここで登録</a>
                             </div>
                         </div>
                     </div>
@@ -206,7 +205,7 @@ class Landingpage extends Component {
                     <div className="section">
                         <div className="map-container">
                             <div className="section-title-wrapper centered">
-                                <h2 className="section-title">festival map</h2>
+                                <h2 className="section-title">フェスティバル地図</h2>
                                 <div className="section-divider">
                                 </div>
                                 <div className="map-section">                                
