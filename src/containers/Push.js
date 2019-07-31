@@ -30,6 +30,7 @@ class App extends Component {
 	    this.handleSubmitFirebase = this.handleSubmitFirebase.bind(this);
         this.handleSubmitOneSignal = this.handleSubmitOneSignal.bind(this);
         this.handleSubmitExpo = this.handleSubmitExpo.bind(this);
+        this.handleSubmitExpoSpecific = this.handleSubmitExpoSpecific.bind(this);
 	    this.sendCallback = this.sendCallback.bind(this);
         this.displayTitle=this.displayTitle.bind(this);
         this.displayLongMessage=this.displayLongMessage.bind(this);
@@ -138,6 +139,61 @@ class App extends Component {
           });
     }
 
+    handleSubmitExpoSpecific(event,sendingToken){
+        event.preventDefault();
+
+        var title=this.state.title;
+        var body=this.state.value;
+        var longMessage=this.state.longMessage;
+        
+        var _this=this;
+
+        var pathToTokens=Config.pushSettings.firebasePathToTokens;
+
+        //Step 1 - get the tokens
+        if(Config.appEditPath!= undefined){
+            pathToTokens+=Config.appEditPath;
+          }
+
+          
+        firebase.app.database().ref(pathToTokens).once('value').then(function(snapshot) {
+            var tokens=snapshot.val();
+            var notifications=[];
+
+            
+           
+            // Object.keys(tokens).forEach(function(key) {
+            //     notifications.push({
+            //         to:tokens[key].token,
+            //         body: title,
+            //         title: body,
+                    
+            //     })
+            //   });
+
+            notifications.push({
+                to:"ExponentPushToken[Im832dInOZdVKtnxiA1OJj]",
+                body: title,
+                title: body,
+                
+            })
+             if(notifications.length>0){
+                var url='https://cors-anywhere.herokuapp.com/https://exp.host/--/api/v2/push/send';
+                var json = JSON.stringify(notifications);
+                request.post(url)
+                    //.set('Accept-Encoding', 'gzip, deflate')
+                    .set('Accept', 'application/json')
+                    .set('Content-Type', 'application/json')
+                    //.set('User-Agent', 'expo-server-sdk-node/2.3.3')
+                    .send(json)
+                    .end(_this.sendCallback)
+             }else{
+                 alert("There are no subscribed tokens");
+             }
+
+          });
+    }
+
     handleSubmitOneSignal(event) {
         //alert('A push was submitted: ' + this.state.value);
         event.preventDefault();
@@ -203,6 +259,28 @@ class App extends Component {
                     </div>
                 </CardUI>
       </div>
+      {/* <div className="row">
+                <CardUI class="col-md-6"  name={this.state.using} title={"Send push notification with "+this.state.using}  showAction={false}>
+                    <br />
+                    <form onSubmit={Config.pushSettings.pushType=="firebase"?this.handleSubmitFirebase:(Config.pushSettings.pushType=="expo"?this.handleSubmitExpoSpecific:this.handleSubmitOneSignal)}>
+                        {this.displayTitle()}
+                        <div className="form-group label-floating is-empty">
+                            <label className="control-label">Message text</label>
+                            <input type="text" className="form-control" value={this.state.value} onChange={this.handleChange} />
+                        <span className="material-input"></span></div>
+                        {this.displayLongMessage()}
+                        <button type="submit" className={Config.designSettings.submitButtonClass}>Submit</button>
+                    </form>
+                </CardUI>
+
+                <CardUI class="col-md-6"  name={this.state.using+"preview"} title={"Preview"}  showAction={false}>
+                    <br /><br />
+                    <div className="iphone">
+                    	<img className="iphoneImg" src="iphone.png" alt="" />
+      					<span className="pushText">{this.state.title}  {Config.pushSettings.pushType=="firebase"?"":<br />} {this.state.value}</span>
+                    </div>
+                </CardUI>
+      </div> */}
 			</div>
     )
   }

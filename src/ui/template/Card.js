@@ -41,7 +41,9 @@ export default class CardUI extends Component {
                     
                   </form>
                 </div>
-              </div>
+                {this.props.lastSub==="orders+"+this.props.currentCollectionName?
+                <a style={{float:"right"}} className="btn btn-danger"  onClick={()=>{this.props.confirmOrderAction()}}>Confirm & Notify</a>:""}
+              </div> 
         )
     }
 }

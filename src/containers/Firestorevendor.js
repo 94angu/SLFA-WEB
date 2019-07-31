@@ -18,6 +18,7 @@ import moment from 'moment';
 import CardUI from './../ui/template/Card'
 import INSERT_STRUCTURE from "../config/firestoreschema.js"
 import * as firebaseREF from 'firebase';
+var request = require('superagent');
 require("firebase/firestore");
 
 
@@ -58,6 +59,7 @@ class Firestorevendor extends Component {
     this.deleteFieldAction=this.deleteFieldAction.bind(this);
     this.refreshDataAndHideNotification=this.refreshDataAndHideNotification.bind(this);
     this.addKey=this.addKey.bind(this);
+    this.confirmOrderAndSendNotification=this.confirmOrderAndSendNotification.bind(this);
     this.showSubItems=this.showSubItems.bind(this);
     this.updatePartOfObject=this.updatePartOfObject.bind(this);
     this.addDocumentToCollection=this.addDocumentToCollection.bind(this);
@@ -801,6 +803,87 @@ class Firestorevendor extends Component {
     }
   }
 
+  confirmOrderAndSendNotification(){
+    var _this=this;
+    var notifications=[];
+    var pathToTokens = "/expoPushTokens";
+    var document=this.state.fieldsAsArray;
+    var collection=this.state.currentCollectionName;
+    var userId;
+    var restId=this.state.fieldsAsArray[0].value;
+    var restName;
+    var currentToken;
+    Object.keys(document).forEach(function(key) {
+      
+      if(document[key].theKey==="userID"){
+        userId = document[key].value;
+      }
+    });
+
+    firebase.app.firestore().collection("restaurant_collection").doc(restId).get()
+    .then(doc =>{
+      if (!doc.exists) {
+        console.log('No such restaurant!');
+      } else {
+        restName=doc.data().title;
+        console.log('restaurant title data:', doc.data().title);
+      }
+    })
+    .catch(err => {
+      console.log('Error getting restaurant name', err);
+    });
+
+    console.log("document",userId);
+    console.log("collection",collection);
+
+    firebase.app.firestore().collection("orders").doc(collection).update({
+      status:"ready_to_pick"
+    })
+    .then(function() {
+      // Send Notification
+      firebase.app.database().ref(pathToTokens).once('value').then(function(snapshot){
+        var tokens=snapshot.val();
+  
+        Object.keys(tokens).forEach(function(key) {
+          if(tokens[key].orderUserId && tokens[key].orderUserId===userId){
+            currentToken=tokens[key].token;
+          }
+          
+        });
+        console.log("current documents",document);
+        notifications.push({
+          to:currentToken,
+          body: "Your order is ready to pick up.",
+          title: restName,
+          
+        })
+        if(notifications.length>0){
+            var url='https://cors-anywhere.herokuapp.com/https://exp.host/--/api/v2/push/send';
+            var json = JSON.stringify(notifications);
+            request.post(url)
+                //.set('Accept-Encoding', 'gzip, deflate')
+                .set('Accept', 'application/json')
+                .set('Content-Type', 'application/json')
+                //.set('User-Agent', 'expo-server-sdk-node/2.3.3')
+                .send(json)
+                .end(_this.sendCallback)
+        }else{
+            alert("There are no subscribed tokens");
+        }
+      })
+    })
+    .catch(function(error) {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+    });
+
+    
+
+    this.refs.confirmPickup.hide()
+    this.refreshDataAndHideNotification();
+
+  }
+
   /**
   * addItemToArray  - add item to array
   * @param {String} name name of the array
@@ -1185,7 +1268,14 @@ class Firestorevendor extends Component {
 
             {/* FIELDS */}
               {this.state.fieldsAsArray&&this.state.fieldsAsArray.length>0?(
-              <CardUI name={"fields"} showAction={true} action={()=>this.refs.simpleDialog.show()} title={Common.capitalizeFirstLetter(Config.adminConfig.fieldBoxName)}>
+              <CardUI 
+              name={"fields"} 
+              currentCollectionName={this.state.currentCollectionName} 
+              lastSub={this.state.lastSub} showAction={true} 
+              action={()=>this.refs.simpleDialog.show()} 
+              confirmOrderAction={this.state.lastSub==="orders+"+this.state.currentCollectionName?()=>this.refs.confirmPickup.show():""} 
+              title={Common.capitalizeFirstLetter(Config.adminConfig.fieldBoxName)}
+              >
                      {this.state.fieldsAsArray?this.state.fieldsAsArray.map((item)=>{
                       
                       return (
@@ -1201,6 +1291,7 @@ class Firestorevendor extends Component {
                     
 
                   }):"" }
+                  
                 </CardUI>
                 ):""}
 
@@ -1323,6 +1414,27 @@ class Firestorevendor extends Component {
             </div>
             <div className="col-sm-6 center-block">
               <a onClick={this.addKey} className="btn btn-rose btn-round center-block"><i className="fa fa-save"></i>   Add key</a>
+            </div>
+            <div className="col-sm-3 ">
+            </div>
+          </div>
+        </SkyLight>
+
+        <SkyLight hideOnOverlayClicked ref="confirmPickup" title="">
+          <span><h3  className="center-block">Confirm Pick up</h3></span>
+          <br />
+          <div  className="card-content">
+            <div className="row">
+             <h5>Are you sure the order is ready?</h5>
+             <h5>Order ID : {this.state.currentCollectionName}</h5>
+            </div>
+          </div><br /><br />
+        
+          <div className="col-sm-12 ">
+            <div className="col-sm-3 ">
+            </div>
+            <div className="col-sm-6 center-block">
+              <a onClick={this.confirmOrderAndSendNotification} className="btn btn-rose btn-round center-block"><i className="fa fa-save"></i>Order Ready</a>
             </div>
             <div className="col-sm-3 ">
             </div>
