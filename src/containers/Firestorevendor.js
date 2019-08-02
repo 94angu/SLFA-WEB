@@ -46,7 +46,8 @@ class Firestorevendor extends Component {
       showAddCollection:"",
       user:{},
       userCollectionId:null,
-      restaurantID:"" 
+      restaurantID:"" ,
+      displayNewOrder:false
     };
 
     //Bind function to this
@@ -65,6 +66,11 @@ class Firestorevendor extends Component {
     this.updatePartOfObject=this.updatePartOfObject.bind(this);
     this.addDocumentToCollection=this.addDocumentToCollection.bind(this);
     this.addItemToArray=this.addItemToArray.bind(this);
+    this.newOrderAlert=this.newOrderAlert.bind(this);
+    this.reloadPage=this.reloadPage.bind(this);
+
+
+
   }
 
   /**
@@ -78,6 +84,8 @@ class Firestorevendor extends Component {
       const _this = this;
 
       const setUser=(user)=>{
+        
+
         this.setState({
           user:user,
         })
@@ -93,6 +101,7 @@ class Firestorevendor extends Component {
         }
         });
 
+
         // firebase.app.firestore().collection('restaurant_collection').where('owner', '==', user.email).get()
         // .then(snapshot => {
         //   if (snapshot.empty) {
@@ -101,9 +110,9 @@ class Firestorevendor extends Component {
         //   }
         //   snapshot.forEach(doc => {
         //     console.log(doc.id, '=>', doc.data());
-        //     restId = doc.id;
         //     _this.setState({
-        //       restaurantID = doc.id;
+        //       user:user,
+        //       restaurantID:doc.id
         //     })
             
         //   });  
@@ -111,25 +120,15 @@ class Firestorevendor extends Component {
         // .catch(err => {
         //   console.log('Error getting restaurant id documents', err);
         // });
-
         
-        firebase.app.firestore().collection('orders').where('restaurantID', '==', 'OZHEi1yFEyV2MkWwqkoF').onSnapshot(querySnapshot => {
-          
-          querySnapshot.docChanges().forEach(change =>{
-            // console.log(`Received query snapshot of size ${JSON.stringify(doc.data())}`);
-            if (change.type === 'added') {
-              console.log('New city: ', change.doc.data());
-            }
-            if (change.type === 'modified') {
-              console.log('Modified city: ', change.doc.data());
-            }
-            if (change.type === 'removed') {
-              console.log('Removed city: ', change.doc.data());
-            }
-          })
-        },err =>{
-          console.log(`Encountered error: ${err}`);
-        })
+        console.log("Restaurant Id",_this.state.restaurantID)
+        
+       
+  }
+
+  componentWillMount(){
+    
+    
   }
 
   /**
@@ -177,6 +176,31 @@ class Firestorevendor extends Component {
 
     this.setState(newState);
     this.findFirestorePath();
+  }
+
+  newOrderAlert(){
+    const _this=this;
+    firebase.app.firestore().collection('orders').where('restaurantID', '==', 'nqM8wudP47GJVzRXjuD6').where('status', '==', 'Just created').onSnapshot(querySnapshot => {
+      console.log(`Received doc snapshot: ${querySnapshot}`);
+      // querySnapshot.docChanges().forEach(change =>{
+      //   // console.log(`Received query snapshot of size ${JSON.stringify(doc.data())}`);
+      //   if (change.type === 'added') {
+      //     console.log('New city: ', change.doc.data());
+          
+      //   }
+      //   if (change.type === 'modified') {
+      //     console.log('Modified city: ', change.doc.data());
+      //   }
+      //   if (change.type === 'removed') {
+      //     console.log('Removed city: ', change.doc.data());
+      //   }
+      // })
+      // _this.setState({notifications:[{type:"success",content:"New Orders"}]});
+      this.refs.newOrderAlert.show()
+      // alert("new order");
+    },err =>{
+      console.log(`Encountered error: ${err}`);
+    })
   }
 
   /**
@@ -274,6 +298,7 @@ class Firestorevendor extends Component {
     var documents=[];
 
     if(isCollection){
+      
 
       if(collection==="restaurant"){
         db.collection("restaurant_collection").get().then(function(querySnapshot) {
@@ -291,6 +316,7 @@ class Firestorevendor extends Component {
           })
         })
       }else if(collection==="orders"){
+        this.newOrderAlert()
         db.collection("restaurant_collection").get().then(function(querySnapshot) {
           var datacCount=0;
           querySnapshot.forEach(function(doc) {
@@ -298,7 +324,8 @@ class Firestorevendor extends Component {
             if(_this.state.user.email===doc.data().owner){
               //Increment counter
               _this.setState({
-                userCollectionId:doc.id
+                userCollectionId:doc.id,
+                displayNewOrder:true
               })
               // userCollectionId=doc.id;
 
@@ -319,23 +346,20 @@ class Firestorevendor extends Component {
             //Get the object
             var currentDocument=doc.data();
 
-            
+            //Sace uidOfFirebase inside him
+            currentDocument.uidOfFirebase=doc.id;
 
             // console.log(doc.id, " => ", currentDocument);
             // console.log("user ", _this.state.user.email);
             
 
             if(collection==="restaurant_collection" && currentDocument.owner===_this.state.user.email){
-              //Sace uidOfFirebase inside him
-              currentDocument.uidOfFirebase=doc.id;
               //Save in the list of documents
               documents.push(currentDocument)
             }else if(collection==="restaurant" && currentDocument.collection.id===_this.state.userCollectionId){
-              //Sace uidOfFirebase inside him
-              currentDocument.uidOfFirebase=doc.id;
               documents.push(currentDocument)
             }else if(collection==="orders" && currentDocument.restaurantID===_this.state.userCollectionId){
-              //Sace uidOfFirebase inside him
+              
               currentDocument.orderID=doc.id;
               documents.push(currentDocument)
             }
@@ -850,6 +874,13 @@ class Firestorevendor extends Component {
         this.refreshDataAndHideNotification();
       }
     }
+  }
+
+  reloadPage(){
+    // window.location.reload();
+    this.refs.newOrderAlert.hide()
+
+    
   }
 
   confirmOrderAndSendNotification(){
@@ -1487,6 +1518,26 @@ class Firestorevendor extends Component {
             </div>
             <div className="col-sm-3 ">
             </div>
+          </div>
+        </SkyLight>
+
+        <SkyLight hideOnOverlayClicked ref="newOrderAlert" title="">
+          <span><h3  className="center-block">New Order Received</h3></span>
+          <br />
+          <div  className="card-content">
+            <div className="row">
+             <h5>You got a new order</h5>
+          </div><br /><br />
+        
+          <div className="col-sm-12 ">
+            <div className="col-sm-3 ">
+            </div>
+            <div className="col-sm-6 center-block">
+              <a onClick={this.reloadPage} className="btn btn-rose btn-round center-block"><i className="fa fa-save"></i>Check it</a>
+            </div>
+            <div className="col-sm-3 ">
+            </div>
+          </div>
           </div>
         </SkyLight>
       </div>
