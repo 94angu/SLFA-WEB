@@ -58,13 +58,14 @@ class Main extends Component{
         firebase.app.auth().onAuthStateChanged(function(user) {
           if (user) {
             // User is signed in.
-            if(user.emailVerified===false){
-              alert("Verify your Email!");
-              setTimeout(function(){
-                firebase.app.auth().signOut();
-              }.bind(this),5000);
+            // if(user.emailVerified===false){
+            //   alert("Verify your Email!");
+            //   setTimeout(function(){
+            //     firebase.app.auth().signOut();
+            //   }.bind(this),5000);
               
-            }else{
+            // }
+            
               console.log("MAIN : User is signed in "+user.email);
               const userRef = firebase.app.firestore().collection("users");
               const allowedRef = firebase.app.database().ref(`/meta/config/allowedUsersWeb`);
@@ -75,8 +76,8 @@ class Main extends Component{
                   console.log("MAIN : User not found in user database");
                   setUser("visitor",true,false);
                   setLoading(false);
-                  <Redirect to='/login'/>
-                  alert("Complete your details");
+                  // <Redirect to='/login'/>
+                  // alert("Complete your details");
                   return;
                 }
   
@@ -132,7 +133,7 @@ class Main extends Component{
                 console.log(errorMessage);
              
               });
-            }
+            
             
     
           } else {

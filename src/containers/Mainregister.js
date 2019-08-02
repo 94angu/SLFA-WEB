@@ -87,9 +87,12 @@ class Mainregister extends Component {
                   email: username,
                   type: 'euser'
                 }).then(function(){
-                  _this.setState({
-                    isRegistered:true
-                  });
+                  // _this.setState({
+                  //   isRegistered:true
+                  // });
+                  
+                  alert("Registered successfully. You can Sign in now!");
+                  firebase.app.auth().signOut();
                 })
               }
             })
@@ -176,12 +179,12 @@ class Mainregister extends Component {
   }
 
     render(){
-      if(this.state.isRegistered===true){
-        console.log("isRegistered"+this.state.isRegistered)
-        return(
-          <Redirect to='/login'/>
-        )
-      }
+      // if(this.state.isRegistered===true){
+      //   console.log("isRegistered"+this.state.isRegistered)
+      //   return(
+      //     <Redirect to='/login'/>
+      //   )
+      // }
       if(this.props.isLoggedIn === true && this.props.isRegisteredUser){
         return(
           <Redirect to="/"/>
