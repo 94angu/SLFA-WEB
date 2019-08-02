@@ -91,7 +91,7 @@ class Mainregister extends Component {
                   //   isRegistered:true
                   // });
                   
-                  alert("Registered successfully. You can Sign in now!");
+                  alert("Registered successfully. Press back button and sign in to continue!");
                   firebase.app.auth().signOut();
                 })
               }
