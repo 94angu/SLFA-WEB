@@ -50,7 +50,9 @@ export default class MainregisterUI extends Component {
         if(!this.state.isResetPassword){
             //when login
             if(!this.state.passwordConfirm){
-                alert("Confirm your password!");
+                alert("Enter confirm password!");
+            }else if(this.state.password!==this.state.passwordConfirm){
+                alert("Passwords doesn`t match!");
             }else{
                 this.props.authenticate(this.state.username, this.state.password, this.state.displayName,this.state.userRole);
             }
