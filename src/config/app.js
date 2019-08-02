@@ -68,7 +68,7 @@ exports.adminConfig={
     {"key":"dropdowns","options":["new","processing","rejected","completed"]},
     {"key":"checkbox","options":["Skopje","Belgrade","New York"]},
     {"key":"type","options":["Bug fix","Feature","Improuvment","deleted","added","updated"]},
-    {"key":"status","options":["order_received","order_confirmed","ready_to_pick","order_canceled"]},
+    {"key":"status","options":["order_received","order_confirmed","ready_to_pick","picked_up","order_canceled"]},
     {"key":"radio","options":["no","maybe","yes"]},
     {"key":"radiotf","options":["true","false"]},
     {"key":"featured","options":["true","false"]},
