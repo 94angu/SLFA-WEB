@@ -438,7 +438,7 @@ exports.vendorNavigation=[
     "path": "orders",
     "name": "Orders",
     "icon":"shopping_cart",
-    "tableFields":["userID","status","total"],
+    "tableFields":["orderID","userID","status","total"],
   },
   // {
   //   "link": "firestoreadmin",

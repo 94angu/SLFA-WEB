@@ -319,19 +319,24 @@ class Firestorevendor extends Component {
             //Get the object
             var currentDocument=doc.data();
 
-            //Sace uidOfFirebase inside him
-            currentDocument.uidOfFirebase=doc.id;
+            
 
             // console.log(doc.id, " => ", currentDocument);
             // console.log("user ", _this.state.user.email);
             
 
             if(collection==="restaurant_collection" && currentDocument.owner===_this.state.user.email){
+              //Sace uidOfFirebase inside him
+              currentDocument.uidOfFirebase=doc.id;
               //Save in the list of documents
               documents.push(currentDocument)
             }else if(collection==="restaurant" && currentDocument.collection.id===_this.state.userCollectionId){
+              //Sace uidOfFirebase inside him
+              currentDocument.uidOfFirebase=doc.id;
               documents.push(currentDocument)
             }else if(collection==="orders" && currentDocument.restaurantID===_this.state.userCollectionId){
+              //Sace uidOfFirebase inside him
+              currentDocument.orderID=doc.id;
               documents.push(currentDocument)
             }
 
