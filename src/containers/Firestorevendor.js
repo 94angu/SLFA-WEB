@@ -45,7 +45,8 @@ class Firestorevendor extends Component {
       isLoading:true,
       showAddCollection:"",
       user:{},
-      userCollectionId:null, 
+      userCollectionId:null,
+      restaurantID:"" 
     };
 
     //Bind function to this
@@ -74,9 +75,14 @@ class Firestorevendor extends Component {
       window.getDemo().reinitializeSideClose();
       this.findFirestorePath();
 
+      const _this = this;
+
       const setUser=(user)=>{
-        this.setState({user:user})
-        }
+        this.setState({
+          user:user,
+        })
+
+      }
     
         firebase.app.auth().onAuthStateChanged(function(user) {
         if (user) {
@@ -86,6 +92,44 @@ class Firestorevendor extends Component {
             console.log("User has logged out Master");
         }
         });
+
+        // firebase.app.firestore().collection('restaurant_collection').where('owner', '==', user.email).get()
+        // .then(snapshot => {
+        //   if (snapshot.empty) {
+        //     console.log('No matching documents.');
+        //     return;
+        //   }
+        //   snapshot.forEach(doc => {
+        //     console.log(doc.id, '=>', doc.data());
+        //     restId = doc.id;
+        //     _this.setState({
+        //       restaurantID = doc.id;
+        //     })
+            
+        //   });  
+        // })
+        // .catch(err => {
+        //   console.log('Error getting restaurant id documents', err);
+        // });
+
+        
+        firebase.app.firestore().collection('orders').where('restaurantID', '==', 'OZHEi1yFEyV2MkWwqkoF').onSnapshot(querySnapshot => {
+          
+          querySnapshot.docChanges().forEach(change =>{
+            // console.log(`Received query snapshot of size ${JSON.stringify(doc.data())}`);
+            if (change.type === 'added') {
+              console.log('New city: ', change.doc.data());
+            }
+            if (change.type === 'modified') {
+              console.log('Modified city: ', change.doc.data());
+            }
+            if (change.type === 'removed') {
+              console.log('Removed city: ', change.doc.data());
+            }
+          })
+        },err =>{
+          console.log(`Encountered error: ${err}`);
+        })
   }
 
   /**

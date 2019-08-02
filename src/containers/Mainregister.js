@@ -99,7 +99,8 @@ class Mainregister extends Component {
           })
           }).catch(function(error){
             console.log(error.message);
-            displayError(error.message);
+            // displayError(error.message);
+            alert(error.message);
           })
           // firebase.app.auth().currentUser.updateProfile({
           //   userRole: userRole
@@ -124,7 +125,8 @@ class Mainregister extends Component {
       .catch(function (error) {
         // Handle Errors here.
         console.log(error.message);
-        displayError(error.message);
+        // displayError(error.message);
+        alert(error.message);
 
       });
 

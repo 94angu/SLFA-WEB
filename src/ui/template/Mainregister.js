@@ -49,6 +49,9 @@ export default class MainregisterUI extends Component {
         // alert('Username: ' + this.state.username+ " Password: "+this.state.password);
         if(!this.state.isResetPassword){
             //when login
+            if(!this.state.passwordConfirm){
+                alert("Confirm your password!");
+            }
             this.props.authenticate(this.state.username, this.state.password, this.state.displayName,this.state.userRole);
         }else{
             this.props.sendPasswordResetLink(this.state.username);
@@ -131,7 +134,7 @@ export default class MainregisterUI extends Component {
                                                 </div>
                                             </div>
                                             <div className="footer text-center">
-                                                <input disabled={isInvalid} type="submit" className="btn btn-danger" />
+                                                <input type="submit" className="btn btn-danger" />
                                             </div>
                                         </div>
                                     </form> 

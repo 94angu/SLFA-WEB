@@ -150,7 +150,7 @@ exports.navigation=[
     "path": "users",
     "name": "Manage users",
     "icon": "perm_identity",
-    "tableFields":["email","userRole"],
+    "tableFields":["username","email","userRole"],
   },
   {
     "link": "firestoreadmin",
