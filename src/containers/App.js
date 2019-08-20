@@ -105,14 +105,14 @@ class App extends Component {
     const _this = this;
 
     var key = this.state.userRow.original.key;
-    var email = this.state.userRow.original.content.email;
+    var email = this.state.userRow.original.content.username;
     var userRole = this.state.userRow.original.content.userRole;
 
-    const allowedUserRef = firebase.app.database().ref('/meta/config/allowedUsersWeb');
+    const allowedUserRef = firebase.app.database().ref('/meta/config/allowedUsersWeb/'+key);
 
-    const newUserRef = allowedUserRef.push();
+    // const newUserRef = allowedUserRef.push();
 
-    newUserRef.set({
+    allowedUserRef.set({
       email:email,
       type:userRole
     }, function(error) {
