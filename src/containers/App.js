@@ -151,7 +151,7 @@ class App extends Component {
     const _this = this;
 
     var key = this.state.userRow.original.key;
-    var email = this.state.userRow.original.content.email;
+    var email = this.state.userRow.original.content.username;
 
     const ref = firebase.app.firestore().collection("users").doc(key);
     ref.update({
