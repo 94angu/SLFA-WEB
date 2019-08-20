@@ -213,8 +213,8 @@ class App extends Component {
       Header: 'Full Name',
       accessor: 'content.fullName' // String-based value accessors!
     }, {
-      Header: 'Email',
-      accessor: 'content.email',
+      Header: 'User Name',
+      accessor: 'content.username',
     },{
       Header: 'User Role', // Custom header components!
       accessor: 'content.userRole'

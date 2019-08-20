@@ -42,7 +42,7 @@ exports.adminConfig={
 "urlSeparator":"+",
 "urlSeparatorFirestoreSubArray":"~",
 "googleMapsAPIKey":"AIzaSyDc5wWlcOHydNkbCG1lWTExxliRPhNWR48",
-"previewOnlyKeys":["owner"],
+// "previewOnlyKeys":["owner"],
 
 "fieldsTypes":{
   "photo":["photo","image","category_image"],

@@ -316,7 +316,7 @@ class Firestorevendor extends Component {
           })
         })
       }else if(collection==="orders"){
-        this.newOrderAlert()
+        // this.newOrderAlert()
         db.collection("restaurant_collection").get().then(function(querySnapshot) {
           var datacCount=0;
           querySnapshot.forEach(function(doc) {
