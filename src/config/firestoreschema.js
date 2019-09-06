@@ -18,7 +18,7 @@ var collectionMeta={
 			"collection_eventsconference":"",
 			"description":"Ticket information",
 			"image":"https://cdn4.iconfinder.com/data/icons/computer-and-web-2/500/Calendar-512.png",
-			"price":"10",
+			"price":10,
 			"title":"Your ticket name",
 			"options":{
 				"option1":{
@@ -151,7 +151,7 @@ var collectionMeta={
 			"eventsnc_collection":"",
 			"description":"Your event description",
 			"image":"https://i.imgur.com/svaHD6d.jpg",
-			"price":"10",
+			"price":10,
 			"title":"Your event title",
 			"eventDateStart":"2018-01-01 18:00",
 			"eventDateEnd":"2018-01-01 22:00",
