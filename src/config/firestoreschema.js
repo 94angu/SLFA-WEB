@@ -76,7 +76,7 @@ var collectionMeta={
 			"collection":"",
 			"description":"Your product description",
 			"image":"https://i.imgur.com/80vu1wL.jpg",
-			"price":"10",
+			"price":10,
 			"title":"Your product title",
 			"options":""
 		},
