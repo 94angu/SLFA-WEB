@@ -10,7 +10,7 @@ import Dashboard from './containers/Dashboard';
 import RaffleDraw from './containers/RaffleDraw';
 import Mainlogin from './containers/Mainlogin';
 import Mainregister from './containers/Mainregister';
-import {BrowserRouter as Router,Route,Redirect,hashHistory} from 'react-router-dom';
+import {BrowserRouter as Router,Route,hashHistory} from 'react-router-dom';
 import HeaderUI from './containers/HeaderUI';
 import {PrivateRoute,fakeAuth} from './Auth';
 import Config from   './config/app';
@@ -323,5 +323,4 @@ class Main extends Component{
       
     }
 }
-<ScrollToTop/>
 export default Main;
