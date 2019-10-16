@@ -884,6 +884,8 @@ class Firestorevendor extends Component {
   }
 
   confirmOrderAndSendNotification(){
+    console.log('confirmOrderAndSendNotification clicked');
+
     var _this=this;
     var notifications=[];
     var pathToTokens = "/expoPushTokens";
@@ -925,8 +927,16 @@ class Firestorevendor extends Component {
         var tokens=snapshot.val();
   
         Object.keys(tokens).forEach(function(key) {
+          console.log("tokens",tokens);
+
+          console.log("token key",tokens[key]);
+
           if(tokens[key].orderUserId && tokens[key].orderUserId===userId){
+            console.log("token key orderUserId",tokens[key].orderUserId);
+
             currentToken=tokens[key].token;
+            console.log("currentToken",currentToken);
+
           }
           
         });

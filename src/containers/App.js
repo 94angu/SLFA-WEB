@@ -16,16 +16,18 @@ class App extends Component {
       userDetails:[],
       pageLength:null,
       userRow:[],
-      isApproved:false
+      isApproved:false,
     }
 
     this.getUserDataFromDatabase=this.getUserDataFromDatabase.bind(this);
     this.doApprove=this.doApprove.bind(this);
     this.doDelete=this.doDelete.bind(this);
     this.approveFieldAction=this.approveFieldAction.bind(this);
+    this.infoFieldAction=this.infoFieldAction.bind(this);
     this.deleteFieldAction=this.deleteFieldAction.bind(this);
     this.cancelDelete=this.cancelDelete.bind(this);
     this.cancelApprove=this.cancelApprove.bind(this);
+    this.cancelInfo=this.cancelInfo.bind(this);
     this.resetDataFunction=this.resetDataFunction.bind(this);
     this.refreshDataAndHideNotification=this.refreshDataAndHideNotification.bind(this);
   }
@@ -124,6 +126,7 @@ class App extends Component {
           iscomplete:1
         })
         _this.refs.approveDialog.hide();
+        _this.refs.infoDialog.hide();
         _this.setState({notifications:[{type:"success",content:email+" approved successfully!"}]});
         _this.refreshDataAndHideNotification();
       }
@@ -133,7 +136,36 @@ class App extends Component {
   }
 
   infoFieldAction(row){
+    console.log("info field");
+    this.setState({
+      restId:"",
+      title:"",
+      owner:"",
+      image:""
+    })
+    const _this=this;
     this.refs.infoDialog.show();
+    var vendorEmail = row.original.content.username;
+    const restInfo = [];
+    firebase.app.firestore().collection("restaurant_collection").where('owner','==',vendorEmail).limit(1).get()
+    .then(snapshot =>{
+      if(snapshot.empty){
+        return;
+      }
+
+      snapshot.forEach(doc => {
+        _this.setState({
+          restId:doc.id,
+          title:doc.data().title,
+          owner:doc.data().owner,
+          image:doc.data().image
+        })
+      });
+
+      
+    console.log(this.state.restInfo);
+    })
+
     this.setState({
       userRow:row
     })
@@ -183,6 +215,10 @@ class App extends Component {
 
   cancelApprove(){
     this.refs.approveDialog.hide();
+  }
+
+  cancelInfo(){
+    this.refs.infoDialog.hide()
   }
 
   generateNotifications(item){
@@ -244,9 +280,9 @@ class App extends Component {
       filterable:false,
       Cell: row => 
         <span>
-          <button onClick={()=>this.approveFieldAction(row)} type="button" className="btn btn-success btn-sm">Approve</button>
+          {/* <button onClick={()=>this.approveFieldAction(row)} type="button" className="btn btn-success btn-sm">Approve</button> */}
           <button onClick={()=>this.deleteFieldAction(row)} type="button" className="btn btn-danger btn-sm">Delete</button>
-          {/* <button onClick={()=>this.infoFieldAction(row)} type="button" className="btn btn-danger btn-sm">Info</button> */}
+          <button onClick={()=>this.infoFieldAction(row)} type="button" className="btn btn-success btn-sm">Approve</button>
 
         </span>
     }
@@ -282,10 +318,10 @@ class App extends Component {
             <div className="col-sm-6">
             </div>
             <div className="col-sm-3 center-block">
-              <a onClick={this.cancelDelete} className="btn btn-info center-block">Cancel</a>
+              <a onClick={this.cancelDelete} className="btn btn-info">Cancel</a>
             </div>
             <div className="col-sm-3 center-block">
-              <a onClick={this.doDelete} className="btn btn-danger center-block">Delete</a>
+              <a onClick={this.doDelete} className="btn btn-danger">Delete</a>
             </div>
 
           </div>
@@ -302,10 +338,41 @@ class App extends Component {
             <div className="col-sm-6">
             </div>
             <div className="col-sm-3 center-block">
-              <a onClick={this.cancelApprove} className="btn btn-info center-block">Cancel</a>
+              <a onClick={this.cancelApprove} className="btn btn-info">Cancel</a>
             </div>
             <div className="col-sm-3 center-block">
-              <a onClick={this.doApprove} className="btn btn-danger center-block">Approve</a>
+              <a onClick={this.doApprove} className="btn btn-danger">Approve</a>
+            </div>
+
+          </div>
+
+        </SkyLight>
+
+        <SkyLight hideOnOverlayClicked ref="infoDialog" title="">
+          <span><h4 className="center-block">Approve user</h4></span>
+          <div className="col-md-12">
+              <Notification type="danger" >Are you sure you want to approve this user?</Notification>
+          </div>
+          {this.state.owner?
+            <div className="col-md-12">
+              <p>Restaurant Name:{this.state.title}</p>
+              <p>Restaurant Owner:{this.state.owner}</p>
+            </div>
+            :
+            <div className="col-md-12">
+              <h5>User has no restaturant</h5>
+            </div>
+          }
+          
+
+          <div className="col-sm-12" style={{marginTop:40}}>
+            <div className="col-sm-6">
+            </div>
+            <div className="col-sm-3 center-block">
+              <a onClick={this.cancelInfo} className="btn btn-info">Cancel</a>
+            </div>
+            <div className="col-sm-3 center-block">
+              <a onClick={this.doApprove} className="btn btn-danger">Approve</a>
             </div>
 
           </div>
