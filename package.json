@@ -27,7 +27,7 @@
     "react-localize-redux": "3.5.1",
     "react-mdl": "^1.11.0",
     "react-multi-carousel": "^1.4.1",
-    "react-router": "3.0.2",
+    "react-router": "^3.2.0",
     "react-router-dom": "^5.0.0",
     "react-selectable-fast": "2.1.2",
     "react-skylight": "0.4.2",
