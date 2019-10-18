@@ -88,7 +88,8 @@ var collectionMeta={
 			"description":"Category description",
 			"image":"https://i.imgur.com/80vu1wL.jpg",
 			"owner":"",
-			"count":1
+			"count":1,
+			"active_status":0
 		},
 		"collections":[],
 	},

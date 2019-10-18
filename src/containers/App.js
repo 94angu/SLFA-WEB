@@ -30,6 +30,9 @@ class App extends Component {
     this.cancelInfo=this.cancelInfo.bind(this);
     this.resetDataFunction=this.resetDataFunction.bind(this);
     this.refreshDataAndHideNotification=this.refreshDataAndHideNotification.bind(this);
+    this.updateRestaturantActiveStatus=this.updateRestaturantActiveStatus.bind(this);
+
+    
   }
   componentDidMount(){
     //Uncomment if you want to do a edirect
@@ -125,14 +128,24 @@ class App extends Component {
         ref.update({
           iscomplete:1
         })
+        _this.updateRestaturantActiveStatus();
         _this.refs.approveDialog.hide();
         _this.refs.infoDialog.hide();
         _this.setState({notifications:[{type:"success",content:email+" approved successfully!"}]});
         _this.refreshDataAndHideNotification();
       }
     })
+  }
 
-    
+  updateRestaturantActiveStatus(){
+    const restId = this.state.restId;
+    console.log("updateRestaturantActiveStatus",restId);
+    if(restId){
+      const ref = firebase.app.firestore().collection("restaurant_collection").doc(restId);
+      ref.update({
+        active_status:1
+      })
+    }
   }
 
   infoFieldAction(row){
@@ -163,7 +176,7 @@ class App extends Component {
       });
 
       
-    console.log(this.state.restInfo);
+    console.log(this.state.restId);
     })
 
     this.setState({
